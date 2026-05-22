@@ -1,0 +1,429 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+
+    <!-- App / Nav -->
+    <sys:String x:Key="App_Subtitle">Customer &amp; Sales Management System</sys:String>
+    <sys:String x:Key="App_Title">Customer Relationship Management</sys:String>
+    <sys:String x:Key="App_Version">Version 1.0.0 | Fornixx CRM Pro</sys:String>
+    <sys:String x:Key="Nav_ActiveCompany">Active Company</sys:String>
+    <sys:String x:Key="Nav_MainMenu">Main Menu</sys:String>
+    <sys:String x:Key="Nav_AnalysisMgmt">Analysis &amp; Management</sys:String>
+    <sys:String x:Key="Nav_Dashboard">Dashboard</sys:String>
+    <sys:String x:Key="Nav_Customers">Customers</sys:String>
+    <sys:String x:Key="Nav_Products">Products &amp; Services</sys:String>
+    <sys:String x:Key="Nav_Quotations">Quotations</sys:String>
+    <sys:String x:Key="Nav_Invoices">Invoices</sys:String>
+    <sys:String x:Key="Nav_Reports">Reports</sys:String>
+    <sys:String x:Key="Nav_Companies">Companies</sys:String>
+    <sys:String x:Key="Nav_Settings">Settings</sys:String>
+
+    <!-- Common Buttons -->
+    <sys:String x:Key="Btn_Save">Save</sys:String>
+    <sys:String x:Key="Btn_Cancel">← Cancel</sys:String>
+    <sys:String x:Key="Btn_Edit">Edit</sys:String>
+    <sys:String x:Key="Btn_Delete">Delete</sys:String>
+    <sys:String x:Key="Btn_Search">Search</sys:String>
+    <sys:String x:Key="Btn_Clear">Clear</sys:String>
+    <sys:String x:Key="Btn_Apply">Apply Filter</sys:String>
+    <sys:String x:Key="Btn_Reset">Reset</sys:String>
+    <sys:String x:Key="Btn_ExportPdf">Export PDF</sys:String>
+    <sys:String x:Key="Btn_Pdf">PDF</sys:String>
+    <sys:String x:Key="Btn_SaveExportPdf">Save &amp; Export PDF</sys:String>
+    <sys:String x:Key="Btn_Browse">Browse</sys:String>
+    <sys:String x:Key="Btn_Details">Details</sys:String>
+    <sys:String x:Key="Btn_Activate">Activate</sys:String>
+    <sys:String x:Key="Btn_Duplicate">Duplicate</sys:String>
+    <sys:String x:Key="Btn_Convert">→ Invoice</sys:String>
+    <sys:String x:Key="Btn_Refresh">Refresh</sys:String>
+    <sys:String x:Key="Btn_ExportExcel">Export Excel</sys:String>
+    <sys:String x:Key="Btn_AddItem">+ Add Item</sys:String>
+
+    <!-- Dashboard -->
+    <sys:String x:Key="Dash_Title">Dashboard</sys:String>
+    <sys:String x:Key="Dash_Customers">Customers</sys:String>
+    <sys:String x:Key="Dash_TotalCustomers">Total Customers</sys:String>
+    <sys:String x:Key="Dash_Quotations">Quotations</sys:String>
+    <sys:String x:Key="Dash_TotalQuotations">Total Quotations</sys:String>
+    <sys:String x:Key="Dash_Invoices">Invoices</sys:String>
+    <sys:String x:Key="Dash_TotalInvoices">Total Invoices</sys:String>
+    <sys:String x:Key="Dash_TotalSales">Total Sales</sys:String>
+    <sys:String x:Key="Dash_SalesTotal">Total Invoice Value</sys:String>
+    <sys:String x:Key="Dash_Paid">Paid</sys:String>
+    <sys:String x:Key="Dash_PaidTotal">Total Paid</sys:String>
+    <sys:String x:Key="Dash_Unpaid">Unpaid</sys:String>
+    <sys:String x:Key="Dash_UnpaidTotal">Total Unpaid</sys:String>
+    <sys:String x:Key="Dash_RecentDocs">Recent Documents</sys:String>
+    <sys:String x:Key="Dash_TopCustomers">Top Customers</sys:String>
+    <sys:String x:Key="Dash_ColNumber">Document No</sys:String>
+    <sys:String x:Key="Dash_ColCustomer">Customer</sys:String>
+    <sys:String x:Key="Dash_ColType">Type</sys:String>
+    <sys:String x:Key="Dash_ColStatus">Status</sys:String>
+    <sys:String x:Key="Dash_ColTotal">Total</sys:String>
+
+    <!-- Customers -->
+    <sys:String x:Key="Cust_Title">Customers</sys:String>
+    <sys:String x:Key="Cust_New">+ Add Customer</sys:String>
+    <sys:String x:Key="Cust_SearchHint">Search (Name, Phone, Email, Country)</sys:String>
+    <sys:String x:Key="Cust_FilterImportance">Importance Level</sys:String>
+    <sys:String x:Key="Cust_FilterStage">Follow-up Stage</sys:String>
+    <sys:String x:Key="Cust_ColName">Full Name</sys:String>
+    <sys:String x:Key="Cust_ColCompany">Company</sys:String>
+    <sys:String x:Key="Cust_ColPhone">Phone</sys:String>
+    <sys:String x:Key="Cust_ColEmail">Email</sys:String>
+    <sys:String x:Key="Cust_ColCountry">Country</sys:String>
+    <sys:String x:Key="Cust_ColImportance">Importance</sys:String>
+    <sys:String x:Key="Cust_ColStage">Follow-up Stage</sys:String>
+    <sys:String x:Key="Cust_ColMindset">Commercial Mindset</sys:String>
+    <sys:String x:Key="Cust_ColNotes">Notes</sys:String>
+    <sys:String x:Key="Cust_ColCreatedAt">Created At</sys:String>
+    <sys:String x:Key="Cust_ColActions">Actions</sys:String>
+    <sys:String x:Key="Cust_Total">Total:</sys:String>
+    <sys:String x:Key="Cust_TotalUnit">Customers</sys:String>
+
+    <!-- Products -->
+    <sys:String x:Key="Prod_Title">Products &amp; Services</sys:String>
+    <sys:String x:Key="Prod_New">+ Add Product</sys:String>
+    <sys:String x:Key="Prod_SearchHint">Search by product name</sys:String>
+    <sys:String x:Key="Prod_ColName">Name</sys:String>
+    <sys:String x:Key="Prod_ColType">Type</sys:String>
+    <sys:String x:Key="Prod_ColWeight">Weight (kg)</sys:String>
+    <sys:String x:Key="Prod_ColPrice">Unit Price</sys:String>
+    <sys:String x:Key="Prod_ColDefaultQty">Default Quantity</sys:String>
+    <sys:String x:Key="Prod_ColStatus">Status</sys:String>
+    <sys:String x:Key="Prod_ColActions">Actions</sys:String>
+    <sys:String x:Key="Prod_Total">Total:</sys:String>
+    <sys:String x:Key="Prod_TotalUnit">Products / Services</sys:String>
+    <sys:String x:Key="Prod_Active">Active</sys:String>
+    <sys:String x:Key="Prod_Inactive">Inactive</sys:String>
+
+    <!-- Document List -->
+    <sys:String x:Key="DocList_TitleQ">Quotations</sys:String>
+    <sys:String x:Key="DocList_TitleI">Final Invoices</sys:String>
+    <sys:String x:Key="DocList_TitleAll">Documents</sys:String>
+    <sys:String x:Key="DocList_New">+ New Document</sys:String>
+    <sys:String x:Key="DocList_FilterStatus">Filter by Status</sys:String>
+    <sys:String x:Key="DocList_FilterFromDate">From Date</sys:String>
+    <sys:String x:Key="DocList_FilterToDate">To Date</sys:String>
+    <sys:String x:Key="DocList_ColNumber">Document No</sys:String>
+    <sys:String x:Key="DocList_ColType">Type</sys:String>
+    <sys:String x:Key="DocList_ColCustomer">Customer</sys:String>
+    <sys:String x:Key="DocList_ColDate">Date</sys:String>
+    <sys:String x:Key="DocList_ColStatus">Status</sys:String>
+    <sys:String x:Key="DocList_ColTotal">Total</sys:String>
+    <sys:String x:Key="DocList_ColActions">Actions</sys:String>
+    <sys:String x:Key="DocList_Total">Total:</sys:String>
+    <sys:String x:Key="DocList_TotalUnit">Documents</sys:String>
+
+    <!-- Document Form -->
+    <sys:String x:Key="DocForm_DocInfo">Document Info</sys:String>
+    <sys:String x:Key="DocForm_DocMeta">Document Details</sys:String>
+    <sys:String x:Key="DocForm_SelectCustomer">Select Customer *</sys:String>
+    <sys:String x:Key="DocForm_Notes">Notes</sys:String>
+    <sys:String x:Key="DocForm_ShippingNote">Shipping Note</sys:String>
+    <sys:String x:Key="DocForm_PaymentInfo">Payment Info</sys:String>
+    <sys:String x:Key="DocForm_FooterText">Legal Footer</sys:String>
+    <sys:String x:Key="DocForm_DocNumber">Document No</sys:String>
+    <sys:String x:Key="DocForm_Status">Status</sys:String>
+    <sys:String x:Key="DocForm_DocDate">Document Date *</sys:String>
+    <sys:String x:Key="DocForm_DueDate">Due Date / Validity</sys:String>
+    <sys:String x:Key="DocForm_TaxEnabled">Enable Tax</sys:String>
+    <sys:String x:Key="DocForm_TaxRate">Tax Rate %</sys:String>
+    <sys:String x:Key="DocForm_DiscountByPct">Discount by %</sys:String>
+    <sys:String x:Key="DocForm_DiscountPct">Discount %</sys:String>
+    <sys:String x:Key="DocForm_DiscountAmt">Discount Amount</sys:String>
+    <sys:String x:Key="DocForm_Items">Document Items</sys:String>
+    <sys:String x:Key="DocForm_ColProduct">Product Name *</sys:String>
+    <sys:String x:Key="DocForm_ColType">Type</sys:String>
+    <sys:String x:Key="DocForm_ColDesc">Description</sys:String>
+    <sys:String x:Key="DocForm_ColWeight">Weight</sys:String>
+    <sys:String x:Key="DocForm_ColPrice">Price</sys:String>
+    <sys:String x:Key="DocForm_ColQty">Qty</sys:String>
+    <sys:String x:Key="DocForm_ColTotal">Total</sys:String>
+    <sys:String x:Key="DocForm_Subtotal">Subtotal:</sys:String>
+    <sys:String x:Key="DocForm_Discount">Discount:</sys:String>
+    <sys:String x:Key="DocForm_GrandTotal">Grand Total:</sys:String>
+    <sys:String x:Key="DocForm_Language">Document Language</sys:String>
+
+    <!-- Settings -->
+    <sys:String x:Key="Sett_Title">Settings</sys:String>
+    <sys:String x:Key="Sett_CompanySection">Company Settings</sys:String>
+    <sys:String x:Key="Sett_CompanyName">Company Name</sys:String>
+    <sys:String x:Key="Sett_CommercialName">Commercial Name</sys:String>
+    <sys:String x:Key="Sett_LogoPath">Logo Path</sys:String>
+    <sys:String x:Key="Sett_StampPath">Stamp / Signature Path</sys:String>
+    <sys:String x:Key="Sett_Currency">Currency</sys:String>
+    <sys:String x:Key="Sett_TaxSection">Tax Settings</sys:String>
+    <sys:String x:Key="Sett_TaxEnabled">Enable Tax</sys:String>
+    <sys:String x:Key="Sett_TaxRate">Default Tax Rate %</sys:String>
+    <sys:String x:Key="Sett_NumberingSection">Document Numbering</sys:String>
+    <sys:String x:Key="Sett_InvoicePrefix">Invoice Prefix</sys:String>
+    <sys:String x:Key="Sett_QuotationPrefix">Quotation Prefix</sys:String>
+    <sys:String x:Key="Sett_NextInvoiceNumber">Next Invoice Number</sys:String>
+    <sys:String x:Key="Sett_NextQuotationNumber">Next Quotation Number</sys:String>
+    <sys:String x:Key="Sett_NumberPadding">Number Padding (Digits)</sys:String>
+    <sys:String x:Key="Sett_QrCodeTemplate">QR Code Text / URL Template</sys:String>
+    <sys:String x:Key="Sett_QrCodeTemplateHelp">Leave blank for default summary. Placeholders: {DocumentNumber}, {Total}, {CompanyName}, {CustomerName}, {DocumentDate}</sys:String>
+    <sys:String x:Key="Sett_Next">Next:</sys:String>
+    <sys:String x:Key="Sett_TextsSection">Default Texts</sys:String>
+    <sys:String x:Key="Sett_InvoiceNotes">Default Invoice Notes</sys:String>
+    <sys:String x:Key="Sett_QuotationNotes">Default Quotation Notes</sys:String>
+    <sys:String x:Key="Sett_FooterText">Legal Footer</sys:String>
+    <sys:String x:Key="Sett_PaymentInfo">Default Payment Info</sys:String>
+    <sys:String x:Key="Sett_SaveBtn">Save Settings</sys:String>
+    <sys:String x:Key="Sett_BackupSection">Backup &amp; Restore</sys:String>
+    <sys:String x:Key="Sett_BackupFolder">Backup Folder</sys:String>
+    <sys:String x:Key="Sett_BackupNow">Backup Now</sys:String>
+    <sys:String x:Key="Sett_Restore">Restore from Backup</sys:String>
+    <sys:String x:Key="Sett_LangSection">Language / Dil / اللغة</sys:String>
+    <sys:String x:Key="Sett_LangNote">(Requires app restart)</sys:String>
+    <sys:String x:Key="Sett_LangAr">العربية</sys:String>
+    <sys:String x:Key="Sett_LangTr">Türkçe</sys:String>
+    <sys:String x:Key="Sett_LangEn">English</sys:String>
+    <sys:String x:Key="Sett_LangSave">Save Language</sys:String>
+    <sys:String x:Key="Sett_SecuritySection">Security Settings</sys:String>
+    <sys:String x:Key="Sett_SecurityNote">Restrict access to this company profile with an optional password.</sys:String>
+    <sys:String x:Key="Sett_PasswordEnabled">Enable Password Protection</sys:String>
+    <sys:String x:Key="Sett_PasswordInput">Enter Access Password</sys:String>
+    <sys:String x:Key="App_PasswordRequired">Password Required</sys:String>
+    <sys:String x:Key="App_EnterPassword">Enter password...</sys:String>
+    <sys:String x:Key="App_InvalidPassword">Invalid password. Please try again.</sys:String>
+
+    <!-- Companies -->
+    <sys:String x:Key="Comp_Title">Companies</sys:String>
+    <sys:String x:Key="Comp_New">+ Add Company</sys:String>
+    <sys:String x:Key="Comp_ColName">Company Name</sys:String>
+    <sys:String x:Key="Comp_ColCommercial">Commercial Name</sys:String>
+    <sys:String x:Key="Comp_ColPhone">Phone</sys:String>
+    <sys:String x:Key="Comp_ColCurrency">Currency</sys:String>
+    <sys:String x:Key="Comp_ColTax">Tax %</sys:String>
+    <sys:String x:Key="Comp_ColActions">Actions</sys:String>
+
+    <!-- Reports -->
+    <sys:String x:Key="Rep_Title">Reports</sys:String>
+    <sys:String x:Key="Rep_From">From:</sys:String>
+    <sys:String x:Key="Rep_To">To:</sys:String>
+    <sys:String x:Key="Rep_Invoices">Invoices</sys:String>
+    <sys:String x:Key="Rep_Quotations">Quotations</sys:String>
+    <sys:String x:Key="Rep_TotalSales">Total Sales</sys:String>
+    <sys:String x:Key="Rep_Paid">Paid</sys:String>
+    <sys:String x:Key="Rep_Unpaid">Unpaid</sys:String>
+    <sys:String x:Key="Rep_MonthlyTitle">Monthly Summary</sys:String>
+    <sys:String x:Key="Rep_ColMonth">Month</sys:String>
+    <sys:String x:Key="Rep_ColInvoiceCount">Invoice Count</sys:String>
+    <sys:String x:Key="Rep_ColTotal">Total</sys:String>
+    <sys:String x:Key="Rep_ColPaid">Paid</sys:String>
+    <sys:String x:Key="Rep_ColUnpaid">Unpaid</sys:String>
+    <sys:String x:Key="Rep_TopCustomersTitle">Top 10 Customers</sys:String>
+    <sys:String x:Key="Rep_ColCustomerName">Customer Name</sys:String>
+    <sys:String x:Key="Rep_ColDocCount">Invoice Count</sys:String>
+    <sys:String x:Key="Rep_ColTotalSales">Total Sales</sys:String>
+
+    <!-- Enum Labels -->
+    <sys:String x:Key="Status_Draft">Draft</sys:String>
+    <sys:String x:Key="Status_Sent">Sent</sys:String>
+    <sys:String x:Key="Status_Accepted">Accepted</sys:String>
+    <sys:String x:Key="Status_Rejected">Rejected</sys:String>
+    <sys:String x:Key="Status_Paid">Paid</sys:String>
+    <sys:String x:Key="Status_Cancelled">Cancelled</sys:String>
+    <sys:String x:Key="Status_PartiallyPaid">Partially Paid</sys:String>
+    <sys:String x:Key="Status_Converted">Converted to Invoice</sys:String>
+    <sys:String x:Key="ProdType_Physical">Physical Product</sys:String>
+    <sys:String x:Key="ProdType_Service">Service</sys:String>
+    <sys:String x:Key="DocType_Quotation">Quotation</sys:String>
+    <sys:String x:Key="DocType_Invoice">Invoice</sys:String>
+    <sys:String x:Key="Mindset_Simple">Simple</sys:String>
+    <sys:String x:Key="Mindset_New">New</sys:String>
+    <sys:String x:Key="Mindset_Professional">Professional</sys:String>
+    <sys:String x:Key="FollowUp_New">New</sys:String>
+    <sys:String x:Key="FollowUp_Contacted">Contacted</sys:String>
+    <sys:String x:Key="FollowUp_Interested">Interested</sys:String>
+    <sys:String x:Key="FollowUp_QuotationSent">Quotation Sent</sys:String>
+    <sys:String x:Key="FollowUp_Negotiation">Negotiation</sys:String>
+    <sys:String x:Key="FollowUp_Won">Won</sys:String>
+    <sys:String x:Key="FollowUp_Lost">Lost</sys:String>
+    <sys:String x:Key="Importance_Normal">Normal</sys:String>
+    <sys:String x:Key="Importance_Important">Important</sys:String>
+    <sys:String x:Key="Importance_VeryImportant">Very Important</sys:String>
+
+    <!-- Messages -->
+    <sys:String x:Key="Msg_Saving">Saving...</sys:String>
+    <sys:String x:Key="Msg_Generating">Generating PDF...</sys:String>
+    <sys:String x:Key="Msg_Loading">Loading...</sys:String>
+    <sys:String x:Key="Msg_LoadingDashboard">Loading dashboard...</sys:String>
+    <sys:String x:Key="Msg_LoadingCustomerDetails">Loading customer details...</sys:String>
+    <sys:String x:Key="Msg_LoadingCustomers">Loading customers...</sys:String>
+    <sys:String x:Key="Msg_LoadingDocuments">Loading documents...</sys:String>
+    <sys:String x:Key="Msg_LoadingProducts">Loading products...</sys:String>
+    <sys:String x:Key="Msg_GeneratingPdf">Generating PDF file...</sys:String>
+    <sys:String x:Key="Msg_ValidationCustomer">Please select a customer.</sys:String>
+    <sys:String x:Key="Msg_ValidationCustomerName">Customer name is required.</sys:String>
+    <sys:String x:Key="Msg_ValidationItems">At least one item is required.</sys:String>
+    <sys:String x:Key="Msg_ValidationItemName">All items must have a name.</sys:String>
+    <sys:String x:Key="Msg_ValidationQty">Quantities must be greater than zero.</sys:String>
+    <sys:String x:Key="Msg_ValidationPrice">Price cannot be negative.</sys:String>
+    <sys:String x:Key="Msg_ValidationProductName">Product name is required.</sys:String>
+    <sys:String x:Key="Msg_ValidationProductPrice">Unit price must be a positive value.</sys:String>
+    <sys:String x:Key="Msg_ValidationCompanyName">Company name is required.</sys:String>
+    <sys:String x:Key="Msg_SaveError">Save error</sys:String>
+    <sys:String x:Key="Msg_ExportError">Export error</sys:String>
+    <sys:String x:Key="Msg_Error">Error</sys:String>
+    <sys:String x:Key="Msg_SettingsSaved">✓ Settings saved successfully.</sys:String>
+    <sys:String x:Key="Msg_LangSaved">✓ Language applied.</sys:String>
+    <sys:String x:Key="Msg_RestoreWarning">Important Warning</sys:String>
+    <sys:String x:Key="Msg_RestoreConfirm">Warning: Restoring a backup will completely replace the current database.&#x0A;Are you sure?</sys:String>
+    <sys:String x:Key="Msg_RestoreSuccess">Restore complete. Please restart the app to apply changes.</sys:String>
+    <sys:String x:Key="Msg_RestoreSuccessTitle">Restore Complete</sys:String>
+    <sys:String x:Key="Msg_RestoreFail">Restore operation failed.</sys:String>
+    <sys:String x:Key="Msg_DeleteConfirm">Are you sure you want to delete?</sys:String>
+    <sys:String x:Key="Msg_DeleteTitle">Confirm Delete</sys:String>
+    <sys:String x:Key="Msg_NoCompany">No Company</sys:String>
+    <sys:String x:Key="Msg_CompanyHasData">Cannot delete company because it contains related data (customers, invoices or products).</sys:String>
+    <sys:String x:Key="Msg_ConfirmDeleteCompany">Are you sure you want to delete company \"{0}\"?
+This action cannot be undone.</sys:String>
+    <sys:String x:Key="Msg_CompanyActivated">\"{0}\" set as active company.</sys:String>
+    <sys:String x:Key="Msg_Warning">Warning</sys:String>
+    <sys:String x:Key="Msg_Success">Success</sys:String>
+    <sys:String x:Key="Msg_ConfirmDeleteCustomer">Are you sure you want to delete customer \"{0}\"?</sys:String>
+    <sys:String x:Key="Msg_ConfirmDeleteDocument">Are you sure you want to delete document \"{0}\"?</sys:String>
+    <sys:String x:Key="Msg_ConfirmConvertQuotation">Do you want to convert quotation \"{0}\" to a final invoice?</sys:String>
+    <sys:String x:Key="Msg_InvoiceCreated">Invoice {0} created successfully.</sys:String>
+    <sys:String x:Key="Msg_DocumentDuplicated">Document {0} duplicated.</sys:String>
+    <sys:String x:Key="Msg_ConfirmDeleteProduct">Are you sure you want to delete \"{0}\"?</sys:String>
+    <sys:String x:Key="Msg_PdfError">Error creating PDF: {0}</sys:String>
+    <sys:String x:Key="Msg_Confirmation">Confirmation</sys:String>
+    <sys:String x:Key="Msg_QuotationNotFound">Quotation not found.</sys:String>
+    <sys:String x:Key="Msg_DocumentNotFound">Document not found.</sys:String>
+    <sys:String x:Key="Msg_CompanyNotFound">Company not found.</sys:String>
+    <sys:String x:Key="Msg_DbFileMissing">Database file not found.</sys:String>
+
+    <!-- Dialogs -->
+    <sys:String x:Key="Dialog_ImageFilter">Image Files|*.png;*.jpg;*.jpeg;*.bmp;*.gif</sys:String>
+    <sys:String x:Key="Dialog_SelectLogoTitle">Select Company Logo</sys:String>
+    <sys:String x:Key="Dialog_SelectStampTitle">Select Company Stamp / Signature</sys:String>
+    <sys:String x:Key="Dialog_SelectBackupFolderTitle">Select Backup Folder</sys:String>
+    <sys:String x:Key="Dialog_FolderFilter">Folder|*.</sys:String>
+    <sys:String x:Key="Dialog_SelectFolderFileName">Select this folder</sys:String>
+    <sys:String x:Key="Dialog_DatabaseFilter">Database Files|*.db</sys:String>
+    <sys:String x:Key="Dialog_SelectBackupFileTitle">Select Backup File</sys:String>
+    <sys:String x:Key="Dialog_PdfFilter">PDF|*.pdf</sys:String>
+    <sys:String x:Key="Dialog_SavePdfTitle">Save PDF</sys:String>
+    <sys:String x:Key="Dialog_ExcelFilter">Excel|*.xlsx</sys:String>
+    <sys:String x:Key="Dialog_ExcelFileName">sales_report.xlsx</sys:String>
+
+    <!-- PDF Labels -->
+    <sys:String x:Key="Pdf_Quotation">Quotation</sys:String>
+    <sys:String x:Key="Pdf_Invoice">Final Invoice</sys:String>
+    <sys:String x:Key="Pdf_CustomerInfo">Customer Information</sys:String>
+    <sys:String x:Key="Pdf_Phone">Phone</sys:String>
+    <sys:String x:Key="Pdf_Email">Email</sys:String>
+    <sys:String x:Key="Pdf_Country">Country</sys:String>
+    <sys:String x:Key="Pdf_DocNumber">Document No</sys:String>
+    <sys:String x:Key="Pdf_Date">Date</sys:String>
+    <sys:String x:Key="Pdf_DueDate_Invoice">Due Date</sys:String>
+    <sys:String x:Key="Pdf_DueDate_Quotation">Valid Until</sys:String>
+    <sys:String x:Key="Pdf_Status">Status</sys:String>
+    <sys:String x:Key="Pdf_ColProduct">Product / Description</sys:String>
+    <sys:String x:Key="Pdf_ColType">Type</sys:String>
+    <sys:String x:Key="Pdf_ColWeight">Weight</sys:String>
+    <sys:String x:Key="Pdf_ColPrice">Price</sys:String>
+    <sys:String x:Key="Pdf_ColQty">Qty</sys:String>
+    <sys:String x:Key="Pdf_ColTotal">Total</sys:String>
+    <sys:String x:Key="Pdf_Subtotal">Subtotal</sys:String>
+    <sys:String x:Key="Pdf_Discount">Discount</sys:String>
+    <sys:String x:Key="Pdf_Tax">Tax</sys:String>
+    <sys:String x:Key="Pdf_PaidAmount">Paid Amount</sys:String>
+    <sys:String x:Key="Pdf_RemainingAmount">Remaining Amount</sys:String>
+    <sys:String x:Key="Pdf_GrandTotal">Grand Total</sys:String>
+    <sys:String x:Key="Pdf_Notes">Notes</sys:String>
+    <sys:String x:Key="Pdf_PaymentInfo">Payment Info</sys:String>
+    <sys:String x:Key="Pdf_Shipping">Shipping Note</sys:String>
+    <sys:String x:Key="Pdf_ThankYou">Thank you for your trust</sys:String>
+    <sys:String x:Key="Pdf_DefaultFooter">Shipping not included unless explicitly stated.</sys:String>
+    <sys:String x:Key="Pdf_Page">Page</sys:String>
+    <sys:String x:Key="Pdf_Remaining">Remaining</sys:String>
+
+    <!-- Form Dialogs -->
+    <sys:String x:Key="CompForm_SectionBasic">Basic Information</sys:String>
+    <sys:String x:Key="CompForm_Name">Company Name *</sys:String>
+    <sys:String x:Key="CompForm_CommercialName">Commercial Name</sys:String>
+    <sys:String x:Key="CompForm_Phone">Phone</sys:String>
+    <sys:String x:Key="CompForm_Email">Email</sys:String>
+    <sys:String x:Key="CompForm_Address">Address</sys:String>
+    <sys:String x:Key="CompForm_Country">Country</sys:String>
+    <sys:String x:Key="CompForm_Currency">Currency</sys:String>
+    <sys:String x:Key="CompForm_LogoPath">Logo Path</sys:String>
+    <sys:String x:Key="CompForm_TaxSection">Tax Settings</sys:String>
+    <sys:String x:Key="CompForm_TaxEnabled">Enable Tax</sys:String>
+    <sys:String x:Key="CompForm_TaxRate">Tax Rate %</sys:String>
+    <sys:String x:Key="CompForm_NumberingSection">Document Numbering</sys:String>
+    <sys:String x:Key="CompForm_InvoicePrefix">Invoice Prefix</sys:String>
+    <sys:String x:Key="CompForm_QuotationPrefix">Quotation Prefix</sys:String>
+    <sys:String x:Key="CompForm_TextsSection">Default Texts</sys:String>
+    <sys:String x:Key="CompForm_DefaultInvoiceNotes">Default Invoice Notes</sys:String>
+    <sys:String x:Key="CompForm_DefaultQuotationNotes">Default Quotation Notes</sys:String>
+    <sys:String x:Key="CompForm_FooterText">Legal Footer</sys:String>
+    <sys:String x:Key="CompForm_PaymentInfo">Default Payment Info</sys:String>
+    <sys:String x:Key="ProdForm_Name">Product / Service Name *</sys:String>
+    <sys:String x:Key="ProdForm_Type">Type</sys:String>
+    <sys:String x:Key="ProdForm_Description">Description</sys:String>
+    <sys:String x:Key="ProdForm_UnitPrice">Unit Price *</sys:String>
+    <sys:String x:Key="ProdForm_Weight">Weight (kg)</sys:String>
+    <sys:String x:Key="ProdForm_DefaultQty">Default Quantity</sys:String>
+    <sys:String x:Key="ProdForm_IsActive">Active Product / Service</sys:String>
+    <sys:String x:Key="CustForm_SectionBasic">Basic Information</sys:String>
+    <sys:String x:Key="CustForm_FullName">Full Name *</sys:String>
+    <sys:String x:Key="CustForm_CompanyName">Company Name</sys:String>
+    <sys:String x:Key="CustForm_Phone">Phone</sys:String>
+    <sys:String x:Key="CustForm_Email">Email</sys:String>
+    <sys:String x:Key="CustForm_Country">Country</sys:String>
+    <sys:String x:Key="CustForm_SectionFollowUp">Follow-up Information</sys:String>
+    <sys:String x:Key="CustForm_Importance">Importance Level</sys:String>
+    <sys:String x:Key="CustForm_FollowUpStage">Follow-up Stage</sys:String>
+    <sys:String x:Key="CustForm_CommercialMindset">Commercial Mindset</sys:String>
+    <sys:String x:Key="CustForm_LastFollowUpDate">Last Follow-up Date</sys:String>
+    <sys:String x:Key="CustForm_CurrentObjection">Current Objection</sys:String>
+    <sys:String x:Key="CustForm_Notes">Notes</sys:String>
+
+    <!-- Document form page titles (DocList_TitleAll and Msg_LoadingDashboard already above) -->
+    <sys:String x:Key="DocForm_NewDocument">New Document</sys:String>
+    <sys:String x:Key="DocForm_NewInvoice">New Invoice</sys:String>
+    <sys:String x:Key="DocForm_NewQuotation">New Quotation</sys:String>
+    <sys:String x:Key="DocForm_EditInvoice">Edit Invoice</sys:String>
+    <sys:String x:Key="DocForm_EditQuotation">Edit Quotation</sys:String>
+
+    <!-- Phase 5 - Follow-up Reminders & Customer Profile Details -->
+    <sys:String x:Key="CustForm_NextFollowUpDate">Next Follow-up Date</sys:String>
+    <sys:String x:Key="Dash_FollowUpReminders">Follow-up Reminders</sys:String>
+    <sys:String x:Key="Dash_ColNextFollowUp">Next Follow-up</sys:String>
+    <sys:String x:Key="Dash_ColStage">Stage</sys:String>
+    <sys:String x:Key="Dash_ColNotes">Notes</sys:String>
+    <sys:String x:Key="Dash_ColActions">Actions</sys:String>
+
+    <sys:String x:Key="CustDetail_Back">← Back</sys:String>
+    <sys:String x:Key="CustDetail_Title">Customer Profile</sys:String>
+    <sys:String x:Key="CustDetail_FollowUpStage">Follow-up Stage</sys:String>
+    <sys:String x:Key="CustDetail_Importance">Importance Level</sys:String>
+    <sys:String x:Key="CustDetail_Mindset">Commercial Mindset</sys:String>
+    <sys:String x:Key="CustDetail_LastFollowUp">Last Follow-up</sys:String>
+    <sys:String x:Key="CustDetail_NextFollowUp">Next Follow-up</sys:String>
+    <sys:String x:Key="CustDetail_Notes">Notes</sys:String>
+    <sys:String x:Key="CustDetail_DocHistory">Document History</sys:String>
+    <sys:String x:Key="CustDetail_ColNumber">Document No</sys:String>
+    <sys:String x:Key="CustDetail_ColType">Type</sys:String>
+    <sys:String x:Key="CustDetail_ColDate">Date</sys:String>
+    <sys:String x:Key="CustDetail_ColStatus">Status</sys:String>
+    <sys:String x:Key="CustDetail_ColTotal">Total</sys:String>
+
+    <!-- Phase 6 - Paid Tracking -->
+    <sys:String x:Key="DocForm_PaymentDetails">Payment Details</sys:String>
+    <sys:String x:Key="DocForm_PaidAmount">Paid Amount</sys:String>
+    <sys:String x:Key="DocForm_PaymentDate">Payment Date</sys:String>
+    <sys:String x:Key="DocForm_RemainingAmount">Remaining Amount:</sys:String>
+
+    <!-- Phase 7 - Customer notes history -->
+    <sys:String x:Key="CustDetail_NotesHistory">Follow-up &amp; Notes History</sys:String>
+    <sys:String x:Key="CustDetail_AddNoteHint">Type follow-up note...</sys:String>
+    <sys:String x:Key="CustDetail_AddNoteBtn">Add Note</sys:String>
+
+</ResourceDictionary>

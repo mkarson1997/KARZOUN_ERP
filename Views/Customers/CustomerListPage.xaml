@@ -1,0 +1,159 @@
+<UserControl x:Class="FornixxCRM.Views.Customers.CustomerListPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             d:DesignHeight="650" d:DesignWidth="950">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16">
+            <materialDesign:PackIcon Kind="AccountMultiple" Width="28" Height="28" Foreground="#FF6B00" VerticalAlignment="Center" />
+            <TextBlock Text="{DynamicResource Cust_Title}" FontSize="24" FontWeight="Bold" Foreground="#1A2332" Margin="8,0,0,0" VerticalAlignment="Center" />
+            <Button Content="{DynamicResource Cust_New}"
+                    Command="{Binding AddCustomerCommand}"
+                    Style="{StaticResource MaterialDesignRaisedButton}"
+                    Background="#FF6B00" BorderBrush="#FF6B00"
+                    Margin="20,0,0,0" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <!-- Search + filters -->
+        <materialDesign:Card Grid.Row="1" Padding="16" Margin="0,0,0,12" UniformCornerRadius="8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="160" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="180" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Column="0"
+                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                         materialDesign:HintAssist.Hint="{DynamicResource Cust_SearchHint}"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" Command="{Binding SearchCommand}" />
+                    </TextBox.InputBindings>
+                </TextBox>
+
+                <ComboBox Grid.Column="2"
+                          ItemsSource="{Binding ImportanceLevels}"
+                          SelectedItem="{Binding FilterImportance}"
+                          materialDesign:HintAssist.Hint="{DynamicResource Cust_FilterImportance}"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <Binding Converter="{StaticResource EnumToArabic}" />
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <ComboBox Grid.Column="4"
+                          ItemsSource="{Binding FollowUpStages}"
+                          SelectedItem="{Binding FilterStage}"
+                          materialDesign:HintAssist.Hint="{DynamicResource Cust_FilterStage}"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <Binding Converter="{StaticResource EnumToArabic}" />
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <StackPanel Grid.Column="6" Orientation="Horizontal">
+                    <Button Content="{DynamicResource Btn_Search}" Command="{Binding SearchCommand}"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Background="#FF6B00" BorderBrush="#FF6B00" Margin="0,0,8,0" />
+                    <Button Content="{DynamicResource Btn_Clear}" Command="{Binding ClearFiltersCommand}"
+                            Style="{StaticResource MaterialDesignOutlinedButton}" />
+                </StackPanel>
+            </Grid>
+        </materialDesign:Card>
+
+        <ProgressBar Grid.Row="2" IsIndeterminate="True" Height="3" Margin="0,0,0,4"
+                     Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibility}}" />
+
+        <!-- DataGrid -->
+        <materialDesign:Card Grid.Row="3" Padding="0" UniformCornerRadius="8">
+            <DataGrid ItemsSource="{Binding Customers}"
+                      SelectedItem="{Binding SelectedCustomer}"
+                      AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True"
+                      materialDesign:DataGridAssist.CellPadding="10 8"
+                      BorderThickness="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="{DynamicResource Cust_ColName}" Binding="{Binding FullName}" Width="*" />
+                    <DataGridTextColumn Header="{DynamicResource Cust_ColCompany}" Binding="{Binding CompanyName}" Width="*" />
+                    <DataGridTextColumn Header="{DynamicResource Cust_ColPhone}" Binding="{Binding Phone}" Width="120" />
+                    <DataGridTextColumn Header="{DynamicResource Cust_ColCountry}" Binding="{Binding Country}" Width="100" />
+                    <DataGridTemplateColumn Header="{DynamicResource Cust_ColImportance}" Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Importance, Converter={StaticResource EnumToArabic}}"
+                                           Foreground="{Binding Importance, Converter={StaticResource StatusToColor}}"
+                                           FontWeight="SemiBold" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="{DynamicResource Cust_ColStage}" Width="140">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding FollowUpStage, Converter={StaticResource EnumToArabic}}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="{DynamicResource Cust_ColActions}" Width="200">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="{DynamicResource Btn_Details}"
+                                            Command="{Binding DataContext.ViewCustomerDetailCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource MaterialDesignFlatButton}"
+                                            Foreground="#00897B" Padding="6,4" />
+                                    <Button Content="{DynamicResource Btn_Edit}"
+                                            Command="{Binding DataContext.EditCustomerCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource MaterialDesignFlatButton}"
+                                            Foreground="#1565C0" Padding="6,4" />
+                                    <Button Content="{DynamicResource Btn_Delete}"
+                                            Command="{Binding DataContext.DeleteCustomerCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource MaterialDesignFlatButton}"
+                                            Foreground="#F44336" Padding="6,4" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </materialDesign:Card>
+
+        <!-- Footer count -->
+        <TextBlock Grid.Row="4" Margin="0,8,0,0" Foreground="#888">
+            <Run Text="{DynamicResource Cust_Total}" />
+            <Run Text="{Binding TotalCount}" FontWeight="Bold" />
+            <Run Text="{DynamicResource Cust_TotalUnit}" />
+        </TextBlock>
+    </Grid>
+</UserControl>

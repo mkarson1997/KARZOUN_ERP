@@ -1,0 +1,128 @@
+<UserControl x:Class="FornixxCRM.Views.Reports.ReportsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             d:DesignHeight="700" d:DesignWidth="950">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="24">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                <materialDesign:PackIcon Kind="ChartBar" Width="28" Height="28" Foreground="#FF6B00" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource Rep_Title}" FontSize="24" FontWeight="Bold" Foreground="#1A2332"
+                           Margin="8,0,0,0" VerticalAlignment="Center" />
+            </StackPanel>
+
+            <!-- Date filter -->
+            <materialDesign:Card Padding="16" Margin="0,0,0,16" UniformCornerRadius="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="180" />
+                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="180" />
+                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Text="{DynamicResource Rep_From}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                    <DatePicker Grid.Column="1" SelectedDate="{Binding FromDate}"
+                                Style="{StaticResource MaterialDesignOutlinedDatePicker}" />
+                    <TextBlock Grid.Column="3" Text="{DynamicResource Rep_To}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                    <DatePicker Grid.Column="4" SelectedDate="{Binding ToDate}"
+                                Style="{StaticResource MaterialDesignOutlinedDatePicker}" />
+
+                    <Button Grid.Column="6" Content="{DynamicResource Btn_Refresh}" Command="{Binding RefreshCommand}"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Background="#FF6B00" BorderBrush="#FF6B00" Margin="0,0,8,0" />
+                    <Button Grid.Column="7" Content="{DynamicResource Btn_ExportExcel}" Command="{Binding ExportToExcelCommand}"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Background="#00897B" BorderBrush="#00897B" />
+                </Grid>
+            </materialDesign:Card>
+
+            <ProgressBar IsIndeterminate="True" Height="3" Margin="0,0,0,12"
+                         Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibility}}" />
+
+            <!-- Summary cards -->
+            <Grid Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <materialDesign:Card Grid.Column="0" Margin="0,0,6,0" Padding="16" UniformCornerRadius="8">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Rep_Invoices}" Foreground="#888" FontSize="11" />
+                        <TextBlock Text="{Binding TotalInvoices}" FontSize="30" FontWeight="Bold" Foreground="#1A2332" />
+                    </StackPanel>
+                </materialDesign:Card>
+                <materialDesign:Card Grid.Column="1" Margin="3,0,3,0" Padding="16" UniformCornerRadius="8">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Rep_Quotations}" Foreground="#888" FontSize="11" />
+                        <TextBlock Text="{Binding TotalQuotations}" FontSize="30" FontWeight="Bold" Foreground="#1A2332" />
+                    </StackPanel>
+                </materialDesign:Card>
+                <materialDesign:Card Grid.Column="2" Margin="3,0,3,0" Padding="16" UniformCornerRadius="8">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Rep_TotalSales}" Foreground="#888" FontSize="11" />
+                        <TextBlock Text="{Binding TotalAmount, StringFormat=N2}" FontSize="22" FontWeight="Bold" Foreground="#FF6B00" />
+                    </StackPanel>
+                </materialDesign:Card>
+                <materialDesign:Card Grid.Column="3" Margin="3,0,3,0" Padding="16" UniformCornerRadius="8">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Rep_Paid}" Foreground="#888" FontSize="11" />
+                        <TextBlock Text="{Binding PaidAmount, StringFormat=N2}" FontSize="22" FontWeight="Bold" Foreground="#4CAF50" />
+                    </StackPanel>
+                </materialDesign:Card>
+                <materialDesign:Card Grid.Column="4" Margin="6,0,0,0" Padding="16" UniformCornerRadius="8">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Rep_Unpaid}" Foreground="#888" FontSize="11" />
+                        <TextBlock Text="{Binding UnpaidAmount, StringFormat=N2}" FontSize="22" FontWeight="Bold" Foreground="#F44336" />
+                    </StackPanel>
+                </materialDesign:Card>
+            </Grid>
+
+            <!-- Monthly summary table -->
+            <materialDesign:Card Padding="20" Margin="0,0,0,16" UniformCornerRadius="8">
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource Rep_MonthlyTitle}" FontSize="16" FontWeight="Bold" Margin="0,0,0,12" />
+                    <DataGrid ItemsSource="{Binding MonthlySummary}"
+                              AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True"
+                              materialDesign:DataGridAssist.CellPadding="10 8">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{DynamicResource Rep_ColMonth}" Binding="{Binding MonthLabel}" Width="*" />
+                            <DataGridTextColumn Header="{DynamicResource Rep_ColInvoiceCount}" Binding="{Binding InvoiceCount}" Width="100" />
+                            <DataGridTextColumn Header="{DynamicResource Rep_ColTotal}" Binding="{Binding TotalAmount, StringFormat=N2}" Width="*" />
+                            <DataGridTextColumn Header="{DynamicResource Rep_ColPaid}" Binding="{Binding PaidAmount, StringFormat=N2}" Width="*" />
+                            <DataGridTextColumn Header="{DynamicResource Rep_ColUnpaid}" Binding="{Binding UnpaidAmount, StringFormat=N2}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <!-- Top Customers -->
+            <materialDesign:Card Padding="20" UniformCornerRadius="8">
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource Rep_TopCustomersTitle}" FontSize="16" FontWeight="Bold" Margin="0,0,0,12" />
+                    <DataGrid ItemsSource="{Binding TopCustomers}"
+                              AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True"
+                              materialDesign:DataGridAssist.CellPadding="10 8">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{DynamicResource Rep_ColCustomerName}" Binding="{Binding Name}" Width="*" />
+                            <DataGridTextColumn Header="{DynamicResource Rep_ColDocCount}" Binding="{Binding DocumentCount}" Width="120" />
+                            <DataGridTextColumn Header="{DynamicResource Rep_ColTotalSales}" Binding="{Binding TotalAmount, StringFormat=N2}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </materialDesign:Card>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

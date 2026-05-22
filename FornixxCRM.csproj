@@ -1,0 +1,126 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <Compile Remove="_backup_**\*.cs" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>FornixxCRM</RootNamespace>
+    <AssemblyName>FornixxCRM</AssemblyName>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+
+    <!--
+      DisableFastUpToDateCheck: Forces MSBuild to verify all intermediate files
+      on every incremental build rather than trusting the fast up-to-date cache.
+      Prevents BG1002 "missing .baml" errors caused by stale or partial obj folders
+      when switching Debug/Release or after a failed build.
+    -->
+    <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11" />
+    <PackageReference Include="QRCoder" Version="1.6.0" />
+    <!-- Updated to 2025.1.0 (the actually resolved version) to silence NU1603 -->
+    <PackageReference Include="QuestPDF" Version="2025.1.0" />
+    <PackageReference Include="ClosedXML" Version="0.104.2" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+    <PackageReference Include="MaterialDesignThemes" Version="5.1.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+  </ItemGroup>
+
+  <!--
+    Explicit Page metadata for every XAML file.
+    Using "Update" (not "Include") so we augment the SDK's implicit glob — not replace it.
+    Generator=MSBuild:Compile + SubType=Designer ensures the WPF XAML compiler
+    treats each file the same way regardless of whether it was auto-detected or not,
+    which prevents the MarkupCompilePass2 from skipping files on incremental rebuilds.
+  -->
+  <!-- Localization string ResourceDictionaries — must be Resource not Page -->
+  <ItemGroup>
+    <Resource Include="Resources\Strings.ar.xaml" />
+    <Resource Include="Resources\Strings.tr.xaml" />
+    <Resource Include="Resources\Strings.en.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Dashboard\DashboardPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Companies\CompanyListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Companies\CompanyFormDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Customers\CustomerListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Customers\CustomerFormDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Customers\CustomerDetailPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Products\ProductListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Products\ProductFormDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Documents\DocumentListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Documents\DocumentFormPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Settings\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Reports\ReportsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <!--
+    BG1002 Permanent Fix:
+    Delete the MarkupCompile cache files before every Pass1 run.
+    This forces XAML recompile on every build (~2s overhead) which is far better
+    than intermittent BG1002 failures caused by stale incremental BAML state.
+    Root cause: Pass2 (in the wpftmp project) reads BAMLs written by Pass1.
+    When the cache claims Pass1 is up-to-date but the BAMLs are actually stale
+    (after Debug↔Release switch, killed process, or any interrupted build),
+    Pass2 cannot find them → BG1002.
+    Always running Pass1 eliminates the stale-cache scenario entirely.
+  -->
+  <Target Name="AlwaysRecompileXaml" BeforeTargets="MarkupCompilePass1">
+    <Delete Files="$(IntermediateOutputPath)$(MSBuildProjectName)_MarkupCompile.cache;&#xA;                   $(IntermediateOutputPath)$(MSBuildProjectName)_MarkupCompile.lref" ContinueOnError="true" />
+  </Target>
+
+</Project>

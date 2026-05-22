@@ -1,0 +1,320 @@
+<UserControl x:Class="FornixxCRM.Views.Documents.DocumentFormPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             d:DesignHeight="750" d:DesignWidth="1000">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Header bar -->
+        <Border Grid.Row="0" Background="White" Padding="24,12"
+                materialDesign:ElevationAssist.Elevation="Dp2">
+            <DockPanel>
+                <Button DockPanel.Dock="Left" Content="{DynamicResource Btn_Cancel}"
+                        Command="{Binding CancelCommand}"
+                        Style="{StaticResource MaterialDesignFlatButton}" Foreground="#888" />
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <Button Content="{DynamicResource Btn_ExportPdf}"
+                            Command="{Binding ExportPdfCommand}"
+                            Style="{StaticResource MaterialDesignOutlinedButton}"
+                            BorderBrush="#00897B" Foreground="#00897B" Margin="0,0,8,0" />
+                    <Button Content="{DynamicResource Btn_Save}"
+                            Command="{Binding SaveCommand}"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Background="#FF6B00" BorderBrush="#FF6B00" />
+                </StackPanel>
+                <TextBlock Text="{Binding PageTitle}" FontSize="20" FontWeight="Bold"
+                           Foreground="#1A2332" VerticalAlignment="Center" />
+            </DockPanel>
+        </Border>
+
+        <!-- Main content -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="24">
+
+                <!-- Validation error -->
+                <Border Background="#FFEBEE" Padding="12,8" CornerRadius="4" Margin="0,0,0,12"
+                        Visibility="{Binding ValidationError, Converter={StaticResource BoolToVisibility}}">
+                    <TextBlock Text="{Binding ValidationError}" Foreground="#C62828" />
+                </Border>
+
+                <!-- Loading -->
+                <ProgressBar IsIndeterminate="True" Height="3" Margin="0,0,0,8"
+                             Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibility}}" />
+
+                <!-- Document header info -->
+                <materialDesign:Card Padding="20" Margin="0,0,0,16" UniformCornerRadius="8">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="24" />
+                            <ColumnDefinition Width="340" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Left: Customer + Notes -->
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{DynamicResource DocForm_DocInfo}" FontWeight="Bold" Foreground="#FF6B00" Margin="0,0,0,12" />
+
+                            <ComboBox ItemsSource="{Binding Customers}"
+                                      SelectedItem="{Binding SelectedCustomer}"
+                                      materialDesign:HintAssist.Hint="{DynamicResource DocForm_SelectCustomer}"
+                                      Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                      DisplayMemberPath="FullName"
+                                      Margin="0,0,0,12" />
+
+                            <TextBox Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}"
+                                     materialDesign:HintAssist.Hint="{DynamicResource DocForm_Notes}"
+                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     AcceptsReturn="True" Height="70" TextWrapping="Wrap"
+                                     VerticalScrollBarVisibility="Auto" Margin="0,0,0,12" />
+
+                            <TextBox Text="{Binding ShippingNote, UpdateSourceTrigger=PropertyChanged}"
+                                     materialDesign:HintAssist.Hint="{DynamicResource DocForm_ShippingNote}"
+                                     Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="0,0,0,12" />
+
+                            <TextBox Text="{Binding PaymentAddress, UpdateSourceTrigger=PropertyChanged}"
+                                     materialDesign:HintAssist.Hint="{DynamicResource DocForm_PaymentInfo}"
+                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     AcceptsReturn="True" Height="60" TextWrapping="Wrap"
+                                     VerticalScrollBarVisibility="Auto" Margin="0,0,0,12" />
+
+                            <TextBox Text="{Binding FooterText, UpdateSourceTrigger=PropertyChanged}"
+                                     materialDesign:HintAssist.Hint="{DynamicResource DocForm_FooterText}"
+                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     AcceptsReturn="True" Height="60" TextWrapping="Wrap"
+                                     VerticalScrollBarVisibility="Auto" />
+                        </StackPanel>
+
+                        <!-- Right: Numbers + Dates + Status + Language -->
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="{DynamicResource DocForm_DocMeta}" FontWeight="Bold" Foreground="#FF6B00" Margin="0,0,0,12" />
+
+                            <TextBox Text="{Binding DocumentNumber}"
+                                     materialDesign:HintAssist.Hint="{DynamicResource DocForm_DocNumber}"
+                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     IsReadOnly="True" Margin="0,0,0,12"
+                                     FlowDirection="LeftToRight" />
+
+                            <ComboBox ItemsSource="{Binding AllStatuses}"
+                                      SelectedItem="{Binding Status}"
+                                      materialDesign:HintAssist.Hint="{DynamicResource DocForm_Status}"
+                                      Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                      Margin="0,0,0,12">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource EnumToArabic}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
+                            <DatePicker SelectedDate="{Binding Date}"
+                                        materialDesign:HintAssist.Hint="{DynamicResource DocForm_DocDate}"
+                                        Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                                        Margin="0,0,0,12" />
+
+                            <DatePicker SelectedDate="{Binding DueDate}"
+                                        materialDesign:HintAssist.Hint="{DynamicResource DocForm_DueDate}"
+                                        Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                                        Margin="0,0,0,12" />
+
+                            <!-- Payment Tracking (Visible only for Invoice + Paid/Partially Paid) -->
+                            <StackPanel Visibility="{Binding ShowPaymentFields, Converter={StaticResource BoolToVisibility}}">
+                                <Separator Margin="0,0,0,12" />
+                                <TextBlock Text="{DynamicResource DocForm_PaymentDetails}" FontWeight="Bold" Foreground="#00897B" Margin="0,0,0,12" />
+
+                                <TextBox Text="{Binding PaidAmount, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
+                                         materialDesign:HintAssist.Hint="{DynamicResource DocForm_PaidAmount}"
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                         Margin="0,0,0,12" FlowDirection="LeftToRight" />
+
+                                <DatePicker SelectedDate="{Binding PaymentDate}"
+                                            materialDesign:HintAssist.Hint="{DynamicResource DocForm_PaymentDate}"
+                                            Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                                            Margin="0,0,0,12" />
+
+                                <Grid Margin="0,0,0,12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{DynamicResource DocForm_RemainingAmount}" Foreground="#888" VerticalAlignment="Center" />
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                        <TextBlock Text="{Binding RemainingAmount, StringFormat=N2}" FontWeight="Bold" Foreground="#D81B60" VerticalAlignment="Center" />
+                                        <TextBlock Text=" " />
+                                        <TextBlock Text="{Binding Currency}" FontWeight="Bold" Foreground="#D81B60" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+
+                            <!-- Document Language (Temporarily Hidden) -->
+                            <ComboBox ItemsSource="{Binding LanguageCodes}"
+                                      SelectedItem="{Binding LanguageCode}"
+                                      materialDesign:HintAssist.Hint="{DynamicResource DocForm_Language}"
+                                      Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                      Margin="0,0,0,16"
+                                      Visibility="Collapsed" />
+
+                            <Separator Margin="0,0,0,16" />
+
+                            <!-- Tax -->
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                <CheckBox Content="{DynamicResource DocForm_TaxEnabled}" IsChecked="{Binding TaxEnabled}" Margin="0,0,12,0" />
+                                <TextBox Text="{Binding TaxRate, UpdateSourceTrigger=PropertyChanged}"
+                                         materialDesign:HintAssist.Hint="{DynamicResource DocForm_TaxRate}"
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                         Width="120" FlowDirection="LeftToRight"
+                                         IsEnabled="{Binding TaxEnabled}" />
+                            </StackPanel>
+
+                            <!-- Discount -->
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <CheckBox Content="{DynamicResource DocForm_DiscountByPct}" IsChecked="{Binding UsePercentDiscount}" Margin="0,0,12,0" />
+                            </StackPanel>
+                            <TextBox Text="{Binding DiscountPercent, UpdateSourceTrigger=PropertyChanged}"
+                                     materialDesign:HintAssist.Hint="{DynamicResource DocForm_DiscountPct}"
+                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     FlowDirection="LeftToRight" Margin="0,0,0,8"
+                                     Visibility="{Binding UsePercentDiscount, Converter={StaticResource BoolToVisibility}}" />
+                            <TextBox Text="{Binding DiscountAmount, UpdateSourceTrigger=PropertyChanged}"
+                                     materialDesign:HintAssist.Hint="{DynamicResource DocForm_DiscountAmt}"
+                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     FlowDirection="LeftToRight" Margin="0,0,0,8"
+                                     Visibility="{Binding UsePercentDiscount, Converter={StaticResource InverseBoolToVisibility}}" />
+
+                            <!-- Payment tracking (invoices) -->
+                            <TextBox Text="{Binding PaidAmount, UpdateSourceTrigger=PropertyChanged}"
+                                     materialDesign:HintAssist.Hint="{DynamicResource DocForm_PaidAmount}"
+                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     FlowDirection="LeftToRight" Margin="0,0,0,8" />
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+
+                <!-- Line items -->
+                <materialDesign:Card Padding="20" Margin="0,0,0,16" UniformCornerRadius="8">
+                    <StackPanel>
+                        <DockPanel Margin="0,0,0,12">
+                            <Button DockPanel.Dock="Left" Content="{DynamicResource Btn_AddItem}"
+                                    Command="{Binding AddItemCommand}"
+                                    Style="{StaticResource MaterialDesignRaisedButton}"
+                                    Background="#00897B" BorderBrush="#00897B" />
+                            <TextBlock Text="{DynamicResource DocForm_Items}" FontSize="16" FontWeight="Bold"
+                                       VerticalAlignment="Center" Margin="12,0,0,0" />
+                        </DockPanel>
+
+                        <DataGrid ItemsSource="{Binding Items}"
+                                  AutoGenerateColumns="False" CanUserAddRows="False"
+                                  materialDesign:DataGridAssist.CellPadding="8 6"
+                                  MinHeight="150">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{DynamicResource DocForm_ColProduct}"
+                                                    Binding="{Binding ProductName, UpdateSourceTrigger=PropertyChanged}"
+                                                    Width="*" />
+                                <DataGridTemplateColumn Header="{DynamicResource DocForm_ColType}" Width="120">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ComboBox ItemsSource="{Binding DataContext.AllProductTypes, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                      SelectedItem="{Binding ProductType, UpdateSourceTrigger=PropertyChanged}"
+                                                      BorderThickness="0" Background="Transparent">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Converter={StaticResource EnumToArabic}}" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="{DynamicResource DocForm_ColDesc}"
+                                                    Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                                                    Width="*" />
+                                <DataGridTextColumn Header="{DynamicResource DocForm_ColWeight}"
+                                                    Binding="{Binding Weight, UpdateSourceTrigger=PropertyChanged}"
+                                                    Width="80"
+                                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" />
+                                <DataGridTextColumn Header="{DynamicResource DocForm_ColPrice}"
+                                                    Binding="{Binding UnitPrice, UpdateSourceTrigger=PropertyChanged}"
+                                                    Width="100"
+                                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" />
+                                <DataGridTextColumn Header="{DynamicResource DocForm_ColQty}"
+                                                    Binding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
+                                                    Width="70"
+                                                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" />
+                                <DataGridTextColumn Header="{DynamicResource DocForm_ColTotal}"
+                                                    Binding="{Binding LineTotal, StringFormat=N2}"
+                                                    Width="110" IsReadOnly="True" />
+                                <DataGridTemplateColumn Width="60">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Command="{Binding DataContext.RemoveItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}"
+                                                    Style="{StaticResource MaterialDesignIconButton}"
+                                                    Foreground="#F44336" Width="32" Height="32">
+                                                <materialDesign:PackIcon Kind="Delete" Width="16" Height="16" />
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <!-- Totals panel -->
+                <materialDesign:Card Padding="20" UniformCornerRadius="8">
+                    <Grid HorizontalAlignment="Left" Width="380">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="160" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{DynamicResource DocForm_Subtotal}" Margin="0,0,0,8" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Subtotal, StringFormat=N2}"
+                                   HorizontalAlignment="Right" FontWeight="SemiBold" Margin="0,0,0,8" FlowDirection="LeftToRight" />
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="{DynamicResource DocForm_Discount}" Margin="0,0,0,8" Foreground="#E53935" />
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding DiscountAmount, StringFormat=N2}"
+                                   HorizontalAlignment="Right" Foreground="#E53935" Margin="0,0,0,8" FlowDirection="LeftToRight" />
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,0,0,8">
+                            <Run Text="{DynamicResource DocForm_Discount}" />
+                            <Run Text="(" /><Run Text="{Binding TaxRate, StringFormat=N1}" /><Run Text="%):" />
+                        </TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding TaxAmount, StringFormat=N2}"
+                                   HorizontalAlignment="Right" Margin="0,0,0,8" FlowDirection="LeftToRight" />
+
+                        <Separator Grid.Row="3" Grid.ColumnSpan="2" Margin="0,4,0,8" />
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="{DynamicResource DocForm_GrandTotal}"
+                                   FontSize="16" FontWeight="Bold" Foreground="#FF6B00" />
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding GrandTotal, StringFormat=N2}"
+                                   FontSize="16" FontWeight="Bold" Foreground="#FF6B00"
+                                   HorizontalAlignment="Right" FlowDirection="LeftToRight" />
+                    </Grid>
+                </materialDesign:Card>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Status bar -->
+        <Border Grid.Row="2" Background="#F5F5F5" Padding="24,8"
+                Visibility="{Binding StatusMessage, Converter={StaticResource BoolToVisibility}}">
+            <TextBlock Text="{Binding StatusMessage}" Foreground="#555" FontSize="12" />
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,117 @@
+<UserControl x:Class="FornixxCRM.Views.Products.ProductListPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="900">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16">
+            <materialDesign:PackIcon Kind="Package" Width="28" Height="28" Foreground="#FF6B00" VerticalAlignment="Center" />
+            <TextBlock Text="{DynamicResource Prod_Title}" FontSize="24" FontWeight="Bold" Foreground="#1A2332"
+                       Margin="8,0,0,0" VerticalAlignment="Center" />
+            <Button Content="{DynamicResource Prod_New}"
+                    Command="{Binding AddProductCommand}"
+                    Style="{StaticResource MaterialDesignRaisedButton}"
+                    Background="#FF6B00" BorderBrush="#FF6B00"
+                    Margin="20,0,0,0" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <materialDesign:Card Grid.Row="1" Padding="12,8" Margin="0,0,0,12" UniformCornerRadius="8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="12" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                         materialDesign:HintAssist.Hint="{DynamicResource Prod_SearchHint}"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" Command="{Binding SearchCommand}" />
+                    </TextBox.InputBindings>
+                </TextBox>
+                <Button Grid.Column="2" Content="{DynamicResource Btn_Search}" Command="{Binding SearchCommand}"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Background="#FF6B00" BorderBrush="#FF6B00" />
+            </Grid>
+        </materialDesign:Card>
+
+        <ProgressBar Grid.Row="2" IsIndeterminate="True" Height="3" Margin="0,0,0,4"
+                     Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibility}}" />
+
+        <materialDesign:Card Grid.Row="3" Padding="0" UniformCornerRadius="8">
+            <DataGrid ItemsSource="{Binding Products}"
+                      AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True"
+                      materialDesign:DataGridAssist.CellPadding="10 8"
+                      BorderThickness="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="{DynamicResource Prod_ColName}" Binding="{Binding Name}" Width="*" />
+                    <DataGridTemplateColumn Header="{DynamicResource Prod_ColType}" Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Type, Converter={StaticResource EnumToArabic}}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="{DynamicResource Prod_ColWeight}" Binding="{Binding Weight, StringFormat=N2}" Width="100" />
+                    <DataGridTextColumn Header="{DynamicResource Prod_ColPrice}" Binding="{Binding UnitPrice, StringFormat=N2}" Width="120" />
+                    <DataGridTextColumn Header="{DynamicResource Prod_ColDefaultQty}" Binding="{Binding DefaultQuantity}" Width="120" />
+                    <DataGridTemplateColumn Header="{DynamicResource Prod_ColStatus}" Width="90">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Foreground="{Binding IsActive, Converter={StaticResource StatusToColor}}"
+                                           FontWeight="SemiBold">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Text" Value="{DynamicResource Prod_Inactive}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                    <Setter Property="Text" Value="{DynamicResource Prod_Active}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="{DynamicResource Prod_ColActions}" Width="150">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="{DynamicResource Btn_Edit}"
+                                            Command="{Binding DataContext.EditProductCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource MaterialDesignFlatButton}"
+                                            Foreground="#1565C0" Padding="6,4" />
+                                    <Button Content="{DynamicResource Btn_Delete}"
+                                            Command="{Binding DataContext.DeleteProductCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource MaterialDesignFlatButton}"
+                                            Foreground="#F44336" Padding="6,4" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </materialDesign:Card>
+
+        <TextBlock Grid.Row="4" Margin="0,8,0,0" Foreground="#888">
+            <Run Text="{DynamicResource Prod_Total}" />
+            <Run Text="{Binding TotalCount}" FontWeight="Bold" />
+            <Run Text="{DynamicResource Prod_TotalUnit}" />
+        </TextBlock>
+    </Grid>
+</UserControl>

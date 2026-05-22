@@ -1,0 +1,214 @@
+<UserControl x:Class="FornixxCRM.Views.Dashboard.DashboardPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             d:DesignHeight="700" d:DesignWidth="900">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="24">
+            <!-- Title -->
+            <TextBlock Text="{DynamicResource Dash_Title}" FontSize="24" FontWeight="Bold"
+                       Foreground="#FF6B00" Margin="0,0,0,20" />
+
+            <!-- Loading indicator -->
+            <ProgressBar IsIndeterminate="True" Height="3" Margin="0,0,0,16"
+                         Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibility}}" />
+
+            <!-- Stats cards -->
+            <Grid Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- Total Customers -->
+                <materialDesign:Card Grid.Row="0" Grid.Column="0" Margin="0,0,8,8" Padding="16" UniformCornerRadius="8">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Text="{DynamicResource Dash_Customers}" Foreground="#888" FontSize="12" VerticalAlignment="Center" Margin="0,0,8,0" />
+                            <materialDesign:PackIcon Kind="AccountMultiple" Width="24" Height="24" Foreground="#FF9800" />
+                        </StackPanel>
+                        <TextBlock Text="{Binding TotalCustomers}" FontSize="36" FontWeight="Bold" Foreground="#1A2332" HorizontalAlignment="Right" />
+                        <TextBlock Text="{DynamicResource Dash_TotalCustomers}" FontSize="11" Foreground="#888" HorizontalAlignment="Right" />
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <!-- Total Quotations -->
+                <materialDesign:Card Grid.Row="0" Grid.Column="1" Margin="4,0,4,8" Padding="16" UniformCornerRadius="8">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Text="{DynamicResource Dash_Quotations}" Foreground="#888" FontSize="12" VerticalAlignment="Center" Margin="0,0,8,0" />
+                            <materialDesign:PackIcon Kind="FileDocument" Width="24" Height="24" Foreground="#00897B" />
+                        </StackPanel>
+                        <TextBlock Text="{Binding TotalQuotations}" FontSize="36" FontWeight="Bold" Foreground="#1A2332" HorizontalAlignment="Right" />
+                        <TextBlock Text="{DynamicResource Dash_TotalQuotations}" FontSize="11" Foreground="#888" HorizontalAlignment="Right" />
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <!-- Total Invoices -->
+                <materialDesign:Card Grid.Row="0" Grid.Column="2" Margin="8,0,0,8" Padding="16" UniformCornerRadius="8">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Text="{DynamicResource Dash_Invoices}" Foreground="#888" FontSize="12" VerticalAlignment="Center" Margin="0,0,8,0" />
+                            <materialDesign:PackIcon Kind="Receipt" Width="24" Height="24" Foreground="#1565C0" />
+                        </StackPanel>
+                        <TextBlock Text="{Binding TotalInvoices}" FontSize="36" FontWeight="Bold" Foreground="#1A2332" HorizontalAlignment="Right" />
+                        <TextBlock Text="{DynamicResource Dash_TotalInvoices}" FontSize="11" Foreground="#888" HorizontalAlignment="Right" />
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <!-- Total Sales -->
+                <materialDesign:Card Grid.Row="1" Grid.Column="0" Margin="0,0,8,0" Padding="16" UniformCornerRadius="8">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Text="{DynamicResource Dash_TotalSales}" Foreground="#888" FontSize="12" VerticalAlignment="Center" Margin="0,0,8,0" />
+                            <materialDesign:PackIcon Kind="CurrencyUsd" Width="24" Height="24" Foreground="#FF6B00" />
+                        </StackPanel>
+                        <TextBlock FontSize="28" FontWeight="Bold" Foreground="#FF6B00" HorizontalAlignment="Right">
+                            <Run Text="{Binding TotalSalesAmount, StringFormat=N2}" />
+                            <Run Text=" " /><Run Text="{Binding Currency}" />
+                        </TextBlock>
+                        <TextBlock Text="{DynamicResource Dash_SalesTotal}" FontSize="11" Foreground="#888" HorizontalAlignment="Right" />
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <!-- Paid -->
+                <materialDesign:Card Grid.Row="1" Grid.Column="1" Margin="4,0,4,0" Padding="16" UniformCornerRadius="8">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Text="{DynamicResource Dash_Paid}" Foreground="#888" FontSize="12" VerticalAlignment="Center" Margin="0,0,8,0" />
+                            <materialDesign:PackIcon Kind="CheckCircle" Width="24" Height="24" Foreground="#4CAF50" />
+                        </StackPanel>
+                        <TextBlock FontSize="28" FontWeight="Bold" Foreground="#4CAF50" HorizontalAlignment="Right">
+                            <Run Text="{Binding PaidTotal, StringFormat=N2}" />
+                            <Run Text=" " /><Run Text="{Binding Currency}" />
+                        </TextBlock>
+                        <TextBlock Text="{DynamicResource Dash_PaidTotal}" FontSize="11" Foreground="#888" HorizontalAlignment="Right" />
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <!-- Unpaid -->
+                <materialDesign:Card Grid.Row="1" Grid.Column="2" Margin="8,0,0,0" Padding="16" UniformCornerRadius="8">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Text="{DynamicResource Dash_Unpaid}" Foreground="#888" FontSize="12" VerticalAlignment="Center" Margin="0,0,8,0" />
+                            <materialDesign:PackIcon Kind="ClockAlert" Width="24" Height="24" Foreground="#F44336" />
+                        </StackPanel>
+                        <TextBlock FontSize="28" FontWeight="Bold" Foreground="#F44336" HorizontalAlignment="Right">
+                            <Run Text="{Binding UnpaidTotal, StringFormat=N2}" />
+                            <Run Text=" " /><Run Text="{Binding Currency}" />
+                        </TextBlock>
+                        <TextBlock Text="{DynamicResource Dash_UnpaidTotal}" FontSize="11" Foreground="#888" HorizontalAlignment="Right" />
+                    </StackPanel>
+                </materialDesign:Card>
+            </Grid>
+
+            <!-- Follow-up Reminders widget (only visible if reminders exist) -->
+            <materialDesign:Card Margin="0,0,0,20" Padding="16" UniformCornerRadius="8"
+                                 Visibility="{Binding HasFollowUpReminders, Converter={StaticResource BoolToVisibility}}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                        <materialDesign:PackIcon Kind="CalendarAlert" Width="20" Height="20" Foreground="#F44336" VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBlock Text="{DynamicResource Dash_FollowUpReminders}" FontSize="14" FontWeight="Bold" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <DataGrid ItemsSource="{Binding FollowUpReminders}" AutoGenerateColumns="False"
+                              CanUserAddRows="False" IsReadOnly="True"
+                              materialDesign:DataGridAssist.CellPadding="8 4"
+                              HeadersVisibility="Column">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{DynamicResource Dash_ColCustomer}" Binding="{Binding FullName}" Width="*" />
+                            <DataGridTemplateColumn Header="{DynamicResource Dash_ColNextFollowUp}" Width="120">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding NextFollowUpDate, StringFormat=yyyy-MM-dd}"
+                                                   Foreground="#F44336" FontWeight="SemiBold" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{DynamicResource Dash_ColStage}" Width="100">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding FollowUpStage, Converter={StaticResource EnumToArabic}}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="{DynamicResource Dash_ColNotes}" Binding="{Binding Notes}" Width="2*" />
+                            <DataGridTemplateColumn Header="{DynamicResource Dash_ColActions}" Width="80">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="{DynamicResource Btn_Details}"
+                                                Command="{Binding DataContext.GoToCustomerCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}"
+                                                Style="{StaticResource MaterialDesignFlatButton}"
+                                                Foreground="#FF6B00" Height="24" Padding="4,0" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <!-- Bottom section: Recent + Top Customers -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="300" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Recent documents -->
+                <materialDesign:Card Grid.Column="0" Margin="0,0,12,0" Padding="16" UniformCornerRadius="8">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Dash_RecentDocs}" FontSize="14" FontWeight="Bold" Margin="0,0,0,12" />
+                        <DataGrid ItemsSource="{Binding RecentDocuments}" AutoGenerateColumns="False"
+                                  CanUserAddRows="False" IsReadOnly="True"
+                                  materialDesign:DataGridAssist.CellPadding="8 4"
+                                  HeadersVisibility="Column">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{DynamicResource Dash_ColNumber}" Binding="{Binding DocumentNumber}" Width="*" />
+                                <DataGridTextColumn Header="{DynamicResource Dash_ColCustomer}" Binding="{Binding CustomerName}" Width="*" />
+                                <DataGridTextColumn Header="{DynamicResource Dash_ColType}" Binding="{Binding TypeLabel}" Width="80" />
+                                <DataGridTextColumn Header="{DynamicResource Dash_ColStatus}" Binding="{Binding StatusLabel}" Width="80" />
+                                <DataGridTextColumn Header="{DynamicResource Dash_ColTotal}" Binding="{Binding GrandTotal, StringFormat=N2}" Width="100" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <!-- Top customers -->
+                <materialDesign:Card Grid.Column="1" Padding="16" UniformCornerRadius="8">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource Dash_TopCustomers}" FontSize="14" FontWeight="Bold" Margin="0,0,0,12" />
+                        <ItemsControl ItemsSource="{Binding TopCustomers}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="#EEEEEE" BorderThickness="0,0,0,1" Padding="0,8">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                                            <TextBlock Grid.Column="1" FontSize="11" Foreground="#FF6B00" FontWeight="Bold">
+                                                <Run Text="{Binding TotalAmount, StringFormat=N2}" />
+                                            </TextBlock>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </materialDesign:Card>
+            </Grid>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

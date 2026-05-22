@@ -1,0 +1,58 @@
+# Build outputs
+bin/
+obj/
+publish/
+Release/
+Debug/
+
+# Visual Studio / VS Code / Rider
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Local database / runtime data
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Backups / delivery / generated exports
+_backup_*/
+backup/
+FornixxCRM_Delivery/
+FornixxCRM_Delivery.zip
+FornixxCRM_TestPdfs/
+sample_exports/
+
+# Temporary test files
+TestPdfGeneration.cs
+TestPdfGeneration.csproj
+GeneratePdf.cs
+GeneratePdf.csproj
+*.tmp
+*.bak
+
+# NuGet
+*.nupkg
+packages/
+
+# Publish artifacts
+*.pdb
+*.ilk
+
+# User secrets / local config
+secrets.json
+appsettings.Development.json
