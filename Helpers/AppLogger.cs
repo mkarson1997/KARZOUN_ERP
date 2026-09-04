@@ -1,10 +1,8 @@
-namespace FornixxCRM.Helpers;
+namespace KarzounERP.Helpers;
 
 public static class AppLogger
 {
-    private static readonly string LogDir = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-        "FornixxCRM", "logs");
+    private static readonly string LogDir = AppPaths.LogsDirectory;
 
     private static readonly string LogFile = Path.Combine(LogDir, "app.log");
 
@@ -39,4 +37,28 @@ public static class AppLogger
     }
 
     public static void Info(string message) => LogInfo(message);
+
+    public static void LogCrash(string context, Exception ex)
+    {
+        try
+        {
+            Directory.CreateDirectory(LogDir);
+            var crashFile = Path.Combine(LogDir, $"crash_{DateTime.Now:yyyyMMdd_HHmmss}.txt");
+            var lines = new System.Text.StringBuilder();
+            lines.AppendLine($"Timestamp: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+            lines.AppendLine($"Context: {context}");
+            lines.AppendLine($"Exception: {ex.GetType().FullName}");
+            lines.AppendLine($"Message: {ex.Message}");
+            if (ex.InnerException != null)
+            {
+                lines.AppendLine($"Inner Exception: {ex.InnerException.GetType().FullName}");
+                lines.AppendLine($"Inner Message: {ex.InnerException.Message}");
+            }
+            lines.AppendLine("Stack Trace:");
+            lines.AppendLine(ex.StackTrace);
+            File.WriteAllText(crashFile, lines.ToString());
+            LogError($"[Crash] {context}", ex);
+        }
+        catch { }
+    }
 }

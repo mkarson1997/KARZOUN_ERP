@@ -1,17 +1,18 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using FornixxCRM.Helpers;
-using FornixxCRM.Models;
-using FornixxCRM.Services.Interfaces;
-using FornixxCRM.ViewModels.Base;
+using KarzounERP.Helpers;
+using KarzounERP.Models;
+using KarzounERP.Services.Interfaces;
+using KarzounERP.ViewModels.Base;
 
-namespace FornixxCRM.ViewModels;
+namespace KarzounERP.ViewModels;
 
 public partial class MainViewModel : BaseViewModel
 {
     private readonly NavigationService _navigationService;
     private readonly AppSession _session;
     private readonly ICompanyService _companyService;
+    private readonly INotificationService _notificationService;
 
     [ObservableProperty]
     private object? _currentViewModel;
@@ -25,19 +26,90 @@ public partial class MainViewModel : BaseViewModel
     [ObservableProperty]
     private Company? _selectedCompany;
 
+    [ObservableProperty] private string _notificationMessage = string.Empty;
+    [ObservableProperty] private bool _isNotificationVisible;
+    [ObservableProperty] private string _notificationIcon = "Information";
+    [ObservableProperty] private string _notificationColor = "#1976D2";
+
+    private System.Threading.CancellationTokenSource? _notificationCts;
+
     public MainViewModel(NavigationService navigationService, AppSession session,
-        ICompanyService companyService)
+        ICompanyService companyService, INotificationService notificationService)
     {
         _navigationService = navigationService;
         _session = session;
         _companyService = companyService;
+        _notificationService = notificationService;
 
         _navigationService.NavigationRequested += (_, vm) => CurrentViewModel = vm;
-        _session.ActiveCompanyChanged += (_, c) => ActiveCompanyName = c?.Name ?? LocalizationManager.Get("Msg_NoCompany");
+        _session.ActiveCompanyChanged += (_, c) =>
+        {
+            ThemeManager.ApplyTheme(c?.Id ?? 0);
+            ActiveCompanyName = c?.Name ?? LocalizationManager.Get("Msg_NoCompany");
+        };
         // Refresh sidebar dropdown whenever a company is added / edited / deleted
         _session.CompaniesChanged += async (_, _) => await RefreshCompaniesAsync();
 
         LocalizationManager.LanguageChanged += async (_, _) => await OnLanguageChangedAsync();
+
+        _notificationService.NotificationTriggered += (msg, type, duration) =>
+        {
+            System.Windows.Application.Current.Dispatcher.Invoke(() => ShowNotification(msg, type, duration));
+        };
+    }
+
+    private void ShowNotification(string message, NotificationType type, int durationMs)
+    {
+        _notificationCts?.Cancel();
+        _notificationCts = new System.Threading.CancellationTokenSource();
+        var token = _notificationCts.Token;
+
+        NotificationMessage = message;
+        IsNotificationVisible = true;
+
+        switch (type)
+        {
+            case NotificationType.Success:
+                NotificationColor = "#2E7D32"; // green
+                NotificationIcon = "CheckCircle";
+                break;
+            case NotificationType.Error:
+                NotificationColor = "#D32F2F"; // red
+                NotificationIcon = "AlertCircle";
+                break;
+            case NotificationType.Warning:
+                NotificationColor = "#F57C00"; // orange
+                NotificationIcon = "Alert";
+                break;
+            case NotificationType.Info:
+            default:
+                NotificationColor = "#1976D2"; // blue
+                NotificationIcon = "Information";
+                break;
+        }
+
+        Task.Run(async () =>
+        {
+            try
+            {
+                await Task.Delay(durationMs, token);
+                System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                {
+                    if (!token.IsCancellationRequested)
+                    {
+                        IsNotificationVisible = false;
+                    }
+                });
+            }
+            catch (TaskCanceledException) { }
+        });
+    }
+
+    [RelayCommand]
+    private void DismissNotification()
+    {
+        _notificationCts?.Cancel();
+        IsNotificationVisible = false;
     }
 
     private async Task OnLanguageChangedAsync()
@@ -62,7 +134,7 @@ public partial class MainViewModel : BaseViewModel
             var target = Companies.First();
             if (!string.IsNullOrWhiteSpace(target.AppPassword))
             {
-                var prompt = new FornixxCRM.Views.Settings.PasswordPromptWindow(target.AppPassword);
+                var prompt = new KarzounERP.Views.Settings.PasswordPromptWindow(target.AppPassword);
                 prompt.Owner = System.Windows.Application.Current.MainWindow;
                 if (prompt.ShowDialog() != true)
                 {
@@ -96,7 +168,7 @@ public partial class MainViewModel : BaseViewModel
 
         if (!string.IsNullOrWhiteSpace(value.AppPassword))
         {
-            var prompt = new FornixxCRM.Views.Settings.PasswordPromptWindow(value.AppPassword);
+            var prompt = new KarzounERP.Views.Settings.PasswordPromptWindow(value.AppPassword);
             prompt.Owner = System.Windows.Application.Current.MainWindow;
             if (prompt.ShowDialog() != true)
             {
@@ -137,7 +209,13 @@ public partial class MainViewModel : BaseViewModel
     private void NavigateToCompanies() => _navigationService.NavigateTo<CompanyViewModel>();
 
     [RelayCommand]
+    private void NavigateToAppearance() => _navigationService.NavigateTo<AppearanceViewModel>();
+
+    [RelayCommand]
     private void NavigateToSettings() => _navigationService.NavigateTo<SettingsViewModel>();
+
+    [RelayCommand]
+    private void NavigateToLogs() => _navigationService.NavigateTo<LogViewModel>();
 
     public async Task RefreshCompaniesAsync()
     {

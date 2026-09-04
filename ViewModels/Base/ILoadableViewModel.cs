@@ -1,4 +1,4 @@
-namespace FornixxCRM.ViewModels.Base;
+namespace KarzounERP.ViewModels.Base;
 
 public interface ILoadableViewModel
 {

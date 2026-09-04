@@ -1,9 +1,9 @@
-using FornixxCRM.Helpers;
+using KarzounERP.Helpers;
 using System;
 using System.Windows;
 using System.Windows.Input;
 
-namespace FornixxCRM.Views.Settings;
+namespace KarzounERP.Views.Settings;
 
 public partial class PasswordPromptWindow : Window
 {

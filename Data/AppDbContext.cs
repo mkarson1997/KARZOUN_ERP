@@ -1,7 +1,7 @@
-using FornixxCRM.Models;
+using KarzounERP.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace FornixxCRM.Data;
+namespace KarzounERP.Data;
 
 public class AppDbContext : DbContext
 {
@@ -11,6 +11,8 @@ public class AppDbContext : DbContext
     public DbSet<SalesDocument> Documents { get; set; }
     public DbSet<SalesDocumentItem> DocumentItems { get; set; }
     public DbSet<CustomerNote> CustomerNotes { get; set; }
+    public DbSet<CompanyLocalizedSetting> CompanyLocalizedSettings { get; set; }
+    public DbSet<ProductLocalizedText> ProductLocalizedTexts { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -61,6 +63,16 @@ public class AppDbContext : DbContext
             e.Property(p => p.Weight).HasColumnType("decimal(18,4)");
         });
 
+        modelBuilder.Entity<ProductLocalizedText>(e =>
+        {
+            e.HasKey(plt => plt.Id);
+            e.HasOne(plt => plt.Product)
+             .WithMany(p => p.LocalizedTexts)
+             .HasForeignKey(plt => plt.ProductId)
+             .OnDelete(DeleteBehavior.Cascade);
+            e.HasIndex(plt => new { plt.ProductId, plt.LanguageCode }).IsUnique();
+        });
+
         modelBuilder.Entity<SalesDocument>(e =>
         {
             e.HasKey(d => d.Id);
@@ -91,6 +103,16 @@ public class AppDbContext : DbContext
             e.Property(i => i.UnitPrice).HasColumnType("decimal(18,4)");
             e.Property(i => i.Weight).HasColumnType("decimal(18,4)");
             e.Property(i => i.LineTotal).HasColumnType("decimal(18,4)");
+        });
+
+        modelBuilder.Entity<CompanyLocalizedSetting>(e =>
+        {
+            e.HasKey(s => s.Id);
+            e.HasOne(s => s.Company)
+             .WithMany()
+             .HasForeignKey(s => s.CompanyId)
+             .OnDelete(DeleteBehavior.Cascade);
+            e.HasIndex(s => new { s.CompanyId, s.LanguageCode }).IsUnique();
         });
     }
 }

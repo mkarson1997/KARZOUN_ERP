@@ -21,21 +21,41 @@ Thumbs.db
 # Logs
 *.log
 logs/
+Logs/
 
 # Local database / runtime data
 *.db
 *.db-shm
 *.db-wal
+*.db-journal
 *.sqlite
 *.sqlite3
+*.sqlite-shm
+*.sqlite-wal
+
+# Accidental copies of per-user application data
+runtime-data/
+customer-data/
+databases/
+ProductImages/
+BrokenDatabases/
+RestoreSafetyBackups/
 
 # Backups / delivery / generated exports
 _backup_*/
 backup/
-FornixxCRM_Delivery/
-FornixxCRM_Delivery.zip
-FornixxCRM_TestPdfs/
+backups/
+Backups/
+KARZOUN_ERP_Delivery/
+KARZOUN_ERP_Delivery.zip
+KARZOUN_ERP_TestExports/
 sample_exports/
+exports/
+*.pdf
+*.xls
+*.xlsx
+*.csv
+*.tsv
 
 # Temporary test files
 TestPdfGeneration.cs
@@ -44,6 +64,14 @@ GeneratePdf.cs
 GeneratePdf.csproj
 *.tmp
 *.bak
+*.migration.tmp
+do_*.py
+new_import.txt
+replace.ps1
+*_settings.png
+
+# Local source/preview brand packs (only Resources/Brand production assets are tracked)
+BrandAssets/
 
 # NuGet
 *.nupkg
@@ -52,7 +80,22 @@ packages/
 # Publish artifacts
 *.pdb
 *.ilk
+*.exe
+*.dll
+*.msi
+*.msix
+*.appx
+*.zip
+*.7z
+installer/output/
 
 # User secrets / local config
 secrets.json
 appsettings.Development.json
+appsettings.Local.json
+.env
+.env.*
+!.env.example
+*.pem
+*.pfx
+*.snk

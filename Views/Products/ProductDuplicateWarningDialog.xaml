@@ -1,0 +1,39 @@
+﻿<Window x:Class="KarzounERP.Views.Products.ProductDuplicateWarningDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="{DynamicResource Msg_WarningTitle}"
+        Height="260" Width="460"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Icon="/Resources/Brand/AppIcon.ico"
+        Background="{DynamicResource BrandBackground}"
+        FontFamily="{DynamicResource AppFontFamily}"
+        FlowDirection="{DynamicResource AppFlowDirection}">
+
+    <Border CornerRadius="8" Background="{DynamicResource BrandSurface}" BorderBrush="{DynamicResource BrandWarning}" BorderThickness="1.5" Margin="8">
+        <Grid Margin="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16">
+                <materialDesign:PackIcon Kind="Alert" Foreground="{DynamicResource BrandWarning}" Width="24" Height="24" VerticalAlignment="Center" Margin="{DynamicResource AppIconMargin}" />
+                <TextBlock Text="{DynamicResource Msg_WarningTitle}" Style="{StaticResource CardTitleStyle}" VerticalAlignment="Center" />
+            </StackPanel>
+
+            <TextBlock x:Name="MessageText" Grid.Row="1" TextWrapping="Wrap" FontSize="14" Foreground="{DynamicResource BrandTextPrimary}" />
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+                <Button x:Name="EditButton" Content="{DynamicResource Btn_EditProduct}" Click="Edit_Click"
+                        Style="{StaticResource MaterialDesignOutlinedButton}" Margin="0,0,8,0" />
+                <Button x:Name="ContinueButton" Content="{DynamicResource Btn_ContinueAnyway}" Click="Continue_Click"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Background="{DynamicResource AppPrimaryBrush}" BorderBrush="{DynamicResource AppPrimaryBrush}"
+                        Foreground="{DynamicResource AppButtonTextColorBrush}" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

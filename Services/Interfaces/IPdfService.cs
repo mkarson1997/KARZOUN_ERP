@@ -1,6 +1,6 @@
-using FornixxCRM.Models;
+using KarzounERP.Models;
 
-namespace FornixxCRM.Services.Interfaces;
+namespace KarzounERP.Services.Interfaces;
 
 public interface IPdfService
 {

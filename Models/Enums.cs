@@ -1,4 +1,4 @@
-namespace FornixxCRM.Models;
+namespace KarzounERP.Models;
 
 public enum CommercialMindset
 {
@@ -46,5 +46,8 @@ public enum DocumentStatus
     Paid = 4,
     Cancelled = 5,
     PartiallyPaid = 6,
-    Converted = 7
+    Converted = 7,
+    Pending = 8,
+    Unpaid = 9,
+    Quotation = 10
 }

@@ -1,9 +1,9 @@
-using FornixxCRM.Data;
-using FornixxCRM.Models;
-using FornixxCRM.Services.Interfaces;
+using KarzounERP.Data;
+using KarzounERP.Models;
+using KarzounERP.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace FornixxCRM.Services;
+namespace KarzounERP.Services;
 
 public class CustomerService : ICustomerService
 {
@@ -30,7 +30,28 @@ public class CustomerService : ICustomerService
         if (importance.HasValue) query = query.Where(c => c.Importance == importance.Value);
         if (stage.HasValue) query = query.Where(c => c.FollowUpStage == stage.Value);
 
-        return await query.OrderByDescending(c => c.CreatedAt).ToListAsync();
+        var list = await query.ToListAsync();
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var s = search.Trim().ToLowerInvariant();
+            list = list.OrderBy(c =>
+            {
+                if (c.FullName.Equals(s, StringComparison.OrdinalIgnoreCase)) return 0;
+                if (c.FullName.StartsWith(s, StringComparison.OrdinalIgnoreCase)) return 1;
+                if (c.FullName.Contains(s, StringComparison.OrdinalIgnoreCase)) return 2;
+                if (c.CompanyName != null && c.CompanyName.Contains(s, StringComparison.OrdinalIgnoreCase)) return 3;
+                return 4;
+            })
+            .ThenBy(c => c.FullName)
+            .ToList();
+        }
+        else
+        {
+            list = list.OrderBy(c => c.FullName).ToList();
+        }
+
+        return list;
     }
 
     public async Task<Customer?> GetCustomerAsync(int id)

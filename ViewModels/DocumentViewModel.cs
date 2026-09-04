@@ -2,19 +2,20 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 using CommunityToolkit.Mvvm.Input;
 
-using FornixxCRM.Helpers;
+using KarzounERP.Helpers;
 
-using FornixxCRM.Models;
+using KarzounERP.Models;
 
-using FornixxCRM.Services.Interfaces;
+using KarzounERP.Services.Interfaces;
 
-using FornixxCRM.ViewModels.Base;
+using KarzounERP.ViewModels.Base;
 
+using System.ComponentModel;
 using System.Windows;
 
 
 
-namespace FornixxCRM.ViewModels;
+namespace KarzounERP.ViewModels;
 
 
 
@@ -29,6 +30,8 @@ public partial class DocumentViewModel : BaseViewModel, ILoadableViewModel, ILoc
     private readonly AppSession _session;
 
     private readonly NavigationService _navigationService;
+
+    private readonly INotificationService _notificationService;
 
 
 
@@ -45,18 +48,21 @@ public partial class DocumentViewModel : BaseViewModel, ILoadableViewModel, ILoc
     [ObservableProperty] private string _pageTitle = LocalizationManager.Get("DocList_TitleAll");
 
     [ObservableProperty] private int _totalCount;
+    [ObservableProperty] private int _selectedCount;
+    [ObservableProperty] private bool? _areAllDocumentsSelected;
+    private bool _updatingSelection;
 
 
 
     public List<DocumentStatus?> AllStatuses { get; } =
 
-        new List<DocumentStatus?> { null }.Concat(Enum.GetValues<DocumentStatus>().Cast<DocumentStatus?>()).ToList();
+        new List<DocumentStatus?> { null }.Concat(ArabicEnumHelper.AllDocumentStatuses.Cast<DocumentStatus?>()).ToList();
 
 
 
     public DocumentViewModel(IDocumentService documentService, IPdfService pdfService,
 
-        AppSession session, NavigationService navigationService)
+        AppSession session, NavigationService navigationService, INotificationService notificationService)
 
     {
 
@@ -67,6 +73,8 @@ public partial class DocumentViewModel : BaseViewModel, ILoadableViewModel, ILoc
         _session = session;
 
         _navigationService = navigationService;
+
+        _notificationService = notificationService;
 
     }
 
@@ -116,7 +124,9 @@ public partial class DocumentViewModel : BaseViewModel, ILoadableViewModel, ILoc
 
                 _session.ActiveCompanyId, FilterType, FilterStatus, null, FilterFromDate, FilterToDate);
 
+            WireDocumentSelectionNotifications();
             TotalCount = Documents.Count;
+            UpdateSelectionState();
 
         }
 
@@ -129,6 +139,74 @@ public partial class DocumentViewModel : BaseViewModel, ILoadableViewModel, ILoc
     [RelayCommand]
 
     private async Task FilterChangedAsync() => await LoadAsync();
+
+    partial void OnDocumentsChanged(List<SalesDocument> value) => WireDocumentSelectionNotifications();
+
+    partial void OnAreAllDocumentsSelectedChanged(bool? value)
+    {
+        if (_updatingSelection || !value.HasValue) return;
+        foreach (var document in Documents)
+            document.IsSelected = value.Value;
+        UpdateSelectionState();
+    }
+
+    [RelayCommand]
+    private void SelectAll()
+    {
+        foreach (var document in Documents)
+            document.IsSelected = true;
+        UpdateSelectionState();
+    }
+
+    [RelayCommand]
+    private void SelectionChanged() => UpdateSelectionState();
+
+    [RelayCommand]
+    private void ClearSelection()
+    {
+        foreach (var document in Documents)
+            document.IsSelected = false;
+        UpdateSelectionState();
+    }
+
+    [RelayCommand]
+    private async Task DeleteSelectedAsync()
+    {
+        var selected = Documents.Where(d => d.IsSelected).ToList();
+        if (selected.Count == 0) return;
+        var result = MessageBox.Show(
+            string.Format(LocalizationManager.Get("Msg_ConfirmDeleteSelected"), selected.Count),
+            LocalizationManager.Get("Msg_DeleteTitle"), MessageBoxButton.YesNo, MessageBoxImage.Warning);
+        if (result != MessageBoxResult.Yes) return;
+
+        foreach (var document in selected)
+            await _documentService.DeleteDocumentAsync(document.Id);
+        _notificationService.Success(string.Format(LocalizationManager.Get("Msg_SelectedDeleted"), selected.Count));
+        await LoadAsync();
+    }
+
+    private void UpdateSelectionState()
+    {
+        SelectedCount = Documents.Count(d => d.IsSelected);
+        _updatingSelection = true;
+        AreAllDocumentsSelected = SelectedCount == 0 ? false : SelectedCount == Documents.Count ? true : null;
+        _updatingSelection = false;
+    }
+
+    private void WireDocumentSelectionNotifications()
+    {
+        foreach (var document in Documents)
+        {
+            document.PropertyChanged -= DocumentSelectionChanged;
+            document.PropertyChanged += DocumentSelectionChanged;
+        }
+    }
+
+    private void DocumentSelectionChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (!_updatingSelection && e.PropertyName == nameof(SalesDocument.IsSelected))
+            UpdateSelectionState();
+    }
 
     [RelayCommand]
 
@@ -204,6 +282,8 @@ public partial class DocumentViewModel : BaseViewModel, ILoadableViewModel, ILoc
 
             await _documentService.DeleteDocumentAsync(doc.Id);
 
+            _notificationService.Success(string.Format(LocalizationManager.Get("Msg_DocumentDeleted") ?? "Document '{0}' deleted successfully.", doc.DocumentNumber));
+
             await LoadAsync();
 
         }
@@ -235,6 +315,8 @@ public partial class DocumentViewModel : BaseViewModel, ILoadableViewModel, ILoc
             AppLogger.Info($"[PDF EXPORT] Source=List, AppLang={LocalizationManager.Language}, DocLang={full.LanguageCode}, FinalLang={finalLanguage}, DocNo={full.DocumentNumber}");
 
             _pdfService.SaveAndOpenPdf(full, full.Company, full.Customer, finalLanguage);
+
+            _notificationService.Success(LocalizationManager.Get("Msg_PdfExportSuccess") ?? "PDF exported successfully.");
 
         }
 
@@ -284,11 +366,7 @@ public partial class DocumentViewModel : BaseViewModel, ILoadableViewModel, ILoc
 
                 await LoadAsync();
 
-                MessageBox.Show(
-
-                    string.Format(LocalizationManager.Get("Msg_InvoiceCreated"), invoice.DocumentNumber),
-
-                    LocalizationManager.Get("Msg_Success"), MessageBoxButton.OK, MessageBoxImage.Information);
+                _notificationService.Success(string.Format(LocalizationManager.Get("Msg_InvoiceCreated") ?? "Invoice '{0}' created successfully.", invoice.DocumentNumber));
 
             }
 
@@ -318,11 +396,7 @@ public partial class DocumentViewModel : BaseViewModel, ILoadableViewModel, ILoc
 
             await LoadAsync();
 
-            MessageBox.Show(
-
-                string.Format(LocalizationManager.Get("Msg_DocumentDuplicated"), dup.DocumentNumber),
-
-                LocalizationManager.Get("Msg_Success"), MessageBoxButton.OK, MessageBoxImage.Information);
+            _notificationService.Success(string.Format(LocalizationManager.Get("Msg_DocumentDuplicated") ?? "Document '{0}' duplicated.", dup.DocumentNumber));
 
         }
 

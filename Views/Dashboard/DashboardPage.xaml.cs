@@ -1,7 +1,7 @@
-using FornixxCRM.ViewModels;
+using KarzounERP.ViewModels;
 using System.Windows.Controls;
 
-namespace FornixxCRM.Views.Dashboard;
+namespace KarzounERP.Views.Dashboard;
 
 public partial class DashboardPage : UserControl
 {

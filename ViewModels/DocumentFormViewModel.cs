@@ -4,13 +4,13 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 using CommunityToolkit.Mvvm.Input;
 
-using FornixxCRM.Helpers;
+using KarzounERP.Helpers;
 
-using FornixxCRM.Models;
+using KarzounERP.Models;
 
-using FornixxCRM.Services.Interfaces;
+using KarzounERP.Services.Interfaces;
 
-using FornixxCRM.ViewModels.Base;
+using KarzounERP.ViewModels.Base;
 
 using Microsoft.Win32;
 
@@ -18,7 +18,7 @@ using System.Windows;
 
 
 
-namespace FornixxCRM.ViewModels;
+namespace KarzounERP.ViewModels;
 
 
 
@@ -41,6 +41,7 @@ public partial class DocumentFormViewModel : BaseViewModel, ILocalizableViewMode
     private int _editingId = 0;
 
     private int _companyId;
+    private List<Product> _products = new();
 
 
 
@@ -99,6 +100,14 @@ public partial class DocumentFormViewModel : BaseViewModel, ILocalizableViewMode
     public decimal RemainingAmount => GrandTotal - PaidAmount;
     public bool ShowPaymentFields => DocumentType == DocumentType.Invoice && (Status == DocumentStatus.Paid || Status == DocumentStatus.PartiallyPaid);
 
+    public string PaidAmountHint => $"{LocalizationManager.Get("DocForm_PaidAmount") ?? "Paid Amount"} ({Currency})";
+
+    partial void OnCurrencyChanged(string value)
+    {
+        OnPropertyChanged(nameof(PaidAmountHint));
+        ApplyProductCatalogToItems();
+    }
+
 
 
     // Notes
@@ -119,7 +128,14 @@ public partial class DocumentFormViewModel : BaseViewModel, ILocalizableViewMode
 
 
 
-    public IEnumerable<DocumentStatus> AllStatuses => ArabicEnumHelper.AllDocumentStatuses;
+    public IEnumerable<DocumentStatus> AllStatuses => DocumentType == DocumentType.Quotation
+        ? ArabicEnumHelper.QuotationDocumentStatuses
+        : ArabicEnumHelper.AllDocumentStatuses;
+
+    public int TotalQuantity => Items.Sum(i => i.Quantity);
+
+    public string TotalWeightDisplay => SalesDocument.FormatWeight(
+        Items.Sum(i => SalesDocument.ToGrams(i.Weight, i.WeightUnit) * i.Quantity));
 
     public IEnumerable<ProductType> AllProductTypes => ArabicEnumHelper.AllProductTypes;
 
@@ -236,8 +252,19 @@ public partial class DocumentFormViewModel : BaseViewModel, ILocalizableViewMode
 
         Items = new ObservableCollection<LineItemViewModel>();
 
-        Items.CollectionChanged += (_, _) => RecalculateTotals();
+        Items.CollectionChanged += (_, e) =>
+        {
+            if (e.NewItems != null)
+            {
+                foreach (LineItemViewModel item in e.NewItems)
+                {
+                    InitializeLineItem(item);
+                }
+            }
+            RecalculateTotals();
+        };
 
+        await LoadProductsAsync();
         Customers = await _customerService.GetCustomersAsync(companyId);
 
     }
@@ -295,9 +322,24 @@ public partial class DocumentFormViewModel : BaseViewModel, ILocalizableViewMode
 
             doc.Items.Select(LineItemViewModel.FromModel));
 
-        foreach (var item in Items) item.Changed += (_, _) => RecalculateTotals();
+        Items.CollectionChanged += (_, e) =>
+        {
+            if (e.NewItems != null)
+            {
+                foreach (LineItemViewModel item in e.NewItems)
+                {
+                    InitializeLineItem(item);
+                }
+            }
+            RecalculateTotals();
+        };
 
-        Items.CollectionChanged += (_, _) => RecalculateTotals();
+        foreach (var item in Items)
+        {
+            InitializeLineItem(item);
+        }
+
+        await LoadProductsAsync();
 
         RecalculateTotals();
 
@@ -332,11 +374,16 @@ public partial class DocumentFormViewModel : BaseViewModel, ILocalizableViewMode
         TaxAmount = TaxEnabled ? afterDiscount * (TaxRate / 100m) : 0;
 
         GrandTotal = afterDiscount + TaxAmount;
+        OnPropertyChanged(nameof(TotalQuantity));
+        OnPropertyChanged(nameof(TotalWeightDisplay));
     }
 
     partial void OnDocumentTypeChanged(DocumentType value)
     {
         OnPropertyChanged(nameof(ShowPaymentFields));
+        OnPropertyChanged(nameof(AllStatuses));
+        if (value == DocumentType.Invoice && Status == DocumentStatus.Quotation)
+            Status = DocumentStatus.Draft;
     }
 
     partial void OnStatusChanged(DocumentStatus value)
@@ -358,6 +405,26 @@ public partial class DocumentFormViewModel : BaseViewModel, ILocalizableViewMode
         OnPropertyChanged(nameof(RemainingAmount));
     }
 
+    private async Task LoadProductsAsync()
+    {
+        _products = await _productService.GetProductsAsync(_companyId, isActive: true);
+        ApplyProductCatalogToItems();
+    }
+
+    private void ApplyProductCatalogToItems()
+    {
+        foreach (var item in Items)
+        {
+            item.SetAvailableProducts(_products, Currency);
+        }
+    }
+
+    private void InitializeLineItem(LineItemViewModel item)
+    {
+        item.Changed += (_, _) => RecalculateTotals();
+        item.SetAvailableProducts(_products, Currency);
+    }
+
 
 
     [RelayCommand]
@@ -368,7 +435,7 @@ public partial class DocumentFormViewModel : BaseViewModel, ILocalizableViewMode
 
         var item = new LineItemViewModel { Quantity = 1, UnitPrice = 0 };
 
-        item.Changed += (_, _) => RecalculateTotals();
+        InitializeLineItem(item);
 
         Items.Add(item);
 

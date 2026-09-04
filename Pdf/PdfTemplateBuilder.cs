@@ -1,9 +1,11 @@
-using FornixxCRM.Models;
+using KarzounERP.Helpers;
+using KarzounERP.Models;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using System.Collections.Generic;
 
-namespace FornixxCRM.Pdf;
+namespace KarzounERP.Pdf;
 
 /// <summary>Clean A4 invoice/quotation layout — LTR page base, separate label/value cells.</summary>
 public sealed class PdfTemplateBuilder
@@ -23,8 +25,11 @@ public sealed class PdfTemplateBuilder
     private readonly string _lang;
     private readonly bool _isAr;
     private readonly string _currency;
+    private readonly CompanyLocalizedSetting? _localizedSetting;
+    private readonly Dictionary<int, string> _localizedProductNames;
+    private readonly float _pdfBaseFontSize;
 
-    public PdfTemplateBuilder(SalesDocument doc, Company company, Customer customer, string language)
+    public PdfTemplateBuilder(SalesDocument doc, Company company, Customer customer, string language, CompanyLocalizedSetting? localizedSetting = null, Dictionary<int, string>? localizedProductNames = null)
     {
         _doc = doc;
         _company = company;
@@ -32,7 +37,12 @@ public sealed class PdfTemplateBuilder
         _lang = language is "ar" or "tr" or "en" ? language : "en";
         _isAr = PdfLabels.IsArabic(_lang);
         _currency = string.IsNullOrWhiteSpace(company.Currency) ? "USD" : company.Currency.Trim();
+        _localizedSetting = localizedSetting;
+        _localizedProductNames = localizedProductNames ?? new Dictionary<int, string>();
+        _pdfBaseFontSize = (float)Math.Clamp(AppearanceSettingsStore.LoadGlobal().PdfFontSize, 6, 16);
     }
+
+    private float F(float sizeAtDefault9) => PdfFontSizeHelper.ScaleFromDefaultNine(sizeAtDefault9, _pdfBaseFontSize);
 
     public void Compose(IDocumentContainer container)
     {
@@ -40,7 +50,7 @@ public sealed class PdfTemplateBuilder
         {
             page.Size(PageSizes.A4);
             page.Margin(PageMargin);
-            page.DefaultTextStyle(s => s.FontFamily(Font).FontSize(9f).FontColor(Dark).DirectionFromLeftToRight());
+            page.DefaultTextStyle(s => s.FontFamily(Font).FontSize(F(9f)).FontColor(Dark).DirectionFromLeftToRight());
             page.Content().Column(ComposeBody);
             page.Footer().Element(ComposeFooter);
         });
@@ -81,22 +91,22 @@ public sealed class PdfTemplateBuilder
         {
             row.RelativeItem().Column(c =>
             {
-                c.Item().Element(x => ValueText(x, _company.Name, 15f, "#FFFFFF", bold: true, rtl: _isAr));
+                c.Item().Element(x => ValueText(x, _company.Name, F(15f), "#FFFFFF", bold: true, rtl: _isAr));
                 if (!string.IsNullOrWhiteSpace(_company.CommercialName) && _company.CommercialName != _company.Name)
-                    c.Item().Element(x => ValueText(x, _company.CommercialName, 9f, "#B0BEC5", rtl: _isAr));
+                    c.Item().Element(x => ValueText(x, _company.CommercialName, F(9f), "#B0BEC5", rtl: _isAr));
                 if (!string.IsNullOrWhiteSpace(_company.Phone))
-                    c.Item().Element(x => LtrValueText(x, _company.Phone, 8.5f, "#CFD8DC"));
+                    c.Item().Element(x => LtrValueText(x, _company.Phone, F(8.5f), "#CFD8DC"));
                 if (!string.IsNullOrWhiteSpace(_company.Email))
-                    c.Item().Element(x => LtrValueText(x, _company.Email, 8.5f, "#CFD8DC"));
+                    c.Item().Element(x => LtrValueText(x, _company.Email, F(8.5f), "#CFD8DC"));
             });
 
             row.ConstantItem(130).AlignRight().Column(c =>
             {
                 if (!string.IsNullOrWhiteSpace(_company.LogoPath) && File.Exists(_company.LogoPath))
-                    c.Item().Height(48).Image(_company.LogoPath).FitHeight();
+                    c.Item().MaxHeight(50).MaxWidth(120).Image(_company.LogoPath).FitArea();
                 else
                     c.Item().Background(Orange).Padding(8)
-                        .Element(x => ValueText(x, DocTitle(), 10f, "#FFFFFF", bold: true, rtl: _isAr));
+                        .Element(x => ValueText(x, DocTitle(), F(10f), "#FFFFFF", bold: true, rtl: _isAr));
             });
         });
 
@@ -108,14 +118,17 @@ public sealed class PdfTemplateBuilder
             // Left Card: Customer Details
             row.RelativeItem(1.2f).Background(LightBg).BorderLeft(3f).BorderColor("#00897B").Padding(10).Column(c =>
             {
-                c.Item().Element(x => LabelText(x, PdfLabels.Get("CustInfo", _lang), 9f, "#00897B", bold: true, rtl: _isAr));
-                c.Item().PaddingTop(2).Element(x => ValueText(x, _customer.FullName, 9.5f, Dark, bold: true, rtl: _isAr));
+                c.Item().Element(x => LabelText(x, PdfLabels.Get("CustInfo", _lang), F(9f), "#00897B", bold: true, rtl: _isAr));
+                c.Item().PaddingTop(2).Element(x => ValueText(x, _customer.FullName, F(9.5f), Dark, bold: true, rtl: _isAr));
                 if (!string.IsNullOrWhiteSpace(_customer.CompanyName))
                     AddInfoRowSmall(c, PdfLabels.Get("Company", _lang), _customer.CompanyName, ltrValue: false);
-                if (!string.IsNullOrWhiteSpace(_customer.Phone))
-                    AddInfoRowSmall(c, PdfLabels.Get("Phone", _lang), _customer.Phone, ltrValue: true);
-                if (!string.IsNullOrWhiteSpace(_customer.Email))
-                    AddInfoRowSmall(c, PdfLabels.Get("Email", _lang), _customer.Email, ltrValue: true);
+                if (_company.ShowCustomerContactInPdf)
+                {
+                    if (!string.IsNullOrWhiteSpace(_customer.Phone))
+                        AddInfoRowSmall(c, PdfLabels.Get("Phone", _lang), _customer.Phone, ltrValue: true);
+                    if (!string.IsNullOrWhiteSpace(_customer.Email))
+                        AddInfoRowSmall(c, PdfLabels.Get("Email", _lang), _customer.Email, ltrValue: true);
+                }
             });
 
             row.ConstantItem(16);
@@ -123,7 +136,7 @@ public sealed class PdfTemplateBuilder
             // Right Card: Document Metadata
             row.RelativeItem(1f).Background(LightBg).BorderLeft(3f).BorderColor(Orange).Padding(10).Column(c =>
             {
-                c.Item().Element(x => LabelText(x, DocTitle(), 9f, Orange, bold: true, rtl: _isAr));
+                c.Item().Element(x => LabelText(x, DocTitle(), F(9f), Orange, bold: true, rtl: _isAr));
                 AddInfoRowSmall(c, PdfLabels.Get("DocNo", _lang), PdfFormatters.FormatDocumentNumber(_doc.DocumentNumber), ltrValue: true);
                 AddInfoRowSmall(c, PdfLabels.Get("Date", _lang), PdfFormatters.FormatDate(_doc.Date, _lang), ltrValue: true);
                 if (_doc.DueDate.HasValue)
@@ -158,14 +171,14 @@ public sealed class PdfTemplateBuilder
             if (_isAr)
             {
                 t.ColumnsDefinition(c => { c.ConstantColumn(120); c.RelativeColumn(); });
-                t.Cell().Padding(1).AlignLeft().Element(c => ltrValue ? LtrValueText(c, val, 8f, Dark, bold: true) : ValueText(c, val, 8f, Dark, bold: true, rtl: true));
-                t.Cell().Padding(1).AlignRight().Element(c => LabelText(c, label, 8f, Gray, rtl: true));
+                t.Cell().Padding(1).AlignLeft().Element(c => ltrValue ? LtrValueText(c, val, F(8f), Dark, bold: true) : ValueText(c, val, F(8f), Dark, bold: true, rtl: true));
+                t.Cell().Padding(1).AlignRight().Element(c => LabelText(c, label, F(8f), Gray, rtl: true));
             }
             else
             {
                 t.ColumnsDefinition(c => { c.RelativeColumn(); c.ConstantColumn(120); });
-                t.Cell().Padding(1).AlignLeft().Element(c => LabelText(c, label, 8f, Gray, rtl: false));
-                t.Cell().Padding(1).AlignRight().Element(c => ltrValue ? LtrValueText(c, val, 8f, Dark, bold: true) : ValueText(c, val, 8f, Dark, bold: true, rtl: false));
+                t.Cell().Padding(1).AlignLeft().Element(c => LabelText(c, label, F(8f), Gray, rtl: false));
+                t.Cell().Padding(1).AlignRight().Element(c => ltrValue ? LtrValueText(c, val, F(8f), Dark, bold: true) : ValueText(c, val, F(8f), Dark, bold: true, rtl: false));
             }
         });
     }
@@ -182,6 +195,10 @@ public sealed class PdfTemplateBuilder
                 c.RelativeColumn(0.6f);
                 c.RelativeColumn(1.4f);
                 c.RelativeColumn(1.5f);
+                if (_company.ShowProductImageInQuotation)
+                {
+                    c.ConstantColumn(50f);
+                }
             });
 
             table.Header(h =>
@@ -192,6 +209,10 @@ public sealed class PdfTemplateBuilder
                 HeaderCell(h, PdfLabels.Get("ColQty", _lang));
                 HeaderCell(h, PdfLabels.Get("ColUnitPrice", _lang));
                 HeaderCell(h, PdfLabels.Get("ColTotal", _lang));
+                if (_company.ShowProductImageInQuotation)
+                {
+                    HeaderCell(h, PdfLabels.Get("ColProductImage", _lang));
+                }
             });
 
             var items = _doc.Items.OrderBy(i => i.SortOrder).ToList();
@@ -199,21 +220,56 @@ public sealed class PdfTemplateBuilder
             {
                 var item = items[i];
                 var bg = i % 2 == 0 ? "#FFFFFF" : "#F8F9FA";
-                DataCell(bg).Element(c => ValueText(c, item.ProductName, 8f, Dark, rtl: _isAr));
-                DataCell(bg).AlignCenter().Element(c => ValueText(c, TypeText(item.ProductType), 8f, Dark, rtl: _isAr));
-                var w = item.Weight.HasValue ? item.Weight.Value.ToString("N2", System.Globalization.CultureInfo.InvariantCulture) : "-";
-                DataCell(bg).AlignCenter().Element(c => LtrValueText(c, w, 8f, Dark));
-                DataCell(bg).AlignCenter().Element(c => LtrValueText(c, item.Quantity.ToString(System.Globalization.CultureInfo.InvariantCulture), 8f, Dark));
-                DataCell(bg).AlignRight().Element(c => LtrValueText(c, PdfFormatters.FormatMoney(item.UnitPrice, _currency), 8f, Dark));
-                DataCell(bg).AlignRight().Element(c => LtrValueText(c, PdfFormatters.FormatMoney(item.LineTotal, _currency), 8f, Dark, bold: true));
+                
+                var displayName = item.ProductId.HasValue && _localizedProductNames.TryGetValue(item.ProductId.Value, out var locName) && !string.IsNullOrWhiteSpace(locName)
+                    ? locName.Trim()
+                    : item.ProductName;
 
-                IContainer DataCell(string bgColor) => table.Cell().Background(bgColor)
+                DataCell(bg).Element(c => {
+                    c.AlignMiddle().Element(x => ValueText(x, displayName, F(8f), Dark, rtl: _isAr));
+                });
+                DataCell(bg).AlignCenter().Element(c => ValueText(c, TypeText(item.ProductType), F(8f), Dark, rtl: _isAr));
+                
+                var w = "-";
+                if (item.Weight.HasValue)
+                {
+                    var numStr = item.Weight.Value.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture);
+                    var unitKey = (item.WeightUnit ?? "kg").ToLower() switch
+                    {
+                        "g" => "Unit_G",
+                        "ton" => "Unit_TON",
+                        _ => "Unit_KG"
+                    };
+                    var unitStr = PdfLabels.Get(unitKey, _lang);
+                    w = $"{numStr} {unitStr}";
+                }
+                DataCell(bg).AlignCenter().Element(c => ValueText(c, w, F(8f), Dark, rtl: _isAr));
+
+                DataCell(bg).AlignCenter().Element(c => LtrValueText(c, item.Quantity.ToString(System.Globalization.CultureInfo.InvariantCulture), F(8f), Dark));
+                DataCell(bg).AlignRight().Element(c => LtrValueText(c, PdfFormatters.FormatMoney(item.UnitPrice, _currency), F(8f), Dark));
+                DataCell(bg).AlignRight().Element(c => LtrValueText(c, PdfFormatters.FormatMoney(item.LineTotal, _currency), F(8f), Dark, bold: true));
+                if (_company.ShowProductImageInQuotation)
+                {
+                    DataCell(bg).AlignCenter().AlignMiddle().Element(c =>
+                    {
+                        if (!string.IsNullOrWhiteSpace(item.ImagePath) && System.IO.File.Exists(item.ImagePath))
+                        {
+                            c.Height(40).Width(40).Image(item.ImagePath).FitArea();
+                        }
+                        else
+                        {
+                            c.Element(x => ValueText(x, "-", F(8f), Dark, rtl: _isAr));
+                        }
+                    });
+                }
+
+                IContainer DataCell(string bgColor) => table.Cell().ShowEntire().Background(bgColor)
                     .BorderBottom(0.3f).BorderColor("#E0E0E0").PaddingVertical(5).PaddingHorizontal(3);
             }
 
             void HeaderCell(TableCellDescriptor h, string text) =>
                 h.Cell().Background("#101D33").Padding(6).AlignCenter()
-                    .Element(c => ValueText(c, text, 8f, "#FFFFFF", bold: true, rtl: _isAr));
+                    .Element(c => ValueText(c, text, F(8f), "#FFFFFF", bold: true, rtl: _isAr));
         });
     }
 
@@ -248,6 +304,8 @@ public sealed class PdfTemplateBuilder
             }
             table.Cell().ColumnSpan(2).PaddingVertical(4).LineHorizontal(1).LineColor("#101D33");
             AddTotalRow(table, PdfLabels.Get("GrandTotal", _lang), PdfFormatters.FormatMoney(_doc.GrandTotal, _currency), bold: true, color: "#101D33");
+            AddTotalRow(table, PdfLabels.Get("TotalQuantity", _lang), _doc.TotalQuantity.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            AddTotalRow(table, PdfLabels.Get("TotalWeight", _lang), _doc.TotalWeightDisplay);
             if (_doc.Type == DocumentType.Invoice)
             {
                 AddTotalRow(table, PdfLabels.Get("Paid", _lang), PdfFormatters.FormatMoney(_doc.PaidAmount, _currency));
@@ -266,7 +324,7 @@ public sealed class PdfTemplateBuilder
         {
             using (var qrGenerator = new QRCoder.QRCodeGenerator())
             {
-                var template = _company.QrCodeTemplate;
+                var template = _localizedSetting?.QrTemplateText ?? _company.QrCodeTemplate;
                 string qrText;
                 if (string.IsNullOrWhiteSpace(template))
                 {
@@ -331,24 +389,24 @@ public sealed class PdfTemplateBuilder
         {
             row.RelativeItem().Column(c =>
             {
-                c.Item().Element(x => ValueText(x, _company.Name, 14f, Orange, bold: true, rtl: _isAr));
+                c.Item().Element(x => ValueText(x, _company.Name, F(14f), Orange, bold: true, rtl: _isAr));
                 if (!string.IsNullOrWhiteSpace(_company.CommercialName) && _company.CommercialName != _company.Name)
-                    c.Item().Element(x => ValueText(x, _company.CommercialName, 9f, Gray, rtl: _isAr));
+                    c.Item().Element(x => ValueText(x, _company.CommercialName, F(9f), Gray, rtl: _isAr));
                 if (!string.IsNullOrWhiteSpace(_company.Phone))
-                    c.Item().Element(x => LtrValueText(x, _company.Phone, 8.5f, Gray));
+                    c.Item().Element(x => LtrValueText(x, _company.Phone, F(8.5f), Gray));
                 if (!string.IsNullOrWhiteSpace(_company.Email))
-                    c.Item().Element(x => LtrValueText(x, _company.Email, 8.5f, Gray));
+                    c.Item().Element(x => LtrValueText(x, _company.Email, F(8.5f), Gray));
                 if (!string.IsNullOrWhiteSpace(_company.Address))
-                    c.Item().Element(x => ValueText(x, _company.Address, 8.5f, Gray, rtl: _isAr));
+                    c.Item().Element(x => ValueText(x, _company.Address, F(8.5f), Gray, rtl: _isAr));
             });
 
             row.ConstantItem(130).AlignRight().Column(c =>
             {
                 if (!string.IsNullOrWhiteSpace(_company.LogoPath) && File.Exists(_company.LogoPath))
-                    c.Item().Height(48).Image(_company.LogoPath).FitHeight();
+                    c.Item().MaxHeight(50).MaxWidth(120).Image(_company.LogoPath).FitArea();
                 else
                     c.Item().Background(Orange).Padding(8)
-                        .Element(x => ValueText(x, DocTitle(), 10f, "#FFFFFF", bold: true, rtl: _isAr));
+                        .Element(x => ValueText(x, DocTitle(), F(10f), "#FFFFFF", bold: true, rtl: _isAr));
             });
         });
         col.Item().PaddingTop(6).LineHorizontal(1).LineColor(Orange);
@@ -358,7 +416,7 @@ public sealed class PdfTemplateBuilder
     {
         col.Item().Row(row =>
         {
-            row.RelativeItem().Element(x => ValueText(x, DocTitle(), 14f, Dark, bold: true, rtl: _isAr));
+            row.RelativeItem().Element(x => ValueText(x, DocTitle(), F(14f), Dark, bold: true, rtl: _isAr));
             row.ConstantItem(280).Column(c =>
             {
                 AddInfoRow(c, PdfLabels.Get("DocNo", _lang),
@@ -380,14 +438,17 @@ public sealed class PdfTemplateBuilder
     {
         col.Item().Background(LightBg).Border(0.5f).BorderColor(Border).Padding(10).Column(c =>
         {
-            c.Item().Element(x => LabelText(x, PdfLabels.Get("CustInfo", _lang), 10f, Orange, bold: true, rtl: _isAr));
-            c.Item().PaddingTop(4).Element(x => ValueText(x, _customer.FullName, 10f, Dark, bold: true, rtl: _isAr));
+            c.Item().Element(x => LabelText(x, PdfLabels.Get("CustInfo", _lang), F(10f), Orange, bold: true, rtl: _isAr));
+            c.Item().PaddingTop(4).Element(x => ValueText(x, _customer.FullName, F(10f), Dark, bold: true, rtl: _isAr));
             if (!string.IsNullOrWhiteSpace(_customer.CompanyName))
                 AddInfoRow(c, PdfLabels.Get("Company", _lang), _customer.CompanyName, ltrValue: false);
-            if (!string.IsNullOrWhiteSpace(_customer.Phone))
-                AddInfoRow(c, PdfLabels.Get("Phone", _lang), _customer.Phone, ltrValue: true);
-            if (!string.IsNullOrWhiteSpace(_customer.Email))
-                AddInfoRow(c, PdfLabels.Get("Email", _lang), _customer.Email, ltrValue: true);
+            if (_company.ShowCustomerContactInPdf)
+            {
+                if (!string.IsNullOrWhiteSpace(_customer.Phone))
+                    AddInfoRow(c, PdfLabels.Get("Phone", _lang), _customer.Phone, ltrValue: true);
+                if (!string.IsNullOrWhiteSpace(_customer.Email))
+                    AddInfoRow(c, PdfLabels.Get("Email", _lang), _customer.Email, ltrValue: true);
+            }
             if (!string.IsNullOrWhiteSpace(_customer.Country))
                 AddInfoRow(c, PdfLabels.Get("Country", _lang), _customer.Country, ltrValue: false);
         });
@@ -405,6 +466,10 @@ public sealed class PdfTemplateBuilder
                 c.RelativeColumn(0.6f);
                 c.RelativeColumn(1.4f);
                 c.RelativeColumn(1.5f);
+                if (_company.ShowProductImageInQuotation)
+                {
+                    c.ConstantColumn(50f);
+                }
             });
 
             table.Header(h =>
@@ -415,6 +480,10 @@ public sealed class PdfTemplateBuilder
                 HeaderCell(h, PdfLabels.Get("ColQty", _lang));
                 HeaderCell(h, PdfLabels.Get("ColUnitPrice", _lang));
                 HeaderCell(h, PdfLabels.Get("ColTotal", _lang));
+                if (_company.ShowProductImageInQuotation)
+                {
+                    HeaderCell(h, PdfLabels.Get("ColProductImage", _lang));
+                }
             });
 
             var items = _doc.Items.OrderBy(i => i.SortOrder).ToList();
@@ -422,21 +491,56 @@ public sealed class PdfTemplateBuilder
             {
                 var item = items[i];
                 var bg = i % 2 == 0 ? "#FFFFFF" : "#FAFAFA";
-                DataCell(bg).Element(c => ValueText(c, item.ProductName, 8f, Dark, rtl: _isAr));
-                DataCell(bg).AlignCenter().Element(c => ValueText(c, TypeText(item.ProductType), 8f, Dark, rtl: _isAr));
-                var w = item.Weight.HasValue ? item.Weight.Value.ToString("N2", System.Globalization.CultureInfo.InvariantCulture) : "-";
-                DataCell(bg).AlignCenter().Element(c => LtrValueText(c, w, 8f, Dark));
-                DataCell(bg).AlignCenter().Element(c => LtrValueText(c, item.Quantity.ToString(System.Globalization.CultureInfo.InvariantCulture), 8f, Dark));
-                DataCell(bg).AlignRight().Element(c => LtrValueText(c, PdfFormatters.FormatMoney(item.UnitPrice, _currency), 8f, Dark));
-                DataCell(bg).AlignRight().Element(c => LtrValueText(c, PdfFormatters.FormatMoney(item.LineTotal, _currency), 8f, Dark, bold: true));
+                
+                var displayName = item.ProductId.HasValue && _localizedProductNames.TryGetValue(item.ProductId.Value, out var locName) && !string.IsNullOrWhiteSpace(locName)
+                    ? locName.Trim()
+                    : item.ProductName;
 
-                IContainer DataCell(string bgColor) => table.Cell().Background(bgColor)
+                DataCell(bg).Element(c => {
+                    c.AlignMiddle().Element(x => ValueText(x, displayName, F(8f), Dark, rtl: _isAr));
+                });
+                DataCell(bg).AlignCenter().Element(c => ValueText(c, TypeText(item.ProductType), F(8f), Dark, rtl: _isAr));
+                
+                var w = "-";
+                if (item.Weight.HasValue)
+                {
+                    var numStr = item.Weight.Value.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture);
+                    var unitKey = (item.WeightUnit ?? "kg").ToLower() switch
+                    {
+                        "g" => "Unit_G",
+                        "ton" => "Unit_TON",
+                        _ => "Unit_KG"
+                    };
+                    var unitStr = PdfLabels.Get(unitKey, _lang);
+                    w = $"{numStr} {unitStr}";
+                }
+                DataCell(bg).AlignCenter().Element(c => ValueText(c, w, F(8f), Dark, rtl: _isAr));
+
+                DataCell(bg).AlignCenter().Element(c => LtrValueText(c, item.Quantity.ToString(System.Globalization.CultureInfo.InvariantCulture), F(8f), Dark));
+                DataCell(bg).AlignRight().Element(c => LtrValueText(c, PdfFormatters.FormatMoney(item.UnitPrice, _currency), F(8f), Dark));
+                DataCell(bg).AlignRight().Element(c => LtrValueText(c, PdfFormatters.FormatMoney(item.LineTotal, _currency), F(8f), Dark, bold: true));
+                if (_company.ShowProductImageInQuotation)
+                {
+                    DataCell(bg).AlignCenter().AlignMiddle().Element(c =>
+                    {
+                        if (!string.IsNullOrWhiteSpace(item.ImagePath) && System.IO.File.Exists(item.ImagePath))
+                        {
+                            c.Height(40).Width(40).Image(item.ImagePath).FitArea();
+                        }
+                        else
+                        {
+                            c.Element(x => ValueText(x, "-", F(8f), Dark, rtl: _isAr));
+                        }
+                    });
+                }
+
+                IContainer DataCell(string bgColor) => table.Cell().ShowEntire().Background(bgColor)
                     .BorderBottom(0.3f).BorderColor("#EEEEEE").PaddingVertical(4).PaddingHorizontal(3);
             }
 
             void HeaderCell(TableCellDescriptor h, string text) =>
                 h.Cell().Background(Orange).Padding(5).AlignCenter()
-                    .Element(c => ValueText(c, text, 8f, "#FFFFFF", bold: true, rtl: _isAr));
+                    .Element(c => ValueText(c, text, F(8f), "#FFFFFF", bold: true, rtl: _isAr));
         });
     }
 
@@ -471,6 +575,8 @@ public sealed class PdfTemplateBuilder
             }
             table.Cell().ColumnSpan(2).PaddingVertical(4).LineHorizontal(1).LineColor(Orange);
             AddTotalRow(table, PdfLabels.Get("GrandTotal", _lang), PdfFormatters.FormatMoney(_doc.GrandTotal, _currency), bold: true, color: Orange);
+            AddTotalRow(table, PdfLabels.Get("TotalQuantity", _lang), _doc.TotalQuantity.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            AddTotalRow(table, PdfLabels.Get("TotalWeight", _lang), _doc.TotalWeightDisplay);
             if (_doc.Type == DocumentType.Invoice)
             {
                 AddTotalRow(table, PdfLabels.Get("Paid", _lang), PdfFormatters.FormatMoney(_doc.PaidAmount, _currency));
@@ -480,44 +586,100 @@ public sealed class PdfTemplateBuilder
         });
     }
 
+    private bool IsArabicDefaultNote(string? text)
+    {
+        if (string.IsNullOrWhiteSpace(text)) return false;
+        var t = text.Trim();
+        return t == "شكراً لتعاملكم معنا." || t == "هذا العرض صالح لمدة 30 يوماً من تاريخه.";
+    }
+
+    private bool IsArabicDefaultPayment(string? text)
+    {
+        if (string.IsNullOrWhiteSpace(text)) return false;
+        var t = text.Trim();
+        return t == "بيانات الدفع الافتراضية";
+    }
+
     private void ComposeNotes(ColumnDescriptor col)
     {
-        if (!string.IsNullOrWhiteSpace(_doc.Notes))
+        var notes = _doc.Notes;
+        if (_lang != "ar" && IsArabicDefaultNote(notes))
+        {
+            notes = _doc.Type == DocumentType.Invoice ? _localizedSetting?.DefaultInvoiceNotes : _localizedSetting?.DefaultQuotationNotes;
+        }
+        if (string.IsNullOrWhiteSpace(notes))
+        {
+            notes = _doc.Type == DocumentType.Invoice ? _localizedSetting?.DefaultInvoiceNotes : _localizedSetting?.DefaultQuotationNotes;
+        }
+
+        if (!string.IsNullOrWhiteSpace(notes))
         {
             col.Item().PaddingTop(4).Column(c =>
             {
-                c.Item().Element(x => LabelText(x, PdfLabels.Get("Notes", _lang), 9f, Gray, bold: true, rtl: _isAr));
-                c.Item().PaddingTop(2).Element(x => ValueText(x, _doc.Notes, 8.5f, Dark, rtl: _isAr));
+                c.Item().Element(x => LabelText(x, PdfLabels.Get("Notes", _lang), F(9f), Gray, bold: true, rtl: _isAr));
+                c.Item().PaddingTop(2).Element(x => ValueText(x, notes, F(8.5f), Dark, rtl: _isAr));
             });
         }
-        if (!string.IsNullOrWhiteSpace(_doc.PaymentAddress))
+
+        var paymentInfo = _doc.PaymentAddress;
+        if (_lang != "ar" && IsArabicDefaultPayment(paymentInfo))
+        {
+            paymentInfo = _localizedSetting?.DefaultPaymentDetails;
+        }
+        if (string.IsNullOrWhiteSpace(paymentInfo))
+        {
+            paymentInfo = _localizedSetting?.DefaultPaymentDetails;
+        }
+
+        if (!string.IsNullOrWhiteSpace(paymentInfo))
         {
             col.Item().PaddingTop(6).Column(c =>
             {
-                c.Item().Element(x => LabelText(x, PdfLabels.Get("PaymentInfo", _lang), 9f, Gray, bold: true, rtl: _isAr));
-                c.Item().PaddingTop(2).Element(x => ValueText(x, _doc.PaymentAddress, 8.5f, Dark, rtl: _isAr));
+                c.Item().Element(x => LabelText(x, PdfLabels.Get("PaymentInfo", _lang), F(9f), Gray, bold: true, rtl: _isAr));
+                c.Item().PaddingTop(2).Element(x => ValueText(x, paymentInfo, F(8.5f), Dark, rtl: _isAr));
             });
         }
+
         if (!string.IsNullOrWhiteSpace(_doc.ShippingNote))
         {
             col.Item().PaddingTop(6).Background("#FFF8E1").Padding(6)
-                .Element(x => ValueText(x, $"{PdfLabels.Get("ShippingNote", _lang)}: {_doc.ShippingNote}", 8f, "#E65100", rtl: _isAr));
+                .Element(x => ValueText(x, $"{PdfLabels.Get("ShippingNote", _lang)}: {_doc.ShippingNote}", F(8f), "#E65100", rtl: _isAr));
         }
+    }
+
+    private bool IsArabicDefaultFooter(string? text)
+    {
+        if (string.IsNullOrWhiteSpace(text)) return false;
+        var t = text.Trim();
+        return t == "المبلغ لا يشمل الشحن إلا إذا تم ذكر ذلك صراحة.";
     }
 
     private void ComposeFooter(IContainer container)
     {
-        var footer = !string.IsNullOrWhiteSpace(_doc.FooterText) ? _doc.FooterText : PdfLabels.Get("FooterDefault", _lang);
+        var footer = _doc.FooterText;
+        if (_lang != "ar" && IsArabicDefaultFooter(footer))
+        {
+            footer = _localizedSetting?.LegalFooterText;
+        }
+        if (string.IsNullOrWhiteSpace(footer))
+        {
+            footer = _localizedSetting?.LegalFooterText;
+        }
+        if (string.IsNullOrWhiteSpace(footer))
+        {
+            footer = PdfLabels.Get("FooterDefault", _lang);
+        }
+
         container.PaddingTop(4).Row(row =>
         {
             if (_isAr)
             {
-                row.RelativeItem().AlignRight().Element(c => LabelText(c, footer, 7.5f, "#777777"));
+                row.RelativeItem().AlignRight().Element(c => LabelText(c, footer, F(7.5f), "#777777"));
                 row.ConstantItem(120).AlignLeft().Element(c => PageNumberText(c));
             }
             else
             {
-                row.RelativeItem().Element(c => ValueText(c, footer, 7.5f, "#777777", rtl: false));
+                row.RelativeItem().Element(c => ValueText(c, footer, F(7.5f), "#777777", rtl: false));
                 row.ConstantItem(100).AlignRight().Element(c => PageNumberText(c));
             }
         });
@@ -531,14 +693,14 @@ public sealed class PdfTemplateBuilder
             if (_isAr)
             {
                 t.ColumnsDefinition(c => { c.ConstantColumn(ValueColWidth); c.RelativeColumn(); });
-                t.Cell().Padding(2).AlignLeft().Element(c => ltrValue ? LtrValueText(c, val, 9f, Dark, bold: true) : ValueText(c, val, 9f, Dark, bold: true, rtl: true));
-                t.Cell().Padding(2).AlignRight().Element(c => LabelText(c, label, 9f, Gray, rtl: true));
+                t.Cell().Padding(2).AlignLeft().Element(c => ltrValue ? LtrValueText(c, val, F(9f), Dark, bold: true) : ValueText(c, val, F(9f), Dark, bold: true, rtl: true));
+                t.Cell().Padding(2).AlignRight().Element(c => LabelText(c, label, F(9f), Gray, rtl: true));
             }
             else
             {
                 t.ColumnsDefinition(c => { c.RelativeColumn(); c.ConstantColumn(ValueColWidth); });
-                t.Cell().Padding(2).AlignLeft().Element(c => LabelText(c, label, 9f, Gray, rtl: false));
-                t.Cell().Padding(2).AlignRight().Element(c => ltrValue ? LtrValueText(c, val, 9f, Dark, bold: true) : ValueText(c, val, 9f, Dark, bold: true, rtl: false));
+                t.Cell().Padding(2).AlignLeft().Element(c => LabelText(c, label, F(9f), Gray, rtl: false));
+                t.Cell().Padding(2).AlignRight().Element(c => ltrValue ? LtrValueText(c, val, F(9f), Dark, bold: true) : ValueText(c, val, F(9f), Dark, bold: true, rtl: false));
             }
         });
     }
@@ -547,13 +709,13 @@ public sealed class PdfTemplateBuilder
     {
         if (_isAr)
         {
-            table.Cell().PaddingVertical(3).AlignLeft().Element(c => LtrValueText(c, value, 9.5f, color, bold));
-            table.Cell().PaddingVertical(3).AlignRight().Element(c => LabelText(c, label, 9.5f, color, bold, rtl: true));
+            table.Cell().PaddingVertical(3).AlignLeft().Element(c => LtrValueText(c, value, F(9.5f), color, bold));
+            table.Cell().PaddingVertical(3).AlignRight().Element(c => LabelText(c, label, F(9.5f), color, bold, rtl: true));
         }
         else
         {
-            table.Cell().PaddingVertical(3).AlignLeft().Element(c => LabelText(c, label, 9.5f, color, bold, rtl: false));
-            table.Cell().PaddingVertical(3).AlignRight().Element(c => LtrValueText(c, value, 9.5f, color, bold));
+            table.Cell().PaddingVertical(3).AlignLeft().Element(c => LabelText(c, label, F(9.5f), color, bold, rtl: false));
+            table.Cell().PaddingVertical(3).AlignRight().Element(c => LtrValueText(c, value, F(9.5f), color, bold));
         }
     }
 
@@ -561,7 +723,7 @@ public sealed class PdfTemplateBuilder
     {
         container.Text(t =>
         {
-            t.DefaultTextStyle(s => s.FontFamily(Font).FontSize(7.5f).FontColor("#777777").DirectionFromLeftToRight());
+            t.DefaultTextStyle(s => s.FontFamily(Font).FontSize(F(7.5f)).FontColor("#777777").DirectionFromLeftToRight());
             t.Span(PdfLabels.Get("Page", _lang) + " ");
             t.CurrentPageNumber();
             t.Span(" / ");
@@ -618,12 +780,15 @@ public sealed class PdfTemplateBuilder
     {
         DocumentStatus.Draft => PdfLabels.Get("StDraft", _lang),
         DocumentStatus.Sent => PdfLabels.Get("StSent", _lang),
+        DocumentStatus.Pending => PdfLabels.Get("StPending", _lang),
         DocumentStatus.Accepted => PdfLabels.Get("StAccepted", _lang),
         DocumentStatus.Rejected => PdfLabels.Get("StRejected", _lang),
         DocumentStatus.Paid => PdfLabels.Get("StPaid", _lang),
+        DocumentStatus.Unpaid => PdfLabels.Get("StUnpaid", _lang),
         DocumentStatus.Cancelled => PdfLabels.Get("StCancelled", _lang),
         DocumentStatus.PartiallyPaid => PdfLabels.Get("StPartial", _lang),
         DocumentStatus.Converted => PdfLabels.Get("StConverted", _lang),
+        DocumentStatus.Quotation => PdfLabels.Get("StQuotation", _lang),
         _ => s.ToString()
     };
 

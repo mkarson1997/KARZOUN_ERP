@@ -1,11 +1,11 @@
-using FornixxCRM.Data;
-using FornixxCRM.Helpers;
-using FornixxCRM.Models;
-using FornixxCRM.Reports;
-using FornixxCRM.Services.Interfaces;
+using KarzounERP.Data;
+using KarzounERP.Helpers;
+using KarzounERP.Models;
+using KarzounERP.Reports;
+using KarzounERP.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace FornixxCRM.Services;
+namespace KarzounERP.Services;
 
 public class DocumentService : IDocumentService
 {
@@ -24,7 +24,7 @@ public class DocumentService : IDocumentService
         if (customerId.HasValue) query = query.Where(d => d.CustomerId == customerId.Value);
         if (fromDate.HasValue) query = query.Where(d => d.Date >= fromDate.Value);
         if (toDate.HasValue) query = query.Where(d => d.Date <= toDate.Value);
-        return await query.OrderByDescending(d => d.CreatedAt).ToListAsync();
+        return await query.OrderByDescending(d => d.Date).ThenByDescending(d => d.DocumentNumber).ToListAsync();
     }
 
     public async Task<SalesDocument?> GetDocumentAsync(int id)
@@ -94,8 +94,9 @@ public class DocumentService : IDocumentService
         _context.Documents.Update(q);
         var items = q.Items.Select(i => new SalesDocumentItem
         {
-            ProductName = i.ProductName, ProductType = i.ProductType, Description = i.Description,
-            Weight = i.Weight, UnitPrice = i.UnitPrice, Quantity = i.Quantity, LineTotal = i.LineTotal
+            ProductId = i.ProductId, ProductName = i.ProductName, ProductType = i.ProductType, Description = i.Description,
+            Weight = i.Weight, WeightUnit = i.WeightUnit, UnitPrice = i.UnitPrice, Quantity = i.Quantity, LineTotal = i.LineTotal,
+            ImagePath = i.ImagePath
         }).ToList();
         return await CreateDocumentAsync(invoice, items);
     }
@@ -118,8 +119,9 @@ public class DocumentService : IDocumentService
         };
         var items = orig.Items.Select(i => new SalesDocumentItem
         {
-            ProductName = i.ProductName, ProductType = i.ProductType, Description = i.Description,
-            Weight = i.Weight, UnitPrice = i.UnitPrice, Quantity = i.Quantity, LineTotal = i.LineTotal
+            ProductId = i.ProductId, ProductName = i.ProductName, ProductType = i.ProductType, Description = i.Description,
+            Weight = i.Weight, WeightUnit = i.WeightUnit, UnitPrice = i.UnitPrice, Quantity = i.Quantity, LineTotal = i.LineTotal,
+            ImagePath = i.ImagePath
         }).ToList();
         return await CreateDocumentAsync(dup, items);
     }

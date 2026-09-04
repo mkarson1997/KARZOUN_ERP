@@ -2,7 +2,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace FornixxCRM.Helpers;
+namespace KarzounERP.Helpers;
 
 public static class PasswordHasher
 {

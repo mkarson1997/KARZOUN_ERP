@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace FornixxCRM.Models;
+namespace KarzounERP.Models;
 
 public class CustomerNote
 {

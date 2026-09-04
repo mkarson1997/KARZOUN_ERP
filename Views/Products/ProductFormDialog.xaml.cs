@@ -1,8 +1,8 @@
-using FornixxCRM.Helpers;
-using FornixxCRM.ViewModels;
+using KarzounERP.Helpers;
+using KarzounERP.ViewModels;
 using System.Windows;
 
-namespace FornixxCRM.Views.Products;
+namespace KarzounERP.Views.Products;
 
 public partial class ProductFormDialog : Window
 {
@@ -13,11 +13,21 @@ public partial class ProductFormDialog : Window
         Loaded += (_, _) =>
         {
             if (DataContext is ProductFormViewModel vm)
+            {
                 vm.RequestClose += (_, _) =>
                 {
                     DialogResult = vm.DialogResult;
                     Close();
                 };
+                vm.RequestFocus += (fieldName) =>
+                {
+                    this.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        var control = this.FindName(fieldName) as System.Windows.UIElement;
+                        control?.Focus();
+                    }), System.Windows.Threading.DispatcherPriority.Background);
+                };
+            }
         };
     }
 }

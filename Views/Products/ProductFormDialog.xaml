@@ -1,12 +1,15 @@
-<Window x:Class="FornixxCRM.Views.Products.ProductFormDialog"
+﻿<Window x:Class="KarzounERP.Views.Products.ProductFormDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="{Binding WindowTitle}"
-        Height="500" Width="520"
+        Height="620" Width="560"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
-        FontFamily="Segoe UI">
+        Icon="/Resources/Brand/AppIcon.ico"
+        Background="{DynamicResource BrandBackground}"
+        FontFamily="{DynamicResource AppFontFamily}"
+        FlowDirection="{DynamicResource AppFlowDirection}">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -16,9 +19,34 @@
 
         <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" Padding="24,16">
             <StackPanel>
-                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                <TextBox x:Name="Name" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
                          materialDesign:HintAssist.Hint="{DynamicResource ProdForm_Name}"
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="0,0,0,12" />
+                         Margin="0,0,0,6">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsNameInvalid}" Value="True">
+                                    <Setter Property="BorderBrush" Value="{DynamicResource BrandDanger}" />
+                                    <Setter Property="BorderThickness" Value="2" />
+                                    <Setter Property="ToolTip" Value="{DynamicResource Msg_ValidationProductName}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <Border BorderBrush="{Binding DuplicateIndicatorBrush}"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Padding="8,6"
+                        Margin="0,0,0,12"
+                        Visibility="{Binding ShowDuplicateIndicator, Converter={StaticResource BoolToVisibility}}">
+                    <StackPanel>
+                        <TextBlock Text="{Binding DuplicateSimilarityText}" Foreground="{Binding DuplicateIndicatorBrush}" FontWeight="SemiBold" />
+                        <TextBlock Text="{Binding DuplicateClosestProductText}" Foreground="{DynamicResource BrandTextSecondary}" Margin="0,2,0,0" />
+                        <TextBlock Text="{Binding DuplicateDifferenceText}" Foreground="{DynamicResource BrandTextSecondary}" Margin="0,2,0,0"
+                                   Visibility="{Binding DuplicateDifferenceText, Converter={StaticResource BoolToVisibility}}" />
+                    </StackPanel>
+                </Border>
 
                 <ComboBox ItemsSource="{Binding AllProductTypes}"
                           SelectedItem="{Binding Type}"
@@ -41,37 +69,152 @@
                 <Grid Margin="0,0,0,12">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="8" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="12" />
+                        <ColumnDefinition Width="110" />
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0"
-                             Text="{Binding UnitPrice, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
-                             materialDesign:HintAssist.Hint="{DynamicResource ProdForm_UnitPrice}"
-                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                             FlowDirection="LeftToRight" />
-                    <TextBox Grid.Column="2"
-                             Text="{Binding Weight, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
-                             materialDesign:HintAssist.Hint="{DynamicResource ProdForm_Weight}"
-                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                             FlowDirection="LeftToRight" />
+                    <Grid Grid.Column="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0"
+                                 Text="{Binding ImagePath, UpdateSourceTrigger=PropertyChanged}"
+                                 materialDesign:HintAssist.Hint="{DynamicResource ProdForm_ImagePath}"
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                 IsReadOnly="True" />
+                        <Button Grid.Column="2" Content="{DynamicResource Btn_Browse}"
+                                Command="{Binding SelectImageCommand}"
+                                Style="{StaticResource MaterialDesignOutlinedButton}" />
+                        <Button Grid.Column="4" Content="{DynamicResource Btn_Clear}"
+                                Command="{Binding ClearImageCommand}"
+                                Style="{StaticResource MaterialDesignOutlinedButton}" />
+                    </Grid>
+                    <Border Grid.Column="2" Width="110" Height="110" Background="{DynamicResource BrandSurfaceSecondary}" CornerRadius="6"
+                            BorderBrush="{DynamicResource BrandBorder}" BorderThickness="1">
+                        <Grid>
+                            <Image Source="{Binding ImagePath}" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="4" />
+                            <materialDesign:PackIcon Kind="ImageOutline" Width="40" Height="40" Foreground="{DynamicResource KarzounBrandSilver}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                     Visibility="{Binding ImagePath, Converter={StaticResource NullToVisibility}, ConverterParameter=Inverse}" />
+                        </Grid>
+                    </Border>
                 </Grid>
 
-                <TextBox Text="{Binding DefaultQuantity, UpdateSourceTrigger=PropertyChanged}"
+                <Grid Margin="0,0,0,12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" x:Name="UnitPrice"
+                             Text="{Binding UnitPrice, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
+                             materialDesign:HintAssist.Hint="{Binding UnitPriceHint}">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsUnitPriceInvalid}" Value="True">
+                                        <Setter Property="BorderBrush" Value="{DynamicResource BrandDanger}" />
+                                        <Setter Property="BorderThickness" Value="2" />
+                                        <Setter Property="ToolTip" Value="{DynamicResource Msg_ValidationPositiveNumber}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                    <Grid Grid.Column="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" x:Name="Weight"
+                                 Text="{Binding Weight, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
+                                 materialDesign:HintAssist.Hint="{DynamicResource ProdForm_Weight}">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsWeightInvalid}" Value="True">
+                                            <Setter Property="BorderBrush" Value="{DynamicResource BrandDanger}" />
+                                            <Setter Property="BorderThickness" Value="2" />
+                                            <Setter Property="ToolTip" Value="{DynamicResource Msg_ValidationPositiveNumber}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <ComboBox Grid.Column="2" SelectedValuePath="Tag" SelectedValue="{Binding WeightUnit}"
+                                  Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                            <ComboBoxItem Content="{DynamicResource Unit_G}" Tag="g" />
+                            <ComboBoxItem Content="{DynamicResource Unit_KG}" Tag="kg" />
+                            <ComboBoxItem Content="{DynamicResource Unit_TON}" Tag="ton" />
+                        </ComboBox>
+                    </Grid>
+                </Grid>
+
+                <TextBox x:Name="DefaultQuantity" Text="{Binding DefaultQuantity, UpdateSourceTrigger=PropertyChanged}"
                          materialDesign:HintAssist.Hint="{DynamicResource ProdForm_DefaultQty}"
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                         FlowDirection="LeftToRight" Margin="0,0,0,12" />
+                         Margin="0,0,0,12">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsDefaultQuantityInvalid}" Value="True">
+                                    <Setter Property="BorderBrush" Value="{DynamicResource BrandDanger}" />
+                                    <Setter Property="BorderThickness" Value="2" />
+                                    <Setter Property="ToolTip" Value="{DynamicResource Msg_ValidationPositiveNumber}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
 
                 <CheckBox Content="{DynamicResource ProdForm_IsActive}" IsChecked="{Binding IsActive}" Margin="0,0,0,12" />
 
-                <TextBlock Text="{Binding ValidationError}" Foreground="#F44336" FontSize="12" />
+                <TextBlock Text="{Binding ValidationError}" Foreground="{DynamicResource BrandDanger}" FontSize="12" />
+
+                <!-- Translations Section -->
+                <Separator Background="{DynamicResource BrandBorder}" Margin="0,16" />
+                <TextBlock Text="Product Translations / ترجمات المنتج / Ürün Çevirileri" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource BrandTextPrimary}" Margin="0,0,0,8" />
+                <TextBlock Text="{DynamicResource ProdForm_TranslationHelp}" TextWrapping="Wrap" Foreground="{DynamicResource BrandTextSecondary}" FontSize="11" Margin="0,0,0,12" />
+   
+                <Button Content="{DynamicResource Btn_CopyMainToLanguages}" Command="{Binding CopyMainToLanguagesCommand}" 
+                        Style="{StaticResource MaterialDesignOutlinedButton}" Margin="0,0,0,16" Height="32"/>
+
+                <!-- Arabic Translation -->
+                <TextBox Text="{Binding NameAr, UpdateSourceTrigger=PropertyChanged}"
+                         materialDesign:HintAssist.Hint="Arabic Name / الاسم بالعربية"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="0,0,0,8" />
+                <TextBox Text="{Binding DescriptionAr, UpdateSourceTrigger=PropertyChanged}"
+                         materialDesign:HintAssist.Hint="Arabic Description / الوصف بالعربية"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="0,0,0,16" 
+                         AcceptsReturn="True" Height="50" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
+
+                <!-- Turkish Translation -->
+                <TextBox Text="{Binding NameTr, UpdateSourceTrigger=PropertyChanged}"
+                         materialDesign:HintAssist.Hint="Turkish Name / Türkçe İsim"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="0,0,0,8" />
+                <TextBox Text="{Binding DescriptionTr, UpdateSourceTrigger=PropertyChanged}"
+                         materialDesign:HintAssist.Hint="Turkish Description / Türkçe Açıklama"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="0,0,0,16" 
+                         AcceptsReturn="True" Height="50" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
+
+                <!-- English Translation -->
+                <TextBox Text="{Binding NameEn, UpdateSourceTrigger=PropertyChanged}"
+                         materialDesign:HintAssist.Hint="English Name / English Name"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="0,0,0,8" />
+                <TextBox Text="{Binding DescriptionEn, UpdateSourceTrigger=PropertyChanged}"
+                         materialDesign:HintAssist.Hint="English Description / English Description"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="0,0,0,16" 
+                         AcceptsReturn="True" Height="50" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
             </StackPanel>
         </ScrollViewer>
 
-        <Border Grid.Row="1" BorderBrush="#EEEEEE" BorderThickness="0,1,0,0" Padding="16,12">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+        <Border Grid.Row="1" BorderBrush="{DynamicResource BrandBorder}" BorderThickness="0,1,0,0" Padding="16,12">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="{DynamicResource AppHorizontalAlignment}">
                 <Button Content="{DynamicResource Btn_Save}" Command="{Binding SaveCommand}"
                         Style="{StaticResource MaterialDesignRaisedButton}"
-                        Background="#FF6B00" BorderBrush="#FF6B00" Margin="0,0,8,0" Width="100" />
+                        Background="{DynamicResource AppButtonBrush}" BorderBrush="{DynamicResource AppButtonBrush}" Margin="{DynamicResource AppIconMargin}" Width="100" />
                 <Button Content="{DynamicResource Btn_Cancel}" Command="{Binding CancelCommand}"
                         Style="{StaticResource MaterialDesignOutlinedButton}" Width="100" />
             </StackPanel>

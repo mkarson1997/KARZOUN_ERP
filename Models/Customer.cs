@@ -1,9 +1,13 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FornixxCRM.Models;
+namespace KarzounERP.Models;
 
-public class Customer
+public class Customer : ObservableObject
 {
+    private bool _isSelected;
+
     public int Id { get; set; }
     public int CompanyId { get; set; }
 
@@ -29,6 +33,24 @@ public class Customer
     public string? Notes { get; set; }
 
     public ImportanceLevel Importance { get; set; } = ImportanceLevel.Normal;
+    [MaxLength(20)]
+    public string? ColorMarker { get; set; }
+
+    private string? _displayColorMarker;
+
+    [NotMapped]
+    public string? DisplayColorMarker
+    {
+        get => _displayColorMarker;
+        set => SetProperty(ref _displayColorMarker, value);
+    }
+
+    [NotMapped]
+    public bool IsSelected
+    {
+        get => _isSelected;
+        set => SetProperty(ref _isSelected, value);
+    }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? LastFollowUpDate { get; set; }

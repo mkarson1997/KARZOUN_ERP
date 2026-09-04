@@ -1,6 +1,6 @@
-using FornixxCRM.Models;
+using KarzounERP.Models;
 
-namespace FornixxCRM.Services.Interfaces;
+namespace KarzounERP.Services.Interfaces;
 
 public interface ICompanyService
 {
@@ -10,4 +10,6 @@ public interface ICompanyService
     Task UpdateCompanyAsync(Company company);
     Task<bool> DeleteCompanyAsync(int id);
     Task<bool> CompanyHasDataAsync(int id);
+    Task<CompanyLocalizedSetting?> GetLocalizedSettingAsync(int companyId, string languageCode);
+    Task SaveLocalizedSettingAsync(CompanyLocalizedSetting setting);
 }

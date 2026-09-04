@@ -1,10 +1,11 @@
-<UserControl x:Class="FornixxCRM.Views.Customers.CustomerDetailPage"
+﻿<UserControl x:Class="KarzounERP.Views.Customers.CustomerDetailPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
+             FlowDirection="{DynamicResource AppFlowDirection}"
              d:DesignHeight="600" d:DesignWidth="900">
 
     <Grid Margin="24">
@@ -16,8 +17,8 @@
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
             <Button Content="{DynamicResource CustDetail_Back}" Command="{Binding GoBackCommand}"
-                    Style="{StaticResource MaterialDesignFlatButton}" Foreground="#FF6B00" />
-            <TextBlock Text="{DynamicResource CustDetail_Title}" FontSize="22" FontWeight="Bold" Foreground="#1A2332"
+                    Style="{StaticResource MaterialDesignFlatButton}" Foreground="{DynamicResource AppPrimaryBrush}" />
+            <TextBlock Text="{DynamicResource CustDetail_Title}" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource BrandTextPrimary}"
                        Margin="16,0,0,0" VerticalAlignment="Center" />
         </StackPanel>
 
@@ -35,7 +36,7 @@
             <materialDesign:Card Grid.Column="0" Padding="20" UniformCornerRadius="8" VerticalAlignment="Top">
                 <StackPanel>
                     <materialDesign:PackIcon Kind="AccountCircle" Width="48" Height="48"
-                                            Foreground="#FF6B00" HorizontalAlignment="Center" Margin="0,0,0,12" />
+                                            Foreground="{DynamicResource AppPrimaryBrush}" HorizontalAlignment="Center" Margin="0,0,0,12" />
                     <TextBlock Text="{Binding Customer.FullName}" FontSize="18" FontWeight="Bold"
                                HorizontalAlignment="Center" Margin="0,0,0,4" />
                     <TextBlock Text="{Binding Customer.CompanyName}" Foreground="#888"
@@ -192,7 +193,7 @@
                             <Button Grid.Column="2" Content="{DynamicResource CustDetail_AddNoteBtn}"
                                     Command="{Binding AddNoteCommand}"
                                     Style="{StaticResource MaterialDesignRaisedButton}"
-                                    Background="#00897B" BorderBrush="#00897B"
+                                    Background="{DynamicResource BrandSuccess}" BorderBrush="{DynamicResource BrandSuccess}"
                                     VerticalAlignment="Bottom" Height="38" />
                         </Grid>
                     </Grid>

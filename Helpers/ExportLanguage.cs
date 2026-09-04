@@ -1,4 +1,4 @@
-namespace FornixxCRM.Helpers;
+namespace KarzounERP.Helpers;
 
 /// <summary>Central rules for PDF/Excel export language selection.</summary>
 public static class ExportLanguage

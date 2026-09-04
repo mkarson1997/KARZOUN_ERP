@@ -1,4 +1,4 @@
-<Window x:Class="FornixxCRM.Views.Companies.CompanyFormDialog"
+﻿<Window x:Class="KarzounERP.Views.Companies.CompanyFormDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -6,7 +6,10 @@
         Height="680" Width="620"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
-        FontFamily="Segoe UI">
+        Icon="/Resources/Brand/AppIcon.ico"
+        Background="{DynamicResource BrandBackground}"
+        FontFamily="{DynamicResource AppFontFamily}"
+        FlowDirection="{DynamicResource AppFlowDirection}">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -17,11 +20,23 @@
         <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" Padding="24,16">
             <StackPanel>
                 <!-- Section: Basic Info -->
-                <TextBlock Text="{DynamicResource CompForm_SectionBasic}" FontWeight="Bold" Foreground="#FF6B00" FontSize="13" Margin="0,0,0,12" />
+                <TextBlock Text="{DynamicResource CompForm_SectionBasic}" FontWeight="Bold" Foreground="{DynamicResource AppPrimaryBrush}" FontSize="13" Margin="0,0,0,12" />
 
-                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+                <TextBox x:Name="Name" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
                          materialDesign:HintAssist.Hint="{DynamicResource CompForm_Name}"
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="0,0,0,12" />
+                         Margin="0,0,0,12">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsNameInvalid}" Value="True">
+                                    <Setter Property="BorderBrush" Value="{DynamicResource BrandDanger}" />
+                                    <Setter Property="BorderThickness" Value="2" />
+                                    <Setter Property="ToolTip" Value="{DynamicResource Msg_ValidationCompanyName}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
 
                 <TextBox Text="{Binding CommercialName, UpdateSourceTrigger=PropertyChanged}"
                          materialDesign:HintAssist.Hint="{DynamicResource CompForm_CommercialName}"
@@ -45,6 +60,98 @@
                          materialDesign:HintAssist.Hint="{DynamicResource CompForm_Address}"
                          Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="0,0,0,12" />
 
+                <!-- Company identity -->
+                <Border Margin="0,0,0,16" Padding="16" CornerRadius="8" BorderThickness="1" BorderBrush="{DynamicResource BrandBorder}" Background="{DynamicResource BrandSurfaceSecondary}">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource CompForm_IdentitySection}" FontWeight="Bold" Foreground="{DynamicResource AppPrimaryBrush}" FontSize="13" Margin="0,0,0,12" />
+
+                        <CheckBox Content="{DynamicResource CompForm_ApplyCompanyTheme}"
+                                  IsChecked="{Binding ApplyCompanyTheme}"
+                                  Margin="0,0,0,12" />
+
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="84" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0"
+                                     Text="{Binding CompanyThemePrimaryColor, UpdateSourceTrigger=PropertyChanged}"
+                                     materialDesign:HintAssist.Hint="{DynamicResource CompForm_ThemePrimaryColor}"
+                                     Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                            <Button Grid.Column="2"
+                                    Height="40"
+                                    Command="{Binding PickCompanyPrimaryColorCommand}"
+                                    ToolTip="{DynamicResource CompForm_PickColor}"
+                                    Background="{Binding CompanyThemePrimaryColor, Converter={StaticResource HexToBrush}, ConverterParameter=#00B8C5}"
+                                    BorderBrush="{DynamicResource BrandBorder}"
+                                    BorderThickness="1" />
+                        </Grid>
+
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="84" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0"
+                                     Text="{Binding CompanyThemeAccentColor, UpdateSourceTrigger=PropertyChanged}"
+                                     materialDesign:HintAssist.Hint="{DynamicResource CompForm_ThemeAccentColor}"
+                                     Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                            <Button Grid.Column="2"
+                                    Height="40"
+                                    Command="{Binding PickCompanyAccentColorCommand}"
+                                    ToolTip="{DynamicResource CompForm_PickColor}"
+                                    Background="{Binding CompanyThemeAccentColor, Converter={StaticResource HexToBrush}, ConverterParameter=#00C896}"
+                                    BorderBrush="{DynamicResource BrandBorder}"
+                                    BorderThickness="1" />
+                        </Grid>
+
+                        <TextBlock Text="{DynamicResource CompForm_IdentityPreview}"
+                                   FontWeight="SemiBold"
+                                   Margin="0,4,0,8" />
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="12" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <Border Padding="12" CornerRadius="6"
+                                        Background="{Binding CompanyThemePrimaryColor, Converter={StaticResource HexToBrush}, ConverterParameter=#00B8C5}">
+                                    <TextBlock Text="{Binding Name, FallbackValue=Company Name}"
+                                               Foreground="White"
+                                               FontWeight="Bold"
+                                               TextTrimming="CharacterEllipsis" />
+                                </Border>
+                                <Border Margin="0,8,0,0" Padding="10" CornerRadius="6"
+                                        Background="{Binding CompanyThemeAccentColor, Converter={StaticResource HexToBrush}, ConverterParameter=#00C896}">
+                                    <TextBlock Text="{DynamicResource CompForm_ButtonPreview}" Foreground="White" HorizontalAlignment="Center" />
+                                </Border>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2">
+                                <Border Padding="12" CornerRadius="6" BorderBrush="{DynamicResource BrandBorder}" BorderThickness="1" Background="{DynamicResource BrandSurface}">
+                                    <TextBlock Text="{DynamicResource CompForm_CardPreview}" FontWeight="SemiBold" />
+                                </Border>
+                                <Grid Margin="0,8,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="8" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" Height="22" CornerRadius="4"
+                                            Background="{Binding CompanyThemePrimaryColor, Converter={StaticResource HexToBrush}, ConverterParameter=#00B8C5}" />
+                                    <Border Grid.Column="2" Height="22" CornerRadius="4"
+                                            Background="{Binding CompanyThemeAccentColor, Converter={StaticResource HexToBrush}, ConverterParameter=#00C896}" />
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
                 <Grid Margin="0,0,0,12">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -54,9 +161,20 @@
                     <TextBox Grid.Column="0" Text="{Binding Country, UpdateSourceTrigger=PropertyChanged}"
                              materialDesign:HintAssist.Hint="{DynamicResource CompForm_Country}"
                              Style="{StaticResource MaterialDesignOutlinedTextBox}" />
-                    <TextBox Grid.Column="2" Text="{Binding Currency, UpdateSourceTrigger=PropertyChanged}"
-                             materialDesign:HintAssist.Hint="{DynamicResource CompForm_Currency}"
-                             Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                    <TextBox Grid.Column="2" x:Name="Currency" Text="{Binding Currency, UpdateSourceTrigger=PropertyChanged}"
+                             materialDesign:HintAssist.Hint="{DynamicResource CompForm_Currency}">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsCurrencyInvalid}" Value="True">
+                                        <Setter Property="BorderBrush" Value="{DynamicResource BrandDanger}" />
+                                        <Setter Property="BorderThickness" Value="2" />
+                                        <Setter Property="ToolTip" Value="{DynamicResource Msg_RequiredFields}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
                 </Grid>
 
                 <!-- Logo -->
@@ -76,7 +194,7 @@
                 <Separator Margin="0,8,0,16" />
 
                 <!-- Tax -->
-                <TextBlock Text="{DynamicResource CompForm_TaxSection}" FontWeight="Bold" Foreground="#FF6B00" FontSize="13" Margin="0,0,0,12" />
+                <TextBlock Text="{DynamicResource CompForm_TaxSection}" FontWeight="Bold" Foreground="{DynamicResource AppPrimaryBrush}" FontSize="13" Margin="0,0,0,12" />
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                     <CheckBox Content="{DynamicResource CompForm_TaxEnabled}" IsChecked="{Binding TaxEnabled}" Margin="0,0,16,0" />
                     <TextBox Text="{Binding TaxRate, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"
@@ -89,25 +207,47 @@
                 <Separator Margin="0,8,0,16" />
 
                 <!-- Numbering -->
-                <TextBlock Text="{DynamicResource CompForm_NumberingSection}" FontWeight="Bold" Foreground="#FF6B00" FontSize="13" Margin="0,0,0,12" />
+                <TextBlock Text="{DynamicResource CompForm_NumberingSection}" FontWeight="Bold" Foreground="{DynamicResource AppPrimaryBrush}" FontSize="13" Margin="0,0,0,12" />
                 <Grid Margin="0,0,0,12">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="8" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" Text="{Binding InvoicePrefix, UpdateSourceTrigger=PropertyChanged}"
-                             materialDesign:HintAssist.Hint="{DynamicResource CompForm_InvoicePrefix}"
-                             Style="{StaticResource MaterialDesignOutlinedTextBox}" />
-                    <TextBox Grid.Column="2" Text="{Binding QuotationPrefix, UpdateSourceTrigger=PropertyChanged}"
-                             materialDesign:HintAssist.Hint="{DynamicResource CompForm_QuotationPrefix}"
-                             Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                    <TextBox Grid.Column="0" x:Name="InvoicePrefix" Text="{Binding InvoicePrefix, UpdateSourceTrigger=PropertyChanged}"
+                             materialDesign:HintAssist.Hint="{DynamicResource CompForm_InvoicePrefix}">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsInvoicePrefixInvalid}" Value="True">
+                                        <Setter Property="BorderBrush" Value="{DynamicResource BrandDanger}" />
+                                        <Setter Property="BorderThickness" Value="2" />
+                                        <Setter Property="ToolTip" Value="{DynamicResource Msg_RequiredFields}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                    <TextBox Grid.Column="2" x:Name="QuotationPrefix" Text="{Binding QuotationPrefix, UpdateSourceTrigger=PropertyChanged}"
+                             materialDesign:HintAssist.Hint="{DynamicResource CompForm_QuotationPrefix}">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsQuotationPrefixInvalid}" Value="True">
+                                        <Setter Property="BorderBrush" Value="{DynamicResource BrandDanger}" />
+                                        <Setter Property="BorderThickness" Value="2" />
+                                        <Setter Property="ToolTip" Value="{DynamicResource Msg_RequiredFields}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
                 </Grid>
 
                 <Separator Margin="0,8,0,16" />
 
                 <!-- Notes and Footer -->
-                <TextBlock Text="{DynamicResource CompForm_TextsSection}" FontWeight="Bold" Foreground="#FF6B00" FontSize="13" Margin="0,0,0,12" />
+                <TextBlock Text="{DynamicResource CompForm_TextsSection}" FontWeight="Bold" Foreground="{DynamicResource AppPrimaryBrush}" FontSize="13" Margin="0,0,0,12" />
 
                 <TextBox Text="{Binding DefaultInvoiceNotes, UpdateSourceTrigger=PropertyChanged}"
                          materialDesign:HintAssist.Hint="{DynamicResource CompForm_DefaultInvoiceNotes}"
@@ -134,18 +274,18 @@
                          VerticalScrollBarVisibility="Auto" Margin="0,0,0,12" />
 
                 <!-- Validation error -->
-                <TextBlock Text="{Binding ValidationError}" Foreground="#F44336"
+                <TextBlock Text="{Binding ValidationError}" Foreground="{DynamicResource BrandDanger}"
                            Visibility="{Binding ValidationError, Converter={StaticResource BoolToVisibility}}"
                            Margin="0,4,0,0" />
             </StackPanel>
         </ScrollViewer>
 
         <!-- Buttons -->
-        <Border Grid.Row="1" BorderBrush="#EEEEEE" BorderThickness="0,1,0,0" Padding="16,12">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+        <Border Grid.Row="1" BorderBrush="{DynamicResource BrandBorder}" BorderThickness="0,1,0,0" Padding="16,12">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="{DynamicResource AppHorizontalAlignment}">
                 <Button Content="{DynamicResource Btn_Save}" Command="{Binding SaveCommand}"
                         Style="{StaticResource MaterialDesignRaisedButton}"
-                        Background="#FF6B00" BorderBrush="#FF6B00" Margin="0,0,8,0"
+                        Background="{DynamicResource AppButtonBrush}" BorderBrush="{DynamicResource AppButtonBrush}" Margin="{DynamicResource AppIconMargin}"
                         Width="100" />
                 <Button Content="{DynamicResource Btn_Cancel}" Command="{Binding CancelCommand}"
                         Style="{StaticResource MaterialDesignOutlinedButton}"

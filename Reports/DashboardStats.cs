@@ -1,4 +1,4 @@
-namespace FornixxCRM.Reports;
+namespace KarzounERP.Reports;
 
 public class DashboardStats
 {

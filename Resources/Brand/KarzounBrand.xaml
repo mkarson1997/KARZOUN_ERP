@@ -1,0 +1,66 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Approved KARZOUN master palette. Keep raw colors immutable; ThemeManager
+         updates only the semantic brushes below when appearance settings change. -->
+    <Color x:Key="KarzounBrandNavyColor">#0B1324</Color>
+    <Color x:Key="KarzounBrandGraphiteColor">#1F2937</Color>
+    <Color x:Key="KarzounBrandSilverColor">#A6ADB7</Color>
+    <Color x:Key="KarzounBrandLightGrayColor">#EBEBEF</Color>
+    <Color x:Key="KarzounBrandTealColor">#00B8C5</Color>
+    <Color x:Key="KarzounBrandEmeraldColor">#00C896</Color>
+    <Color x:Key="KarzounBrandBlueColor">#0D6EFD</Color>
+
+    <SolidColorBrush x:Key="KarzounBrandNavy" Color="{StaticResource KarzounBrandNavyColor}" />
+    <SolidColorBrush x:Key="KarzounBrandGraphite" Color="{StaticResource KarzounBrandGraphiteColor}" />
+    <SolidColorBrush x:Key="KarzounBrandSilver" Color="{StaticResource KarzounBrandSilverColor}" />
+    <SolidColorBrush x:Key="KarzounBrandLightGray" Color="{StaticResource KarzounBrandLightGrayColor}" />
+    <SolidColorBrush x:Key="KarzounBrandTeal" Color="{StaticResource KarzounBrandTealColor}" />
+    <SolidColorBrush x:Key="KarzounBrandEmerald" Color="{StaticResource KarzounBrandEmeraldColor}" />
+    <SolidColorBrush x:Key="KarzounBrandBlue" Color="{StaticResource KarzounBrandBlueColor}" />
+
+    <!-- Semantic application defaults. These keys are deliberately DynamicResource
+         consumers throughout the UI so user/company appearance overrides remain live. -->
+    <SolidColorBrush x:Key="BrandBackground" Color="#F6F7F9" />
+    <SolidColorBrush x:Key="BrandSurface" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="BrandSurfaceSecondary" Color="#EBEBEF" />
+    <SolidColorBrush x:Key="BrandTextPrimary" Color="#0B1324" />
+    <SolidColorBrush x:Key="BrandTextSecondary" Color="#5E6877" />
+    <SolidColorBrush x:Key="BrandBorder" Color="#D8DDE5" />
+    <SolidColorBrush x:Key="BrandAccent" Color="#00B8C5" />
+    <SolidColorBrush x:Key="BrandAccentHover" Color="#009DA8" />
+    <SolidColorBrush x:Key="BrandAccentPressed" Color="#00828B" />
+    <SolidColorBrush x:Key="BrandNavigationBackground" Color="#0B1324" />
+    <SolidColorBrush x:Key="BrandNavigationSelected" Color="#173448" />
+    <SolidColorBrush x:Key="BrandNavigationHover" Color="#14243A" />
+    <SolidColorBrush x:Key="BrandNavigationText" Color="#EBEBEF" />
+    <SolidColorBrush x:Key="BrandNavigationTextMuted" Color="#A6ADB7" />
+    <SolidColorBrush x:Key="BrandFocus" Color="#0D6EFD" />
+    <SolidColorBrush x:Key="BrandSuccess" Color="#00A67D" />
+    <SolidColorBrush x:Key="BrandSuccessMuted" Color="#1400C896" />
+    <SolidColorBrush x:Key="BrandWarning" Color="#D97706" />
+    <SolidColorBrush x:Key="BrandWarningMuted" Color="#18D97706" />
+    <SolidColorBrush x:Key="BrandDanger" Color="#D32F2F" />
+    <SolidColorBrush x:Key="BrandDangerMuted" Color="#14D32F2F" />
+    <SolidColorBrush x:Key="BrandInfo" Color="#0D6EFD" />
+    <SolidColorBrush x:Key="BrandInfoMuted" Color="#140D6EFD" />
+
+    <!-- Stable aliases used by the existing Appearance &amp; Design engine. -->
+    <SolidColorBrush x:Key="AppPrimaryBrush" Color="#00B8C5" />
+    <SolidColorBrush x:Key="AppSecondaryBrush" Color="#0D6EFD" />
+    <SolidColorBrush x:Key="AppAccentBrush" Color="#00C896" />
+    <SolidColorBrush x:Key="AppSidebarBackgroundBrush" Color="#0B1324" />
+    <SolidColorBrush x:Key="AppSidebarTextColorBrush" Color="#EBEBEF" />
+    <SolidColorBrush x:Key="AppButtonBrush" Color="#00B8C5" />
+    <SolidColorBrush x:Key="AppButtonTextColorBrush" Color="#0B1324" />
+    <SolidColorBrush x:Key="AppCardBackgroundBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="AppPageBackgroundBrush" Color="#F6F7F9" />
+    <SolidColorBrush x:Key="AppSecondaryMutedBrush" Color="#140D6EFD" />
+    <SolidColorBrush x:Key="AppSecondaryHighlightBrush" Color="#260D6EFD" />
+    <SolidColorBrush x:Key="AppAccentMutedBrush" Color="#1E00C896" />
+
+    <!-- Approved fonts are not bundled. WPF automatically falls through this list. -->
+    <FontFamily x:Key="BrandBodyFontFamily">Inter, Segoe UI, Arial</FontFamily>
+    <FontFamily x:Key="BrandHeadlineFontFamily">Sora SemiBold, Segoe UI Semibold, Segoe UI, Arial</FontFamily>
+    <FontFamily x:Key="BrandArabicBodyFontFamily">Tajawal, Segoe UI, Tahoma, Arial</FontFamily>
+    <FontFamily x:Key="BrandArabicHeadlineFontFamily">IBM Plex Sans Arabic SemiBold, Tajawal, Segoe UI Semibold, Tahoma, Arial</FontFamily>
+</ResourceDictionary>

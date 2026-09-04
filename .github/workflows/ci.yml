@@ -24,7 +24,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore
-        run: dotnet restore FornixxCRM.csproj
+        run: dotnet restore KarzounERP.csproj
 
       - name: Build
-        run: dotnet build FornixxCRM.csproj --configuration Release --no-restore
+        run: dotnet build KarzounERP.csproj --configuration Release --no-restore

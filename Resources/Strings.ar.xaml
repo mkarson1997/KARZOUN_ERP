@@ -4,8 +4,10 @@
 
     <!-- App / Nav -->
     <sys:String x:Key="App_Subtitle">نظام إدارة العملاء والمبيعات</sys:String>
-    <sys:String x:Key="App_Title">نظام إدارة العلاقات مع العملاء</sys:String>
-    <sys:String x:Key="App_Version">الإصدار 1.0.0 | Fornixx CRM Pro</sys:String>
+    <sys:String x:Key="App_Title">KARZOUN ERP</sys:String>
+    <sys:String x:Key="App_Version">الإصدار 1.1.0 | KARZOUN ERP</sys:String>
+    <sys:String x:Key="App_VersionLine">الإصدار 1.1.0</sys:String>
+    <sys:String x:Key="App_DeveloperCredit">تطوير Karzoun</sys:String>
     <sys:String x:Key="Nav_ActiveCompany">الشركة الفعّالة</sys:String>
     <sys:String x:Key="Nav_MainMenu">القائمة الرئيسية</sys:String>
     <sys:String x:Key="Nav_AnalysisMgmt">التحليل والإدارة</sys:String>
@@ -13,10 +15,81 @@
     <sys:String x:Key="Nav_Customers">العملاء</sys:String>
     <sys:String x:Key="Nav_Products">المنتجات والخدمات</sys:String>
     <sys:String x:Key="Nav_Quotations">عروض الأسعار</sys:String>
-    <sys:String x:Key="Nav_Invoices">الفواتير النهائية</sys:String>
+    <sys:String x:Key="Nav_Invoices">الفواتير</sys:String>
     <sys:String x:Key="Nav_Reports">التقارير</sys:String>
     <sys:String x:Key="Nav_Companies">الشركات</sys:String>
     <sys:String x:Key="Nav_Settings">الإعدادات</sys:String>
+    <sys:String x:Key="Nav_Logs">ملف السجل</sys:String>
+    <sys:String x:Key="Bulk_Selected">المحدد: </sys:String>
+    <sys:String x:Key="Msg_ConfirmDeleteSelected">هل تريد حذف {0} عنصر محدد؟</sys:String>
+    <sys:String x:Key="Msg_SelectedDeleted">تم حذف {0} عنصر محدد.</sys:String>
+    <sys:String x:Key="Msg_ProductMayExistContinue">قد يكون هذا المنتج موجوداً مسبقاً. نسبة التشابه: {0}%. هل تريد المتابعة على أي حال؟</sys:String>
+    <sys:String x:Key="Btn_ContinueAnyway">المتابعة على أي حال</sys:String>
+    <sys:String x:Key="Btn_EditProduct">تعديل المنتج</sys:String>
+    <sys:String x:Key="DupLive_ClosestSimilarity">نسبة التشابه مع أقرب منتج: {0}%</sys:String>
+    <sys:String x:Key="DupLive_ClosestProduct">أقرب منتج: {0}</sys:String>
+    <sys:String x:Key="DupLive_NameSimilarDifferentIdentity">الاسم متشابه، لكن الوزن أو النوع مختلف.</sys:String>
+    <sys:String x:Key="Dup_PotentialDuplicate">تشابه محتمل</sys:String>
+    <sys:String x:Key="Dup_ColumnMark">التشابه</sys:String>
+    <sys:String x:Key="DuplicateReport_Title">نتيجة فحص التكرارات</sys:String>
+    <sys:String x:Key="DuplicateReport_Subtitle">راجع المنتجات المتطابقة أو المتشابهة بدرجة عالية.</sys:String>
+    <sys:String x:Key="Msg_NoSeriousDuplicatesFound">لم يتم العثور على منتجات متكررة أو متشابهة بشكل خطير.</sys:String>
+    <sys:String x:Key="Dup_ProductA">المنتج أ</sys:String>
+    <sys:String x:Key="Dup_ProductB">المنتج ب</sys:String>
+    <sys:String x:Key="Dup_NameSimilarity">تشابه الاسم %</sys:String>
+    <sys:String x:Key="Dup_IdentitySimilarity">تشابه الهوية %</sys:String>
+    <sys:String x:Key="Dup_Reason">السبب</sys:String>
+    <sys:String x:Key="Dup_SuggestedAction">الإجراء المقترح</sys:String>
+    <sys:String x:Key="DupReason_ExactMatch">تطابق كامل تقريباً</sys:String>
+    <sys:String x:Key="DupReason_SameNameWeightUnit">نفس الاسم والوزن والوحدة</sys:String>
+    <sys:String x:Key="DupReason_NearExact">تشابه هوية عال جداً</sys:String>
+    <sys:String x:Key="DupReason_NameSimilarDifferentWeight">الاسم متشابه لكن الوزن مختلف</sys:String>
+    <sys:String x:Key="DupReason_HighNameSimilarity">الاسم متشابه جداً</sys:String>
+    <sys:String x:Key="DupReason_PotentialDuplicate">تكرار محتمل</sys:String>
+    <sys:String x:Key="DupAction_ReviewEdit">راجع وعدل أحد المنتجين إذا لزم الأمر</sys:String>
+    <sys:String x:Key="DupAction_OkToKeepVariants">غالباً يمكن إبقاؤها كخيارات مختلفة</sys:String>
+    <sys:String x:Key="DupAction_ReviewMerge">راجع قبل الدمج أو الحذف</sys:String>
+
+    <!-- Appearance & Design -->
+    <sys:String x:Key="Sett_AppearanceSection">التخصيص والمظهر</sys:String>
+    <sys:String x:Key="Sett_ApplyCompanyTheme">تطبيق ثيم الشركة عند التبديل</sys:String>
+    <sys:String x:Key="Sett_ThemePreset">نمط أسطح كارزون</sys:String>
+    <sys:String x:Key="Sett_KarzounLight">كارزون الفاتح</sys:String>
+    <sys:String x:Key="Sett_KarzounDark">كارزون الداكن</sys:String>
+    <sys:String x:Key="Sett_SelectColorToEdit">اختر اللون للتعديل</sys:String>
+    <sys:String x:Key="Sett_ColorEditor">محرر الألوان</sys:String>
+    <sys:String x:Key="Sett_PresetPalette">لوحة ألوان جاهزة:</sys:String>
+    <sys:String x:Key="Sett_ResetToDefault">إعادة للافتراضي</sys:String>
+    <sys:String x:Key="Sett_PdfLayoutSection">تخطيط PDF</sys:String>
+    <sys:String x:Key="Sett_PdfCompanyInfoTopMargin">هامش أعلى معلومات الشركة</sys:String>
+    <sys:String x:Key="Sett_PdfLogoTopMargin">هامش أعلى الشعار</sys:String>
+    <sys:String x:Key="Sett_PdfHeaderSpacing">تباعد الترويسة</sys:String>
+    <sys:String x:Key="Sett_PdfTableSpacing">تباعد الجدول</sys:String>
+    <sys:String x:Key="Sett_PdfFontSize">حجم خط PDF</sys:String>
+    <sys:String x:Key="Color_PrimaryColor">اللون الأساسي</sys:String>
+    <sys:String x:Key="Color_SecondaryColor">اللون الثانوي</sys:String>
+    <sys:String x:Key="Color_AccentColor">لون التمييز</sys:String>
+    <sys:String x:Key="Color_SidebarBackground">خلفية الشريط الجانبي</sys:String>
+    <sys:String x:Key="Color_SidebarTextColor">نص الشريط الجانبي</sys:String>
+    <sys:String x:Key="Color_ButtonColor">لون الأزرار</sys:String>
+    <sys:String x:Key="Color_ButtonTextColor">نص الأزرار</sys:String>
+    <sys:String x:Key="Color_CardBackground">خلفية البطاقات</sys:String>
+    <sys:String x:Key="Color_PageBackground">خلفية الصفحة</sys:String>
+    <sys:String x:Key="Color_CompanyThemePrimaryColor">اللون الأساسي لثيم الشركة</sys:String>
+    <sys:String x:Key="Color_CompanyThemeAccentColor">لون تمييز ثيم الشركة</sys:String>
+    <sys:String x:Key="Color_PdfPrimaryColor">لون PDF الأساسي</sys:String>
+    <sys:String x:Key="Color_PdfHeaderColor">لون ترويسة PDF</sys:String>
+    <sys:String x:Key="Color_PdfTableHeaderColor">لون رأس جدول PDF</sys:String>
+    <sys:String x:Key="Color_PdfBorderColor">لون حدود PDF</sys:String>
+    <sys:String x:Key="Color_PdfAccentColor">لون تمييز PDF</sys:String>
+    <sys:String x:Key="Color_PdfTotalBoxColor">لون صندوق الإجمالي PDF</sys:String>
+    <sys:String x:Key="Color_Helper_Default">اختر لوناً لتخصيص مظهر التطبيق.</sys:String>
+    <sys:String x:Key="Preview_PrimaryUsage">معاينة الاستخدام الأساسي</sys:String>
+    <sys:String x:Key="Preview_SecondaryUsage">معاينة الاستخدام الثانوي</sys:String>
+    <sys:String x:Key="Preview_AccentUsage">معاينة لون التمييز</sys:String>
+    <sys:String x:Key="Msg_AppearanceNavError">حدث خطأ أثناء فتح صفحة التخصيص والمظهر. تم حفظ تفاصيل الخطأ في ملف السجل.</sys:String>
+    <sys:String x:Key="Msg_NavigationError">حدث خطأ أثناء فتح الصفحة. تم حفظ تفاصيل الخطأ في ملف السجل.</sys:String>
+    <sys:String x:Key="Msg_UnhandledError">حدث خطأ غير متوقع. تم حفظ تفاصيل الخطأ في ملف السجل.</sys:String>
 
     <!-- Common Buttons -->
     <sys:String x:Key="Btn_Save">حفظ</sys:String>
@@ -64,15 +137,21 @@
     <!-- Customers -->
     <sys:String x:Key="Cust_Title">العملاء</sys:String>
     <sys:String x:Key="Cust_New">+ إضافة عميل</sys:String>
+    <sys:String x:Key="Cust_ImportExcel">استيراد من Excel</sys:String>
+    <sys:String x:Key="Cust_ExportSelected">تصدير أعمدة محددة</sys:String>
     <sys:String x:Key="Cust_SearchHint">بحث (الاسم، الهاتف، البريد، الدولة)</sys:String>
     <sys:String x:Key="Cust_FilterImportance">مستوى الأهمية</sys:String>
     <sys:String x:Key="Cust_FilterStage">مرحلة المتابعة</sys:String>
     <sys:String x:Key="Cust_ColName">الاسم الكامل</sys:String>
     <sys:String x:Key="Cust_ColCompany">الشركة</sys:String>
     <sys:String x:Key="Cust_ColPhone">الهاتف</sys:String>
+    <sys:String x:Key="Cust_ColEmail">البريد الإلكتروني</sys:String>
     <sys:String x:Key="Cust_ColCountry">الدولة</sys:String>
     <sys:String x:Key="Cust_ColImportance">مستوى الأهمية</sys:String>
     <sys:String x:Key="Cust_ColStage">مرحلة المتابعة</sys:String>
+    <sys:String x:Key="Cust_ColMindset">العقلية التجارية</sys:String>
+    <sys:String x:Key="Cust_ColNotes">ملاحظات</sys:String>
+    <sys:String x:Key="Cust_ColCreatedAt">تاريخ الإنشاء</sys:String>
     <sys:String x:Key="Cust_ColActions">إجراءات</sys:String>
     <sys:String x:Key="Cust_Total">إجمالي:</sys:String>
     <sys:String x:Key="Cust_TotalUnit">عميل</sys:String>
@@ -92,10 +171,13 @@
     <sys:String x:Key="Prod_TotalUnit">منتج / خدمة</sys:String>
     <sys:String x:Key="Prod_Active">نشط</sys:String>
     <sys:String x:Key="Prod_Inactive">غير نشط</sys:String>
+    <sys:String x:Key="Prod_ImportExcel">استيراد إكسل</sys:String>
+    <sys:String x:Key="Prod_ExportExcel">تصدير إكسل</sys:String>
+    <sys:String x:Key="Prod_CheckDuplicates">فحص التكرارات</sys:String>
 
     <!-- Document List -->
     <sys:String x:Key="DocList_TitleQ">عروض الأسعار</sys:String>
-    <sys:String x:Key="DocList_TitleI">الفواتير النهائية</sys:String>
+    <sys:String x:Key="DocList_TitleI">الفواتير</sys:String>
     <sys:String x:Key="DocList_New">+ مستند جديد</sys:String>
     <sys:String x:Key="DocList_FilterStatus">تصفية حسب الحالة</sys:String>
     <sys:String x:Key="DocList_FilterFromDate">من تاريخ</sys:String>
@@ -138,7 +220,11 @@
     <sys:String x:Key="DocForm_Subtotal">المجموع الفرعي:</sys:String>
     <sys:String x:Key="DocForm_Discount">الخصم:</sys:String>
     <sys:String x:Key="DocForm_GrandTotal">الإجمالي الكلي:</sys:String>
+    <sys:String x:Key="DocForm_TotalQuantity">إجمالي الكمية</sys:String>
+    <sys:String x:Key="DocForm_TotalWeight">إجمالي الوزن</sys:String>
     <sys:String x:Key="DocForm_Language">لغة المستند</sys:String>
+    <sys:String x:Key="DocForm_ProductSearchHint">اكتب للبحث في المنتجات والخدمات</sys:String>
+    <sys:String x:Key="DocForm_AddCustomProduct">إضافة منتج خاص</sys:String>
 
     <!-- Settings -->
     <sys:String x:Key="Sett_Title">الإعدادات</sys:String>
@@ -167,6 +253,13 @@
     <sys:String x:Key="Sett_PaymentInfo">بيانات الدفع الافتراضية</sys:String>
     <sys:String x:Key="Sett_SaveBtn">حفظ الإعدادات</sys:String>
     <sys:String x:Key="Sett_BackupSection">النسخ الاحتياطي والاستعادة</sys:String>
+    <sys:String x:Key="Settings_Features">ميزات إضافية</sys:String>
+    <sys:String x:Key="Settings_ShowProductImageQuotation">عرض صور المنتجات في ملف PDF</sys:String>
+    <sys:String x:Key="Settings_ShowCustomerContactPdf">عرض معلومات الاتصال للعميل في ملف PDF</sys:String>
+    <sys:String x:Key="Settings_AutoBackup">نسخ احتياطي تلقائي</sys:String>
+    <sys:String x:Key="Settings_EnableAutoBackup">تفعيل النسخ الاحتياطي التلقائي</sys:String>
+    <sys:String x:Key="Settings_BackupInterval">فاصل النسخ (بالدقائق)</sys:String>
+    <sys:String x:Key="Settings_AutoBackupLocation">موقع النسخ الاحتياطي التلقائي: {0}</sys:String>
     <sys:String x:Key="Sett_BackupFolder">مجلد النسخ الاحتياطية</sys:String>
     <sys:String x:Key="Sett_BackupNow">نسخ احتياطي الآن</sys:String>
     <sys:String x:Key="Sett_Restore">استعادة من نسخة احتياطية</sys:String>
@@ -217,16 +310,19 @@
     <!-- Enum Labels -->
     <sys:String x:Key="Status_Draft">مسودة</sys:String>
     <sys:String x:Key="Status_Sent">تم الإرسال</sys:String>
+    <sys:String x:Key="Status_Pending">قيد الانتظار</sys:String>
     <sys:String x:Key="Status_Accepted">مقبول</sys:String>
     <sys:String x:Key="Status_Rejected">مرفوض</sys:String>
     <sys:String x:Key="Status_Paid">مدفوع</sys:String>
+    <sys:String x:Key="Status_Unpaid">غير مدفوع</sys:String>
     <sys:String x:Key="Status_Cancelled">ملغي</sys:String>
-    <sys:String x:Key="Status_PartiallyPaid">مدفوع جزئياً</sys:String>
+    <sys:String x:Key="Status_PartiallyPaid">جزئي</sys:String>
     <sys:String x:Key="Status_Converted">تم التحويل إلى فاتورة</sys:String>
+    <sys:String x:Key="Status_Quotation">عرض سعر</sys:String>
     <sys:String x:Key="ProdType_Physical">منتج ملموس</sys:String>
     <sys:String x:Key="ProdType_Service">خدمة</sys:String>
     <sys:String x:Key="DocType_Quotation">عرض سعر</sys:String>
-    <sys:String x:Key="DocType_Invoice">فاتورة نهائية</sys:String>
+    <sys:String x:Key="DocType_Invoice">فاتورة</sys:String>
     <sys:String x:Key="Mindset_Simple">بسيط</sys:String>
     <sys:String x:Key="Mindset_New">جديد</sys:String>
     <sys:String x:Key="Mindset_Professional">محترف</sys:String>
@@ -248,6 +344,7 @@
     <sys:String x:Key="Msg_LoadingCustomers">جارٍ تحميل العملاء...</sys:String>
     <sys:String x:Key="Msg_LoadingDocuments">جارٍ تحميل المستندات...</sys:String>
     <sys:String x:Key="Msg_LoadingProducts">جارٍ تحميل المنتجات...</sys:String>
+    <sys:String x:Key="Msg_Importing">جارٍ الاستيراد...</sys:String>
     <sys:String x:Key="Msg_GeneratingPdf">جارٍ إنشاء ملف PDF...</sys:String>
     <sys:String x:Key="Msg_ValidationCustomer">يجب اختيار عميل.</sys:String>
     <sys:String x:Key="Msg_ValidationItems">يجب إضافة عنصر واحد على الأقل.</sys:String>
@@ -259,6 +356,9 @@
     <sys:String x:Key="Msg_Error">خطأ</sys:String>
     <sys:String x:Key="Msg_SettingsSaved">✓ تم حفظ الإعدادات بنجاح.</sys:String>
     <sys:String x:Key="Msg_LangSaved">✓ تم تطبيق اللغة.</sys:String>
+    <sys:String x:Key="Msg_UnsavedChangesConfirm">لديك تغييرات غير محفوظة في إعدادات الشركة. هل تريد حفظها قبل تغيير اللغة؟</sys:String>
+    <sys:String x:Key="Msg_ImportSummary">تم الاستيراد: {0}، تم التخطي: {1}، المكررات: {2}، الأخطاء: {3}</sys:String>
+    <sys:String x:Key="Msg_ExportSuccess">تم التصدير بنجاح.</sys:String>
     <sys:String x:Key="Msg_RestoreWarning">تحذير هام</sys:String>
     <sys:String x:Key="Msg_RestoreConfirm">تحذير: استعادة نسخة احتياطية ستستبدل قاعدة البيانات الحالية بالكامل.&#x0A;هل أنت متأكد؟</sys:String>
     <sys:String x:Key="Msg_RestoreSuccess">تمت الاستعادة. يرجى إعادة تشغيل البرنامج لتطبيق التغييرات.</sys:String>
@@ -275,16 +375,39 @@
     <sys:String x:Key="Msg_Success">تم</sys:String>
     <sys:String x:Key="Msg_ConfirmDeleteCustomer">هل أنت متأكد من حذف العميل \"{0}\"؟</sys:String>
     <sys:String x:Key="Msg_ConfirmDeleteDocument">هل أنت متأكد من حذف المستند \"{0}\"؟</sys:String>
-    <sys:String x:Key="Msg_ConfirmConvertQuotation">هل تريد تحويل عرض السعر \"{0}\" إلى فاتورة نهائية؟</sys:String>
+    <sys:String x:Key="Msg_ConfirmConvertQuotation">هل تريد تحويل عرض السعر \"{0}\" إلى فاتورة؟</sys:String>
     <sys:String x:Key="Msg_InvoiceCreated">تم إنشاء الفاتورة برقم {0}.</sys:String>
     <sys:String x:Key="Msg_DocumentDuplicated">تم نسخ المستند برقم {0}.</sys:String>
     <sys:String x:Key="Msg_ConfirmDeleteProduct">هل أنت متأكد من حذف \"{0}\"؟</sys:String>
     <sys:String x:Key="Msg_PdfError">خطأ في إنشاء PDF: {0}</sys:String>
     <sys:String x:Key="Msg_Confirmation">تأكيد</sys:String>
 
+    <sys:String x:Key="Msg_RequiredFields">يرجى ملء الحقول المطلوبة.</sys:String>
+    <sys:String x:Key="Msg_ConfirmDisablePassword">تحذير: إن تعطيل حماية كلمة المرور سيجعل إعداداتك متاحة لأي شخص. هل أنت متأكد أنك تريد المتابعة؟</sys:String>
+    <sys:String x:Key="Msg_ConfirmClearLogo">هل أنت متأكد من مسح شعار الشركة؟</sys:String>
+    <sys:String x:Key="Msg_ConfirmClearStamp">هل أنت متأكد من مسح ختم / توقيع الشركة؟</sys:String>
+    <sys:String x:Key="Msg_ConfirmClearProductImage">هل أنت متأكد من مسح صورة المنتج؟</sys:String>
+    <sys:String x:Key="Msg_ExcelImportInvalidFile">تنسيق ملف غير صالح. يرجى تحديد ملف Excel (.xlsx أو .xls).</sys:String>
+    <sys:String x:Key="Msg_ExcelImportMissingNameCol">عمود 'الاسم' أو 'الاسم الكامل' المطلوب مفقود من ورقة Excel.</sys:String>
+    <sys:String x:Key="Msg_BackupSuccess">تم إنشاء نسخة احتياطية من قاعدة البيانات بنجاح.</sys:String>
+    <sys:String x:Key="Msg_BackupFailed">فشل إنشاء النسخة الاحتياطية من قاعدة البيانات.</sys:String>
+    <sys:String x:Key="Msg_PdfExportSuccess">تم تصدير PDF بنجاح.</sys:String>
+    <sys:String x:Key="Msg_CustomerCreated">تم إنشاء العميل '{0}' بنجاح.</sys:String>
+    <sys:String x:Key="Msg_CustomerUpdated">تم تحديث العميل '{0}' بنجاح.</sys:String>
+    <sys:String x:Key="Msg_CustomerDeleted">تم حذف العميل '{0}' بنجاح.</sys:String>
+    <sys:String x:Key="Msg_ProductCreated">تم إنشاء المنتج '{0}' بنجاح.</sys:String>
+    <sys:String x:Key="Msg_ProductUpdated">تم تحديث المنتج '{0}' بنجاح.</sys:String>
+    <sys:String x:Key="Msg_ProductDeleted">تم حذف المنتج '{0}' بنجاح.</sys:String>
+    <sys:String x:Key="Msg_CompanyCreated">تم إنشاء الشركة '{0}' بنجاح.</sys:String>
+    <sys:String x:Key="Msg_CompanyUpdated">تم تحديث الشركة '{0}' بنجاح.</sys:String>
+    <sys:String x:Key="Msg_CompanyDeleted">تم حذف الشركة '{0}' بنجاح.</sys:String>
+    <sys:String x:Key="Msg_DocumentCreated">تم إنشاء المستند '{0}' بنجاح.</sys:String>
+    <sys:String x:Key="Msg_DocumentUpdated">تم تحديث المستند '{0}' بنجاح.</sys:String>
+    <sys:String x:Key="Msg_DocumentDeleted">تم حذف المستند '{0}' بنجاح.</sys:String>
+
     <!-- PDF Labels (used in InvoiceDocument.cs) -->
     <sys:String x:Key="Pdf_Quotation">عرض سعر</sys:String>
-    <sys:String x:Key="Pdf_Invoice">فاتورة نهائية</sys:String>
+    <sys:String x:Key="Pdf_Invoice">فاتورة</sys:String>
     <sys:String x:Key="Pdf_CustomerInfo">بيانات العميل</sys:String>
     <sys:String x:Key="Pdf_Phone">هاتف</sys:String>
     <sys:String x:Key="Pdf_Email">بريد</sys:String>
@@ -314,7 +437,7 @@
 
     <!-- Document form page titles -->
     <sys:String x:Key="DocForm_NewDocument">مستند جديد</sys:String>
-    <sys:String x:Key="DocForm_NewInvoice">فاتورة نهائية جديدة</sys:String>
+    <sys:String x:Key="DocForm_NewInvoice">فاتورة جديدة</sys:String>
     <sys:String x:Key="DocForm_NewQuotation">عرض سعر جديد</sys:String>
     <sys:String x:Key="DocForm_EditInvoice">تعديل الفاتورة</sys:String>
     <sys:String x:Key="DocForm_EditQuotation">تعديل عرض السعر</sys:String>
@@ -336,6 +459,7 @@
     <sys:String x:Key="CustForm_SectionBasic">البيانات الأساسية</sys:String>
     <sys:String x:Key="CustForm_FullName">الاسم الكامل *</sys:String>
     <sys:String x:Key="CustForm_CompanyName">اسم الشركة</sys:String>
+    <sys:String x:Key="CustForm_ExternalCompanyColor">لون الشركة الخارجية</sys:String>
     <sys:String x:Key="CustForm_Phone">الهاتف</sys:String>
     <sys:String x:Key="CustForm_Email">البريد الإلكتروني</sys:String>
     <sys:String x:Key="CustForm_Country">الدولة</sys:String>
@@ -355,6 +479,7 @@
     <sys:String x:Key="ProdForm_Weight">الوزن (كغ)</sys:String>
     <sys:String x:Key="ProdForm_DefaultQty">الكمية الافتراضية</sys:String>
     <sys:String x:Key="ProdForm_IsActive">منتج/خدمة مفعّل</sys:String>
+    <sys:String x:Key="ProdForm_ImagePath">مسار الصورة</sys:String>
 
     <!-- Company form dialog -->
     <sys:String x:Key="CompForm_SectionBasic">البيانات الأساسية</sys:String>
@@ -366,7 +491,18 @@
     <sys:String x:Key="CompForm_Country">الدولة</sys:String>
     <sys:String x:Key="CompForm_Currency">العملة</sys:String>
     <sys:String x:Key="CompForm_LogoPath">مسار الشعار</sys:String>
+    <sys:String x:Key="CompForm_IdentitySection">هوية الشركة</sys:String>
+    <sys:String x:Key="CompForm_ApplyCompanyTheme">تطبيق هوية الشركة عند التبديل إليها</sys:String>
+    <sys:String x:Key="CompForm_ThemePrimaryColor">اللون الأساسي للشركة</sys:String>
+    <sys:String x:Key="CompForm_ThemeAccentColor">لون التمييز للشركة</sys:String>
+    <sys:String x:Key="CompForm_PickColor">اختيار اللون</sys:String>
+    <sys:String x:Key="CompForm_IdentityPreview">معاينة مباشرة</sys:String>
+    <sys:String x:Key="CompForm_ButtonPreview">مثال زر</sys:String>
+    <sys:String x:Key="CompForm_CardPreview">مثال بطاقة</sys:String>
     <sys:String x:Key="CompForm_TaxSection">إعدادات الضريبة</sys:String>
+    <sys:String x:Key="Logs_Title">ملف السجل</sys:String>
+    <sys:String x:Key="Logs_StatusOk">كل شيء يعمل بشكل طبيعي.</sys:String>
+    <sys:String x:Key="Logs_StatusIssues">يوجد {0} تنبيه أو خطأ في السجلات الأخيرة.</sys:String>
     <sys:String x:Key="CompForm_TaxEnabled">تفعيل الضريبة</sys:String>
     <sys:String x:Key="CompForm_TaxRate">نسبة الضريبة %</sys:String>
     <sys:String x:Key="CompForm_NumberingSection">ترقيم المستندات</sys:String>
@@ -411,5 +547,19 @@
     <sys:String x:Key="CustDetail_NotesHistory">سجل المتابعة والملاحظات</sys:String>
     <sys:String x:Key="CustDetail_AddNoteHint">اكتب ملاحظة المتابعة...</sys:String>
     <sys:String x:Key="CustDetail_AddNoteBtn">إضافة ملاحظة</sys:String>
+
+    <!-- Upgrade 1.0.3 Keys -->
+    <sys:String x:Key="Msg_ValidationPositiveNumber">الرجاء إدخال رقم موجب صالح.</sys:String>
+    <sys:String x:Key="Msg_DuplicateProduct">هذا المنتج موجود بالفعل (تم اكتشاف تكرار في الاسم الرئيسي أو الترجمات).</sys:String>
+    <sys:String x:Key="Msg_WarningRepeatedWords">تنبيه: تم العثور على كلمات مكررة في اسم المنتج.</sys:String>
+    <sys:String x:Key="Msg_WarningNameContainsUnit">تنبيه: يحتوي اسم المنتج على كلمات تعبر عن وحدة الوزن. يجب أن يظل اسم المنتج منفصلاً عن حقول الوزن والوحدة.</sys:String>
+    <sys:String x:Key="Msg_ProductImageCopiedLocal">تم نسخ صورة المنتج محلياً.</sys:String>
+    <sys:String x:Key="Msg_InvalidImageFormat">صيغة الصورة غير صالحة. يرجى اختيار ملف PNG أو JPG أو JPEG أو WEBP.</sys:String>
+    <sys:String x:Key="Msg_TranslationFieldsSaved">تم ملء حقول الترجمة.</sys:String>
+    <sys:String x:Key="Btn_CopyMainToLanguages">نسخ الاسم الرئيسي لجميع اللغات</sys:String>
+    <sys:String x:Key="ProdForm_TranslationHelp">ترجمة يدوية لاسم المنتج ووصفه بلغات أخرى.</sys:String>
+    <sys:String x:Key="Unit_G">جرام</sys:String>
+    <sys:String x:Key="Unit_KG">كجم</sys:String>
+    <sys:String x:Key="Unit_TON">طن</sys:String>
 
 </ResourceDictionary>

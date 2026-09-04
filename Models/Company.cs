@@ -1,9 +1,13 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FornixxCRM.Models;
+namespace KarzounERP.Models;
 
-public class Company
+public class Company : ObservableObject
 {
+    private bool _isSelected;
+
     public int Id { get; set; }
 
     [Required, MaxLength(200)]
@@ -49,6 +53,19 @@ public class Company
     public string? QrCodeTemplate { get; set; }
     [MaxLength(100)]
     public string? AppPassword { get; set; }
+
+    public bool ShowProductImageInQuotation { get; set; } = false;
+    public bool ShowCustomerContactInPdf { get; set; } = false;
+    public bool AutoBackupEnabled { get; set; } = false;
+    public int AutoBackupIntervalMinutes { get; set; } = 30;
+    public string? BackupFolder { get; set; }
+    [NotMapped]
+    public bool IsSelected
+    {
+        get => _isSelected;
+        set => SetProperty(ref _isSelected, value);
+    }
+
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 

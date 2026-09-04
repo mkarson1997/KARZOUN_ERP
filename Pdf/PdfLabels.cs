@@ -1,11 +1,11 @@
-namespace FornixxCRM.Pdf;
+namespace KarzounERP.Pdf;
 
 /// <summary>PDF/Excel export labels by language (ar, tr, en).</summary>
 public static class PdfLabels
 {
     private static readonly Dictionary<string, Dictionary<string, string>> L = new()
     {
-        ["DocTitleInvoice"] = new() { ["ar"] = "فاتورة نهائية", ["tr"] = "Nihai Fatura", ["en"] = "Final Invoice" },
+        ["DocTitleInvoice"] = new() { ["ar"] = "فاتورة", ["tr"] = "Fatura", ["en"] = "Invoice" },
         ["DocTitleQuotation"] = new() { ["ar"] = "عرض سعر", ["tr"] = "Fiyat Teklifi", ["en"] = "Quotation" },
         ["DocNo"] = new() { ["ar"] = "رقم المستند", ["tr"] = "Belge No", ["en"] = "Document No" },
         ["Date"] = new() { ["ar"] = "التاريخ", ["tr"] = "Tarih", ["en"] = "Date" },
@@ -19,6 +19,7 @@ public static class PdfLabels
         ["Email"] = new() { ["ar"] = "البريد", ["tr"] = "E-posta", ["en"] = "Email" },
         ["Country"] = new() { ["ar"] = "الدولة", ["tr"] = "Ülke", ["en"] = "Country" },
         ["ColProduct"] = new() { ["ar"] = "اسم المنتج / الوصف", ["tr"] = "Ürün / Açıklama", ["en"] = "Product / Description" },
+        ["ColProductImage"] = new() { ["ar"] = "صورة المنتج", ["tr"] = "Ürün Görseli", ["en"] = "Product Image" },
         ["ColType"] = new() { ["ar"] = "النوع", ["tr"] = "Tür", ["en"] = "Type" },
         ["DocType"] = new() { ["ar"] = "نوع المستند", ["tr"] = "Belge Türü", ["en"] = "Document Type" },
         ["ColWeight"] = new() { ["ar"] = "الوزن", ["tr"] = "Ağırlık", ["en"] = "Weight" },
@@ -29,6 +30,8 @@ public static class PdfLabels
         ["Discount"] = new() { ["ar"] = "الخصم", ["tr"] = "İndirim", ["en"] = "Discount" },
         ["Tax"] = new() { ["ar"] = "الضريبة", ["tr"] = "Vergi", ["en"] = "Tax" },
         ["GrandTotal"] = new() { ["ar"] = "الإجمالي النهائي", ["tr"] = "Genel Toplam", ["en"] = "Grand Total" },
+        ["TotalQuantity"] = new() { ["ar"] = "إجمالي الكمية", ["tr"] = "Toplam Adet", ["en"] = "Total Quantity" },
+        ["TotalWeight"] = new() { ["ar"] = "إجمالي الوزن", ["tr"] = "Toplam Ağırlık", ["en"] = "Total Weight" },
         ["Paid"] = new() { ["ar"] = "المدفوع", ["tr"] = "Ödenen", ["en"] = "Paid" },
         ["Remaining"] = new() { ["ar"] = "المتبقي", ["tr"] = "Kalan", ["en"] = "Remaining" },
         ["Notes"] = new() { ["ar"] = "ملاحظات", ["tr"] = "Notlar", ["en"] = "Notes" },
@@ -43,12 +46,15 @@ public static class PdfLabels
         ["TyService"] = new() { ["ar"] = "خدمة", ["tr"] = "Hizmet", ["en"] = "Service" },
         ["StDraft"] = new() { ["ar"] = "مسودة", ["tr"] = "Taslak", ["en"] = "Draft" },
         ["StSent"] = new() { ["ar"] = "تم الإرسال", ["tr"] = "Gönderildi", ["en"] = "Sent" },
+        ["StPending"] = new() { ["ar"] = "قيد الانتظار", ["tr"] = "Beklemede", ["en"] = "Pending" },
         ["StAccepted"] = new() { ["ar"] = "مقبول", ["tr"] = "Kabul Edildi", ["en"] = "Accepted" },
         ["StRejected"] = new() { ["ar"] = "مرفوض", ["tr"] = "Reddedildi", ["en"] = "Rejected" },
         ["StPaid"] = new() { ["ar"] = "مدفوع", ["tr"] = "Ödendi", ["en"] = "Paid" },
+        ["StUnpaid"] = new() { ["ar"] = "غير مدفوع", ["tr"] = "Ödenmedi", ["en"] = "Unpaid" },
         ["StCancelled"] = new() { ["ar"] = "ملغي", ["tr"] = "İptal", ["en"] = "Cancelled" },
-        ["StPartial"] = new() { ["ar"] = "مدفوع جزئياً", ["tr"] = "Kısmen Ödendi", ["en"] = "Partially Paid" },
+        ["StPartial"] = new() { ["ar"] = "جزئي", ["tr"] = "Kısmi", ["en"] = "Partial" },
         ["StConverted"] = new() { ["ar"] = "تم التحويل", ["tr"] = "Dönüştürüldü", ["en"] = "Converted" },
+        ["StQuotation"] = new() { ["ar"] = "عرض سعر", ["tr"] = "Fiyat Teklifi", ["en"] = "Quotation" },
         // Excel sheet / customer columns
         ["ExcelCustomers"] = new() { ["ar"] = "العملاء", ["tr"] = "Müşteriler", ["en"] = "Customers" },
         ["ExcelDocuments"] = new() { ["ar"] = "المستندات", ["tr"] = "Belgeler", ["en"] = "Documents" },
@@ -63,6 +69,9 @@ public static class PdfLabels
         ["RepTotal"] = new() { ["ar"] = "الإجمالي", ["tr"] = "Toplam", ["en"] = "Total" },
         ["RepPaid"] = new() { ["ar"] = "المدفوع", ["tr"] = "Ödenen", ["en"] = "Paid" },
         ["RepUnpaid"] = new() { ["ar"] = "غير المدفوع", ["tr"] = "Ödenmemiş", ["en"] = "Unpaid" },
+        ["Unit_G"] = new() { ["ar"] = "جرام", ["tr"] = "g", ["en"] = "g" },
+        ["Unit_KG"] = new() { ["ar"] = "كجم", ["tr"] = "kg", ["en"] = "kg" },
+        ["Unit_TON"] = new() { ["ar"] = "طن", ["tr"] = "ton", ["en"] = "ton" },
     };
 
     public static string Get(string key, string lang)

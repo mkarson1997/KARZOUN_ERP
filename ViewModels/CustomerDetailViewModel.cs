@@ -1,11 +1,11 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using FornixxCRM.Helpers;
-using FornixxCRM.Models;
-using FornixxCRM.Services.Interfaces;
-using FornixxCRM.ViewModels.Base;
+using KarzounERP.Helpers;
+using KarzounERP.Models;
+using KarzounERP.Services.Interfaces;
+using KarzounERP.ViewModels.Base;
 
-namespace FornixxCRM.ViewModels;
+namespace KarzounERP.ViewModels;
 
 public partial class CustomerDetailViewModel : BaseViewModel, ILoadableViewModel
 {

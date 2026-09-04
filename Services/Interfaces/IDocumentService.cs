@@ -1,7 +1,7 @@
-using FornixxCRM.Models;
-using FornixxCRM.Reports;
+using KarzounERP.Models;
+using KarzounERP.Reports;
 
-namespace FornixxCRM.Services.Interfaces;
+namespace KarzounERP.Services.Interfaces;
 
 public interface IDocumentService
 {

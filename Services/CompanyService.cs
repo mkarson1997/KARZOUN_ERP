@@ -1,9 +1,9 @@
-using FornixxCRM.Data;
-using FornixxCRM.Models;
-using FornixxCRM.Services.Interfaces;
+using KarzounERP.Data;
+using KarzounERP.Models;
+using KarzounERP.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace FornixxCRM.Services;
+namespace KarzounERP.Services;
 
 public class CompanyService : ICompanyService
 {
@@ -45,4 +45,35 @@ public class CompanyService : ICompanyService
         => await _context.Customers.AnyAsync(c => c.CompanyId == id)
         || await _context.Documents.AnyAsync(d => d.CompanyId == id)
         || await _context.Products.AnyAsync(p => p.CompanyId == id);
+
+    public async Task<CompanyLocalizedSetting?> GetLocalizedSettingAsync(int companyId, string languageCode)
+    {
+        return await _context.CompanyLocalizedSettings
+            .FirstOrDefaultAsync(s => s.CompanyId == companyId && s.LanguageCode == languageCode);
+    }
+
+    public async Task SaveLocalizedSettingAsync(CompanyLocalizedSetting setting)
+    {
+        var existing = await _context.CompanyLocalizedSettings
+            .FirstOrDefaultAsync(s => s.CompanyId == setting.CompanyId && s.LanguageCode == setting.LanguageCode);
+
+        if (existing != null)
+        {
+            existing.DefaultInvoiceNotes = setting.DefaultInvoiceNotes;
+            existing.DefaultQuotationNotes = setting.DefaultQuotationNotes;
+            existing.LegalFooterText = setting.LegalFooterText;
+            existing.DefaultPaymentDetails = setting.DefaultPaymentDetails;
+            existing.QrTemplateText = setting.QrTemplateText;
+            existing.UpdatedAt = DateTime.UtcNow;
+            _context.CompanyLocalizedSettings.Update(existing);
+        }
+        else
+        {
+            setting.CreatedAt = DateTime.UtcNow;
+            setting.UpdatedAt = DateTime.UtcNow;
+            _context.CompanyLocalizedSettings.Add(setting);
+        }
+
+        await _context.SaveChangesAsync();
+    }
 }

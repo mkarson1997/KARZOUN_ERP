@@ -1,7 +1,7 @@
-using FornixxCRM.ViewModels;
+using KarzounERP.ViewModels;
 using System.Windows.Controls;
 
-namespace FornixxCRM.Views.Reports;
+namespace KarzounERP.Views.Reports;
 
 public partial class ReportsPage : UserControl
 {

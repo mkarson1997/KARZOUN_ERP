@@ -1,19 +1,21 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using FornixxCRM.Helpers;
-using FornixxCRM.Models;
-using FornixxCRM.Services.Interfaces;
-using FornixxCRM.ViewModels.Base;
+using KarzounERP.Helpers;
+using KarzounERP.Models;
+using KarzounERP.Services.Interfaces;
+using KarzounERP.ViewModels.Base;
 using Microsoft.Win32;
 using System.Windows;
 
-namespace FornixxCRM.ViewModels;
+namespace KarzounERP.ViewModels;
 
-public partial class SettingsViewModel : BaseViewModel, ILocalizableViewModel
+public partial class SettingsViewModel : BaseViewModel, ILocalizableViewModel, ILoadableViewModel
 {
     private readonly ICompanyService _companyService;
     private readonly IBackupService _backupService;
     private readonly AppSession _session;
+    private readonly INotificationService _notificationService;
+    private CompanyLocalizedSetting? _loadedLocalizedSetting;
 
     [ObservableProperty] private Company? _company;
     [ObservableProperty] private string _name = string.Empty;
@@ -38,6 +40,25 @@ public partial class SettingsViewModel : BaseViewModel, ILocalizableViewModel
     [ObservableProperty] private int _numberPadding = 4;
     [ObservableProperty] private bool _passwordEnabled;
     [ObservableProperty] private string _passwordInput = string.Empty;
+    [ObservableProperty] private bool _showProductImageInQuotation;
+    [ObservableProperty] private bool _showCustomerContactInPdf;
+    [ObservableProperty] private bool _autoBackupEnabled;
+    [ObservableProperty] private int _autoBackupIntervalMinutes = 30;
+
+    [ObservableProperty] private bool _isNameInvalid;
+    [ObservableProperty] private bool _isCurrencyInvalid;
+    [ObservableProperty] private bool _isInvoicePrefixInvalid;
+    [ObservableProperty] private bool _isQuotationPrefixInvalid;
+    [ObservableProperty] private bool _isBackupIntervalInvalid;
+    [ObservableProperty] private bool _isPasswordInvalid;
+
+    public string AutoBackupLocationText => string.Format(LocalizationManager.Get("Settings_AutoBackupLocation"), BackupFolder);
+
+    partial void OnBackupFolderChanged(string value)
+    {
+        OnPropertyChanged(nameof(AutoBackupLocationText));
+    }
+
 
     // Language selection
     private string _selectedLanguage = LocalizationManager.Language;
@@ -57,11 +78,12 @@ public partial class SettingsViewModel : BaseViewModel, ILocalizableViewModel
         set { if (value) { _selectedLanguage = "en"; OnPropertyChanged(); OnPropertyChanged(nameof(IsArabic)); OnPropertyChanged(nameof(IsTurkish)); } }
     }
 
-    public SettingsViewModel(ICompanyService companyService, IBackupService backupService, AppSession session)
+    public SettingsViewModel(ICompanyService companyService, IBackupService backupService, AppSession session, INotificationService notificationService)
     {
         _companyService = companyService;
         _backupService = backupService;
         _session = session;
+        _notificationService = notificationService;
         _session.ActiveCompanyChanged += async (_, _) => await LoadAsync();
     }
 
@@ -78,16 +100,34 @@ public partial class SettingsViewModel : BaseViewModel, ILocalizableViewModel
         InvoicePrefix = Company.InvoicePrefix; QuotationPrefix = Company.QuotationPrefix;
         NextInvoiceNumber = Company.NextInvoiceNumber; NextQuotationNumber = Company.NextQuotationNumber;
         NumberPadding = Company.NumberPadding;
-        DefaultInvoiceNotes = Company.DefaultInvoiceNotes ?? "";
-        DefaultQuotationNotes = Company.DefaultQuotationNotes ?? "";
-        FooterText = Company.FooterText ?? ""; PaymentInfo = Company.PaymentInfo ?? "";
         LogoPath = Company.LogoPath ?? "";
         StampPath = Company.StampPath ?? "";
-        QrCodeTemplate = Company.QrCodeTemplate ?? "";
-        BackupFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "FornixxCRM_Backups");
+        ShowProductImageInQuotation = Company.ShowProductImageInQuotation;
+        ShowCustomerContactInPdf = Company.ShowCustomerContactInPdf;
+        AutoBackupEnabled = Company.AutoBackupEnabled;
+        AutoBackupIntervalMinutes = Company.AutoBackupIntervalMinutes > 0 ? Company.AutoBackupIntervalMinutes : 30;
+        BackupFolder = _backupService.ResolveBackupFolder(Company.BackupFolder);
         PasswordEnabled = !string.IsNullOrWhiteSpace(Company.AppPassword);
         PasswordInput = PasswordEnabled ? "********" : string.Empty;
         UpdateNumberPreviews();
+
+        _loadedLocalizedSetting = await _companyService.GetLocalizedSettingAsync(Company.Id, LocalizationManager.Language);
+        if (_loadedLocalizedSetting != null)
+        {
+            DefaultInvoiceNotes = _loadedLocalizedSetting.DefaultInvoiceNotes ?? "";
+            DefaultQuotationNotes = _loadedLocalizedSetting.DefaultQuotationNotes ?? "";
+            FooterText = _loadedLocalizedSetting.LegalFooterText ?? "";
+            PaymentInfo = _loadedLocalizedSetting.DefaultPaymentDetails ?? "";
+            QrCodeTemplate = _loadedLocalizedSetting.QrTemplateText ?? "";
+        }
+        else
+        {
+            DefaultInvoiceNotes = "";
+            DefaultQuotationNotes = "";
+            FooterText = "";
+            PaymentInfo = "";
+            QrCodeTemplate = "";
+        }
     }
 
     private void SyncLanguageFromManager()
@@ -116,6 +156,41 @@ public partial class SettingsViewModel : BaseViewModel, ILocalizableViewModel
     private async Task SaveSettingsAsync()
     {
         if (Company == null) return;
+
+        IsNameInvalid = string.IsNullOrWhiteSpace(Name);
+        IsCurrencyInvalid = string.IsNullOrWhiteSpace(Currency);
+        IsInvoicePrefixInvalid = string.IsNullOrWhiteSpace(InvoicePrefix);
+        IsQuotationPrefixInvalid = string.IsNullOrWhiteSpace(QuotationPrefix);
+        IsBackupIntervalInvalid = AutoBackupEnabled && AutoBackupIntervalMinutes < 1;
+        IsPasswordInvalid = PasswordEnabled && string.IsNullOrWhiteSpace(PasswordInput);
+
+        if (IsNameInvalid || IsCurrencyInvalid || IsInvoicePrefixInvalid || IsQuotationPrefixInvalid || IsBackupIntervalInvalid || IsPasswordInvalid)
+        {
+            _notificationService.Error(LocalizationManager.Get("Msg_RequiredFields") ?? "Please fill in the required fields.");
+            if (IsNameInvalid) RaiseRequestFocus(nameof(Name));
+            else if (IsCurrencyInvalid) RaiseRequestFocus(nameof(Currency));
+            else if (IsInvoicePrefixInvalid) RaiseRequestFocus(nameof(InvoicePrefix));
+            else if (IsQuotationPrefixInvalid) RaiseRequestFocus(nameof(QuotationPrefix));
+            else if (IsBackupIntervalInvalid) RaiseRequestFocus(nameof(AutoBackupIntervalMinutes));
+            else if (IsPasswordInvalid) RaiseRequestFocus(nameof(PasswordInput));
+            return;
+        }
+
+        bool previouslyPasswordProtected = !string.IsNullOrWhiteSpace(Company.AppPassword);
+        if (previouslyPasswordProtected && !PasswordEnabled)
+        {
+            var result = MessageBox.Show(
+                LocalizationManager.Get("Msg_ConfirmDisablePassword") ?? "Are you sure you want to disable password protection?",
+                LocalizationManager.Get("Msg_Confirmation") ?? "Confirmation",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+            if (result != MessageBoxResult.Yes)
+            {
+                PasswordEnabled = true;
+                return;
+            }
+        }
+
         Company.Name = Name.Trim(); Company.CommercialName = CommercialName.Trim();
         Company.Currency = Currency.Trim(); Company.TaxEnabled = TaxEnabled; Company.TaxRate = TaxRate;
         Company.InvoicePrefix = string.IsNullOrWhiteSpace(InvoicePrefix) ? "INV" : InvoicePrefix.Trim();
@@ -123,12 +198,13 @@ public partial class SettingsViewModel : BaseViewModel, ILocalizableViewModel
         Company.NextInvoiceNumber = NextInvoiceNumber > 0 ? NextInvoiceNumber : 1;
         Company.NextQuotationNumber = NextQuotationNumber > 0 ? NextQuotationNumber : 1;
         Company.NumberPadding = NumberPadding > 0 ? NumberPadding : 4;
-        Company.DefaultInvoiceNotes = DefaultInvoiceNotes;
-        Company.DefaultQuotationNotes = DefaultQuotationNotes;
-        Company.FooterText = FooterText; Company.PaymentInfo = PaymentInfo;
         Company.LogoPath = string.IsNullOrWhiteSpace(LogoPath) ? null : LogoPath;
         Company.StampPath = string.IsNullOrWhiteSpace(StampPath) ? null : StampPath;
-        Company.QrCodeTemplate = QrCodeTemplate;
+        Company.ShowProductImageInQuotation = ShowProductImageInQuotation;
+        Company.ShowCustomerContactInPdf = ShowCustomerContactInPdf;
+        Company.AutoBackupEnabled = AutoBackupEnabled;
+        Company.AutoBackupIntervalMinutes = AutoBackupIntervalMinutes > 0 ? AutoBackupIntervalMinutes : 30;
+        Company.BackupFolder = BackupFolder;
 
         if (PasswordEnabled)
         {
@@ -143,22 +219,73 @@ public partial class SettingsViewModel : BaseViewModel, ILocalizableViewModel
         }
 
         await _companyService.UpdateCompanyAsync(Company);
+
+        var localized = _loadedLocalizedSetting ?? new CompanyLocalizedSetting
+        {
+            CompanyId = Company.Id,
+            LanguageCode = LocalizationManager.Language
+        };
+        localized.DefaultInvoiceNotes = DefaultInvoiceNotes;
+        localized.DefaultQuotationNotes = DefaultQuotationNotes;
+        localized.LegalFooterText = FooterText;
+        localized.DefaultPaymentDetails = PaymentInfo;
+        localized.QrTemplateText = QrCodeTemplate;
+
+        await _companyService.SaveLocalizedSettingAsync(localized);
+        _loadedLocalizedSetting = localized;
+
         _session.ActiveCompany = Company;
+        _notificationService.Success(LocalizationManager.Get("Msg_SettingsSaved") ?? "Settings saved successfully.");
         StatusMessage = LocalizationManager.Get("Msg_SettingsSaved");
         await Task.Delay(3000);
         StatusMessage = string.Empty;
     }
 
+    private bool HasUnsavedChanges()
+    {
+        if (_loadedLocalizedSetting == null) return false;
+        return DefaultInvoiceNotes != (_loadedLocalizedSetting.DefaultInvoiceNotes ?? string.Empty) ||
+               DefaultQuotationNotes != (_loadedLocalizedSetting.DefaultQuotationNotes ?? string.Empty) ||
+               FooterText != (_loadedLocalizedSetting.LegalFooterText ?? string.Empty) ||
+               PaymentInfo != (_loadedLocalizedSetting.DefaultPaymentDetails ?? string.Empty) ||
+               QrCodeTemplate != (_loadedLocalizedSetting.QrTemplateText ?? string.Empty);
+    }
+
     [RelayCommand]
-    private void SaveLanguage()
+    private async Task SaveLanguageAsync()
     {
         AppLogger.LogInfo($"[Settings] User selected language: {_selectedLanguage}");
+
+        if (HasUnsavedChanges())
+        {
+            var result = MessageBox.Show(
+                LocalizationManager.Get("Msg_UnsavedChangesConfirm"),
+                LocalizationManager.Get("Msg_Warning"),
+                MessageBoxButton.YesNoCancel,
+                MessageBoxImage.Warning);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                await SaveSettingsAsync();
+            }
+            else if (result == MessageBoxResult.Cancel)
+            {
+                SyncLanguageFromManager();
+                return;
+            }
+        }
+
         LocalizationManager.ApplyLanguage(_selectedLanguage, persist: true);
+        _notificationService.Success(LocalizationManager.Get("Msg_LangSaved") ?? "Language applied.");
         StatusMessage = LocalizationManager.Get("Msg_LangSaved");
         AppLogger.LogInfo($"[Settings] Language applied live: {LocalizationManager.Language}");
     }
 
-    public void RefreshLocalization() => SyncLanguageFromManager();
+    public void RefreshLocalization()
+    {
+        SyncLanguageFromManager();
+        OnPropertyChanged(nameof(AutoBackupLocationText));
+    }
 
     [RelayCommand]
     private void BrowseLogo()
@@ -207,16 +334,16 @@ public partial class SettingsViewModel : BaseViewModel, ILocalizableViewModel
         SetBusy(true, LocalizationManager.Get("Msg_Saving"));
         try
         {
-            var folder = string.IsNullOrWhiteSpace(BackupFolder)
-                ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "FornixxCRM_Backups")
-                : BackupFolder;
+            var folder = _backupService.ResolveBackupFolder(BackupFolder);
             var path = _backupService.BackupDatabase(folder);
             StatusMessage = $"✓ {LocalizationManager.Get("Sett_BackupNow")}: {path}";
+            _notificationService.Success(LocalizationManager.Get("Msg_BackupSuccess") ?? "Database backup created successfully.");
         }
         catch (Exception ex)
         {
             AppLogger.LogError("Backup failed", ex);
             StatusMessage = $"✗ {ex.Message}";
+            _notificationService.Error($"{LocalizationManager.Get("Msg_BackupFailed") ?? "Database backup failed"}: {ex.Message}");
         }
         finally { SetBusy(false); }
         await Task.Delay(5000);
@@ -241,10 +368,44 @@ public partial class SettingsViewModel : BaseViewModel, ILocalizableViewModel
 
         bool ok = _backupService.RestoreDatabase(dlg.FileName);
         if (ok)
-            MessageBox.Show(LocalizationManager.Get("Msg_RestoreSuccess"),
-                LocalizationManager.Get("Msg_RestoreSuccessTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
+        {
+            MessageBox.Show(LocalizationManager.Get("Msg_RestoreSuccess") ?? "Database restored successfully. The application will now restart.",
+                LocalizationManager.Get("Msg_RestoreSuccessTitle") ?? "Restore Successful", MessageBoxButton.OK, MessageBoxImage.Information);
+            System.Diagnostics.Process.Start(Environment.ProcessPath ?? Path.Combine(AppContext.BaseDirectory, "KARZOUN_ERP.exe"));
+            Application.Current.Shutdown();
+        }
         else
-            MessageBox.Show(LocalizationManager.Get("Msg_RestoreFail"),
-                LocalizationManager.Get("Msg_Error"), MessageBoxButton.OK, MessageBoxImage.Error);
+        {
+            MessageBox.Show(LocalizationManager.Get("Msg_RestoreFail") ?? "Failed to restore database.",
+                LocalizationManager.Get("Msg_Error") ?? "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    [RelayCommand]
+    private void ClearLogo()
+    {
+        if (string.IsNullOrEmpty(LogoPath)) return;
+        var result = MessageBox.Show(
+            LocalizationManager.Get("Msg_ConfirmClearLogo") ?? "Are you sure you want to remove the company logo?",
+            LocalizationManager.Get("Msg_Confirmation") ?? "Confirmation",
+            MessageBoxButton.YesNo, MessageBoxImage.Question);
+        if (result == MessageBoxResult.Yes)
+        {
+            LogoPath = string.Empty;
+        }
+    }
+
+    [RelayCommand]
+    private void ClearStamp()
+    {
+        if (string.IsNullOrEmpty(StampPath)) return;
+        var result = MessageBox.Show(
+            LocalizationManager.Get("Msg_ConfirmClearStamp") ?? "Are you sure you want to remove the stamp / signature?",
+            LocalizationManager.Get("Msg_Confirmation") ?? "Confirmation",
+            MessageBoxButton.YesNo, MessageBoxImage.Question);
+        if (result == MessageBoxResult.Yes)
+        {
+            StampPath = string.Empty;
+        }
     }
 }

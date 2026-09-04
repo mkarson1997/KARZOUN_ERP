@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace FornixxCRM.Helpers.Converters;
+namespace KarzounERP.Helpers.Converters;
 
 public class BoolToVisibilityConverter : IValueConverter
 {
@@ -10,7 +10,15 @@ public class BoolToVisibilityConverter : IValueConverter
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        bool bval = value is bool b && b;
+        bool bval = value switch
+        {
+            bool b => b,
+            int i => i > 0,
+            long l => l > 0,
+            decimal d => d != 0,
+            string s => !string.IsNullOrWhiteSpace(s),
+            _ => false
+        };
         if (Invert) bval = !bval;
         return bval ? Visibility.Visible : Visibility.Collapsed;
     }

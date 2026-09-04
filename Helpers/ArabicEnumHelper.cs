@@ -1,6 +1,6 @@
-using FornixxCRM.Models;
+using KarzounERP.Models;
 
-namespace FornixxCRM.Helpers;
+namespace KarzounERP.Helpers;
 
 public static class ArabicEnumHelper
 {
@@ -50,12 +50,15 @@ public static class ArabicEnumHelper
     {
         DocumentStatus.Draft => LocalizationManager.Get("Status_Draft"),
         DocumentStatus.Sent => LocalizationManager.Get("Status_Sent"),
+        DocumentStatus.Pending => LocalizationManager.Get("Status_Pending"),
         DocumentStatus.Accepted => LocalizationManager.Get("Status_Accepted"),
         DocumentStatus.Rejected => LocalizationManager.Get("Status_Rejected"),
         DocumentStatus.Paid => LocalizationManager.Get("Status_Paid"),
+        DocumentStatus.Unpaid => LocalizationManager.Get("Status_Unpaid"),
         DocumentStatus.Cancelled => LocalizationManager.Get("Status_Cancelled"),
         DocumentStatus.PartiallyPaid => LocalizationManager.Get("Status_PartiallyPaid"),
         DocumentStatus.Converted => LocalizationManager.Get("Status_Converted"),
+        DocumentStatus.Quotation => LocalizationManager.Get("Status_Quotation"),
         _ => value.ToString()
     };
 
@@ -83,5 +86,19 @@ public static class ArabicEnumHelper
         Enum.GetValues<ProductType>();
 
     public static IEnumerable<DocumentStatus> AllDocumentStatuses =>
-        Enum.GetValues<DocumentStatus>();
+        new[]
+        {
+            DocumentStatus.Draft,
+            DocumentStatus.Sent,
+            DocumentStatus.Pending,
+            DocumentStatus.Accepted,
+            DocumentStatus.Rejected,
+            DocumentStatus.Paid,
+            DocumentStatus.Unpaid,
+            DocumentStatus.PartiallyPaid,
+            DocumentStatus.Cancelled
+        };
+
+    public static IEnumerable<DocumentStatus> QuotationDocumentStatuses =>
+        new[] { DocumentStatus.Quotation }.Concat(AllDocumentStatuses);
 }

@@ -1,6 +1,6 @@
 using System.Windows;
 
-namespace FornixxCRM.Helpers;
+namespace KarzounERP.Helpers;
 
 public static class LocalizationManager
 {
@@ -49,10 +49,25 @@ public static class LocalizationManager
         foreach (var old in existing)
             Application.Current.Resources.MergedDictionaries.Remove(old);
 
-        var uri = new Uri($"pack://application:,,,/FornixxCRM;component/Resources/Strings.{valid}.xaml");
+        var uri = new Uri($"pack://application:,,,/KARZOUN_ERP;component/Resources/Strings.{valid}.xaml");
         Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = uri });
 
         Application.Current.Resources["AppFlowDirection"] = FlowDirection;
+        Application.Current.Resources["AppTextAlignment"] = IsRtl ? TextAlignment.Right : TextAlignment.Left;
+        Application.Current.Resources["AppHorizontalAlignment"] = IsRtl ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+        Application.Current.Resources["AppContentAlignment"] = IsRtl ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+        Application.Current.Resources["AppDataGridTextAlignment"] = IsRtl ? TextAlignment.Right : TextAlignment.Left;
+        Application.Current.Resources["AppOppositeHorizontalAlignment"] = IsRtl ? HorizontalAlignment.Left : HorizontalAlignment.Right;
+        Application.Current.Resources["AppFontFamily"] = IsRtl
+            ? new System.Windows.Media.FontFamily("Tajawal, Segoe UI, Tahoma, Arial")
+            : new System.Windows.Media.FontFamily("Inter, Segoe UI, Arial");
+        Application.Current.Resources["AppHeadlineFontFamily"] = IsRtl
+            ? new System.Windows.Media.FontFamily("IBM Plex Sans Arabic SemiBold, Tajawal, Segoe UI Semibold, Tahoma, Arial")
+            : new System.Windows.Media.FontFamily("Sora SemiBold, Segoe UI Semibold, Segoe UI, Arial");
+        Application.Current.Resources["AppIconMargin"] = IsRtl ? new Thickness(8, 0, 0, 0) : new Thickness(0, 0, 8, 0);
+        Application.Current.Resources["AppMargin_8_0"] = IsRtl ? new Thickness(0, 0, 8, 0) : new Thickness(8, 0, 0, 0);
+        Application.Current.Resources["AppMargin_10_0"] = IsRtl ? new Thickness(0, 0, 10, 0) : new Thickness(10, 0, 0, 0);
+        Application.Current.Resources["AppMargin_20_0"] = IsRtl ? new Thickness(0, 0, 20, 0) : new Thickness(20, 0, 0, 0);
 
         if (persist)
             SaveLanguageToFile(valid);
@@ -141,8 +156,7 @@ public static class LocalizationManager
 
     private static string GetLangFile()
     {
-        var dir = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "FornixxCRM");
+        var dir = AppPaths.DataRoot;
         Directory.CreateDirectory(dir);
         return Path.Combine(dir, "language.txt");
     }

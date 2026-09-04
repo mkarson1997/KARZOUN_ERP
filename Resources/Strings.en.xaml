@@ -4,8 +4,10 @@
 
     <!-- App / Nav -->
     <sys:String x:Key="App_Subtitle">Customer &amp; Sales Management System</sys:String>
-    <sys:String x:Key="App_Title">Customer Relationship Management</sys:String>
-    <sys:String x:Key="App_Version">Version 1.0.0 | Fornixx CRM Pro</sys:String>
+    <sys:String x:Key="App_Title">KARZOUN ERP</sys:String>
+    <sys:String x:Key="App_Version">Version 1.1.0 | KARZOUN ERP</sys:String>
+    <sys:String x:Key="App_VersionLine">Version 1.1.0</sys:String>
+    <sys:String x:Key="App_DeveloperCredit">Developed by Karzoun</sys:String>
     <sys:String x:Key="Nav_ActiveCompany">Active Company</sys:String>
     <sys:String x:Key="Nav_MainMenu">Main Menu</sys:String>
     <sys:String x:Key="Nav_AnalysisMgmt">Analysis &amp; Management</sys:String>
@@ -17,6 +19,77 @@
     <sys:String x:Key="Nav_Reports">Reports</sys:String>
     <sys:String x:Key="Nav_Companies">Companies</sys:String>
     <sys:String x:Key="Nav_Settings">Settings</sys:String>
+    <sys:String x:Key="Nav_Logs">Log File</sys:String>
+    <sys:String x:Key="Bulk_Selected">Selected: </sys:String>
+    <sys:String x:Key="Msg_ConfirmDeleteSelected">Delete {0} selected item(s)?</sys:String>
+    <sys:String x:Key="Msg_SelectedDeleted">{0} selected item(s) deleted.</sys:String>
+    <sys:String x:Key="Msg_ProductMayExistContinue">This product may already exist. Similarity: {0}%. Do you want to continue anyway?</sys:String>
+    <sys:String x:Key="Btn_ContinueAnyway">Continue anyway</sys:String>
+    <sys:String x:Key="Btn_EditProduct">Edit product</sys:String>
+    <sys:String x:Key="DupLive_ClosestSimilarity">Closest product similarity: {0}%</sys:String>
+    <sys:String x:Key="DupLive_ClosestProduct">Closest product: {0}</sys:String>
+    <sys:String x:Key="DupLive_NameSimilarDifferentIdentity">Name is similar, but weight or type is different.</sys:String>
+    <sys:String x:Key="Dup_PotentialDuplicate">Potential duplicate</sys:String>
+    <sys:String x:Key="Dup_ColumnMark">Duplicate</sys:String>
+    <sys:String x:Key="DuplicateReport_Title">Check duplicates result</sys:String>
+    <sys:String x:Key="DuplicateReport_Subtitle">Review exact duplicate and highly similar product pairs.</sys:String>
+    <sys:String x:Key="Msg_NoSeriousDuplicatesFound">No serious duplicate or highly similar products were found.</sys:String>
+    <sys:String x:Key="Dup_ProductA">Product A</sys:String>
+    <sys:String x:Key="Dup_ProductB">Product B</sys:String>
+    <sys:String x:Key="Dup_NameSimilarity">Name similarity %</sys:String>
+    <sys:String x:Key="Dup_IdentitySimilarity">Identity similarity %</sys:String>
+    <sys:String x:Key="Dup_Reason">Reason</sys:String>
+    <sys:String x:Key="Dup_SuggestedAction">Suggested action</sys:String>
+    <sys:String x:Key="DupReason_ExactMatch">Almost exact match</sys:String>
+    <sys:String x:Key="DupReason_SameNameWeightUnit">Same name, weight, and unit</sys:String>
+    <sys:String x:Key="DupReason_NearExact">Very high identity similarity</sys:String>
+    <sys:String x:Key="DupReason_NameSimilarDifferentWeight">Name is similar but weight is different</sys:String>
+    <sys:String x:Key="DupReason_HighNameSimilarity">Name is very similar</sys:String>
+    <sys:String x:Key="DupReason_PotentialDuplicate">Potential duplicate</sys:String>
+    <sys:String x:Key="DupAction_ReviewEdit">Review and edit one product if needed</sys:String>
+    <sys:String x:Key="DupAction_OkToKeepVariants">Usually safe to keep as separate variants</sys:String>
+    <sys:String x:Key="DupAction_ReviewMerge">Review before merging or deleting</sys:String>
+
+    <!-- Appearance & Design -->
+    <sys:String x:Key="Sett_AppearanceSection">Appearance &amp; Design</sys:String>
+    <sys:String x:Key="Sett_ApplyCompanyTheme">Apply Company Theme on Switch</sys:String>
+    <sys:String x:Key="Sett_ThemePreset">Karzoun surface preset</sys:String>
+    <sys:String x:Key="Sett_KarzounLight">Karzoun Light</sys:String>
+    <sys:String x:Key="Sett_KarzounDark">Karzoun Dark</sys:String>
+    <sys:String x:Key="Sett_SelectColorToEdit">Select color to edit</sys:String>
+    <sys:String x:Key="Sett_ColorEditor">Color Editor</sys:String>
+    <sys:String x:Key="Sett_PresetPalette">Preset Palette:</sys:String>
+    <sys:String x:Key="Sett_ResetToDefault">Reset to Default</sys:String>
+    <sys:String x:Key="Sett_PdfLayoutSection">PDF Layout</sys:String>
+    <sys:String x:Key="Sett_PdfCompanyInfoTopMargin">Company Info Top Margin</sys:String>
+    <sys:String x:Key="Sett_PdfLogoTopMargin">Logo Top Margin</sys:String>
+    <sys:String x:Key="Sett_PdfHeaderSpacing">Header Spacing</sys:String>
+    <sys:String x:Key="Sett_PdfTableSpacing">Table Spacing</sys:String>
+    <sys:String x:Key="Sett_PdfFontSize">PDF Font Size</sys:String>
+    <sys:String x:Key="Color_PrimaryColor">Primary Color</sys:String>
+    <sys:String x:Key="Color_SecondaryColor">Secondary Color</sys:String>
+    <sys:String x:Key="Color_AccentColor">Accent Color</sys:String>
+    <sys:String x:Key="Color_SidebarBackground">Sidebar Background</sys:String>
+    <sys:String x:Key="Color_SidebarTextColor">Sidebar Text Color</sys:String>
+    <sys:String x:Key="Color_ButtonColor">Button Color</sys:String>
+    <sys:String x:Key="Color_ButtonTextColor">Button Text Color</sys:String>
+    <sys:String x:Key="Color_CardBackground">Card Background</sys:String>
+    <sys:String x:Key="Color_PageBackground">Page Background</sys:String>
+    <sys:String x:Key="Color_CompanyThemePrimaryColor">Company Theme Primary</sys:String>
+    <sys:String x:Key="Color_CompanyThemeAccentColor">Company Theme Accent</sys:String>
+    <sys:String x:Key="Color_PdfPrimaryColor">PDF Primary Color</sys:String>
+    <sys:String x:Key="Color_PdfHeaderColor">PDF Header Color</sys:String>
+    <sys:String x:Key="Color_PdfTableHeaderColor">PDF Table Header Color</sys:String>
+    <sys:String x:Key="Color_PdfBorderColor">PDF Border Color</sys:String>
+    <sys:String x:Key="Color_PdfAccentColor">PDF Accent Color</sys:String>
+    <sys:String x:Key="Color_PdfTotalBoxColor">PDF Total Box Color</sys:String>
+    <sys:String x:Key="Color_Helper_Default">Select a color to customize the application appearance.</sys:String>
+    <sys:String x:Key="Preview_PrimaryUsage">Primary usage preview</sys:String>
+    <sys:String x:Key="Preview_SecondaryUsage">Secondary usage preview</sys:String>
+    <sys:String x:Key="Preview_AccentUsage">Accent usage preview</sys:String>
+    <sys:String x:Key="Msg_AppearanceNavError">An error occurred while opening the Appearance &amp; Design page. Error details were saved to the log file.</sys:String>
+    <sys:String x:Key="Msg_NavigationError">An error occurred while opening the page. Error details were saved to the log file.</sys:String>
+    <sys:String x:Key="Msg_UnhandledError">An unexpected error occurred. Error details were saved to the log file.</sys:String>
 
     <!-- Common Buttons -->
     <sys:String x:Key="Btn_Save">Save</sys:String>
@@ -64,6 +137,8 @@
     <!-- Customers -->
     <sys:String x:Key="Cust_Title">Customers</sys:String>
     <sys:String x:Key="Cust_New">+ Add Customer</sys:String>
+    <sys:String x:Key="Cust_ImportExcel">Import from Excel</sys:String>
+    <sys:String x:Key="Cust_ExportSelected">Export Selected Columns</sys:String>
     <sys:String x:Key="Cust_SearchHint">Search (Name, Phone, Email, Country)</sys:String>
     <sys:String x:Key="Cust_FilterImportance">Importance Level</sys:String>
     <sys:String x:Key="Cust_FilterStage">Follow-up Stage</sys:String>
@@ -96,10 +171,13 @@
     <sys:String x:Key="Prod_TotalUnit">Products / Services</sys:String>
     <sys:String x:Key="Prod_Active">Active</sys:String>
     <sys:String x:Key="Prod_Inactive">Inactive</sys:String>
+    <sys:String x:Key="Prod_ImportExcel">Import Excel</sys:String>
+    <sys:String x:Key="Prod_ExportExcel">Export Excel</sys:String>
+    <sys:String x:Key="Prod_CheckDuplicates">Check Duplicates</sys:String>
 
     <!-- Document List -->
     <sys:String x:Key="DocList_TitleQ">Quotations</sys:String>
-    <sys:String x:Key="DocList_TitleI">Final Invoices</sys:String>
+    <sys:String x:Key="DocList_TitleI">Invoices</sys:String>
     <sys:String x:Key="DocList_TitleAll">Documents</sys:String>
     <sys:String x:Key="DocList_New">+ New Document</sys:String>
     <sys:String x:Key="DocList_FilterStatus">Filter by Status</sys:String>
@@ -143,7 +221,11 @@
     <sys:String x:Key="DocForm_Subtotal">Subtotal:</sys:String>
     <sys:String x:Key="DocForm_Discount">Discount:</sys:String>
     <sys:String x:Key="DocForm_GrandTotal">Grand Total:</sys:String>
+    <sys:String x:Key="DocForm_TotalQuantity">Total Quantity</sys:String>
+    <sys:String x:Key="DocForm_TotalWeight">Total Weight</sys:String>
     <sys:String x:Key="DocForm_Language">Document Language</sys:String>
+    <sys:String x:Key="DocForm_ProductSearchHint">Type to search products and services</sys:String>
+    <sys:String x:Key="DocForm_AddCustomProduct">Add custom product</sys:String>
 
     <!-- Settings -->
     <sys:String x:Key="Sett_Title">Settings</sys:String>
@@ -172,6 +254,13 @@
     <sys:String x:Key="Sett_PaymentInfo">Default Payment Info</sys:String>
     <sys:String x:Key="Sett_SaveBtn">Save Settings</sys:String>
     <sys:String x:Key="Sett_BackupSection">Backup &amp; Restore</sys:String>
+    <sys:String x:Key="Settings_Features">Additional Features</sys:String>
+    <sys:String x:Key="Settings_ShowProductImageQuotation">Show product images in PDF</sys:String>
+    <sys:String x:Key="Settings_ShowCustomerContactPdf">Show customer contact information in PDF</sys:String>
+    <sys:String x:Key="Settings_AutoBackup">Automatic Backup</sys:String>
+    <sys:String x:Key="Settings_EnableAutoBackup">Enable automatic backup</sys:String>
+    <sys:String x:Key="Settings_BackupInterval">Backup interval (minutes)</sys:String>
+    <sys:String x:Key="Settings_AutoBackupLocation">Auto backup location: {0}</sys:String>
     <sys:String x:Key="Sett_BackupFolder">Backup Folder</sys:String>
     <sys:String x:Key="Sett_BackupNow">Backup Now</sys:String>
     <sys:String x:Key="Sett_Restore">Restore from Backup</sys:String>
@@ -222,12 +311,15 @@
     <!-- Enum Labels -->
     <sys:String x:Key="Status_Draft">Draft</sys:String>
     <sys:String x:Key="Status_Sent">Sent</sys:String>
+    <sys:String x:Key="Status_Pending">Pending</sys:String>
     <sys:String x:Key="Status_Accepted">Accepted</sys:String>
     <sys:String x:Key="Status_Rejected">Rejected</sys:String>
     <sys:String x:Key="Status_Paid">Paid</sys:String>
+    <sys:String x:Key="Status_Unpaid">Unpaid</sys:String>
     <sys:String x:Key="Status_Cancelled">Cancelled</sys:String>
-    <sys:String x:Key="Status_PartiallyPaid">Partially Paid</sys:String>
+    <sys:String x:Key="Status_PartiallyPaid">Partial</sys:String>
     <sys:String x:Key="Status_Converted">Converted to Invoice</sys:String>
+    <sys:String x:Key="Status_Quotation">Quotation</sys:String>
     <sys:String x:Key="ProdType_Physical">Physical Product</sys:String>
     <sys:String x:Key="ProdType_Service">Service</sys:String>
     <sys:String x:Key="DocType_Quotation">Quotation</sys:String>
@@ -255,6 +347,7 @@
     <sys:String x:Key="Msg_LoadingCustomers">Loading customers...</sys:String>
     <sys:String x:Key="Msg_LoadingDocuments">Loading documents...</sys:String>
     <sys:String x:Key="Msg_LoadingProducts">Loading products...</sys:String>
+    <sys:String x:Key="Msg_Importing">Importing...</sys:String>
     <sys:String x:Key="Msg_GeneratingPdf">Generating PDF file...</sys:String>
     <sys:String x:Key="Msg_ValidationCustomer">Please select a customer.</sys:String>
     <sys:String x:Key="Msg_ValidationCustomerName">Customer name is required.</sys:String>
@@ -270,6 +363,9 @@
     <sys:String x:Key="Msg_Error">Error</sys:String>
     <sys:String x:Key="Msg_SettingsSaved">✓ Settings saved successfully.</sys:String>
     <sys:String x:Key="Msg_LangSaved">✓ Language applied.</sys:String>
+    <sys:String x:Key="Msg_UnsavedChangesConfirm">You have unsaved changes in company settings. Do you want to save them before changing the language?</sys:String>
+    <sys:String x:Key="Msg_ImportSummary">Imported: {0}, Skipped: {1}, Duplicates: {2}, Errors: {3}</sys:String>
+    <sys:String x:Key="Msg_ExportSuccess">Export completed successfully.</sys:String>
     <sys:String x:Key="Msg_RestoreWarning">Important Warning</sys:String>
     <sys:String x:Key="Msg_RestoreConfirm">Warning: Restoring a backup will completely replace the current database.&#x0A;Are you sure?</sys:String>
     <sys:String x:Key="Msg_RestoreSuccess">Restore complete. Please restart the app to apply changes.</sys:String>
@@ -286,7 +382,7 @@ This action cannot be undone.</sys:String>
     <sys:String x:Key="Msg_Success">Success</sys:String>
     <sys:String x:Key="Msg_ConfirmDeleteCustomer">Are you sure you want to delete customer \"{0}\"?</sys:String>
     <sys:String x:Key="Msg_ConfirmDeleteDocument">Are you sure you want to delete document \"{0}\"?</sys:String>
-    <sys:String x:Key="Msg_ConfirmConvertQuotation">Do you want to convert quotation \"{0}\" to a final invoice?</sys:String>
+    <sys:String x:Key="Msg_ConfirmConvertQuotation">Do you want to convert quotation \"{0}\" to an invoice?</sys:String>
     <sys:String x:Key="Msg_InvoiceCreated">Invoice {0} created successfully.</sys:String>
     <sys:String x:Key="Msg_DocumentDuplicated">Document {0} duplicated.</sys:String>
     <sys:String x:Key="Msg_ConfirmDeleteProduct">Are you sure you want to delete \"{0}\"?</sys:String>
@@ -296,6 +392,29 @@ This action cannot be undone.</sys:String>
     <sys:String x:Key="Msg_DocumentNotFound">Document not found.</sys:String>
     <sys:String x:Key="Msg_CompanyNotFound">Company not found.</sys:String>
     <sys:String x:Key="Msg_DbFileMissing">Database file not found.</sys:String>
+
+    <sys:String x:Key="Msg_RequiredFields">Please fill in the required fields.</sys:String>
+    <sys:String x:Key="Msg_ConfirmDisablePassword">Warning: Disabling password protection will make your settings accessible to anyone. Are you sure you want to proceed?</sys:String>
+    <sys:String x:Key="Msg_ConfirmClearLogo">Are you sure you want to clear the company logo?</sys:String>
+    <sys:String x:Key="Msg_ConfirmClearStamp">Are you sure you want to clear the company stamp / signature?</sys:String>
+    <sys:String x:Key="Msg_ConfirmClearProductImage">Are you sure you want to clear the product image?</sys:String>
+    <sys:String x:Key="Msg_ExcelImportInvalidFile">Invalid file format. Please select an Excel file (.xlsx or .xls).</sys:String>
+    <sys:String x:Key="Msg_ExcelImportMissingNameCol">The required 'Name' or 'Full Name' column is missing from the Excel sheet.</sys:String>
+    <sys:String x:Key="Msg_BackupSuccess">Database backup created successfully.</sys:String>
+    <sys:String x:Key="Msg_BackupFailed">Database backup failed.</sys:String>
+    <sys:String x:Key="Msg_PdfExportSuccess">PDF exported successfully.</sys:String>
+    <sys:String x:Key="Msg_CustomerCreated">Customer '{0}' created successfully.</sys:String>
+    <sys:String x:Key="Msg_CustomerUpdated">Customer '{0}' updated successfully.</sys:String>
+    <sys:String x:Key="Msg_CustomerDeleted">Customer '{0}' deleted successfully.</sys:String>
+    <sys:String x:Key="Msg_ProductCreated">Product '{0}' created successfully.</sys:String>
+    <sys:String x:Key="Msg_ProductUpdated">Product '{0}' updated successfully.</sys:String>
+    <sys:String x:Key="Msg_ProductDeleted">Product '{0}' deleted successfully.</sys:String>
+    <sys:String x:Key="Msg_CompanyCreated">Company '{0}' created successfully.</sys:String>
+    <sys:String x:Key="Msg_CompanyUpdated">Company '{0}' updated successfully.</sys:String>
+    <sys:String x:Key="Msg_CompanyDeleted">Company '{0}' deleted successfully.</sys:String>
+    <sys:String x:Key="Msg_DocumentCreated">Document '{0}' created successfully.</sys:String>
+    <sys:String x:Key="Msg_DocumentUpdated">Document '{0}' updated successfully.</sys:String>
+    <sys:String x:Key="Msg_DocumentDeleted">Document '{0}' deleted successfully.</sys:String>
 
     <!-- Dialogs -->
     <sys:String x:Key="Dialog_ImageFilter">Image Files|*.png;*.jpg;*.jpeg;*.bmp;*.gif</sys:String>
@@ -313,7 +432,7 @@ This action cannot be undone.</sys:String>
 
     <!-- PDF Labels -->
     <sys:String x:Key="Pdf_Quotation">Quotation</sys:String>
-    <sys:String x:Key="Pdf_Invoice">Final Invoice</sys:String>
+    <sys:String x:Key="Pdf_Invoice">Invoice</sys:String>
     <sys:String x:Key="Pdf_CustomerInfo">Customer Information</sys:String>
     <sys:String x:Key="Pdf_Phone">Phone</sys:String>
     <sys:String x:Key="Pdf_Email">Email</sys:String>
@@ -353,7 +472,18 @@ This action cannot be undone.</sys:String>
     <sys:String x:Key="CompForm_Country">Country</sys:String>
     <sys:String x:Key="CompForm_Currency">Currency</sys:String>
     <sys:String x:Key="CompForm_LogoPath">Logo Path</sys:String>
+    <sys:String x:Key="CompForm_IdentitySection">Company Identity</sys:String>
+    <sys:String x:Key="CompForm_ApplyCompanyTheme">Apply company theme when switching company</sys:String>
+    <sys:String x:Key="CompForm_ThemePrimaryColor">Company primary color</sys:String>
+    <sys:String x:Key="CompForm_ThemeAccentColor">Company accent color</sys:String>
+    <sys:String x:Key="CompForm_PickColor">Pick color</sys:String>
+    <sys:String x:Key="CompForm_IdentityPreview">Live Preview</sys:String>
+    <sys:String x:Key="CompForm_ButtonPreview">Button Sample</sys:String>
+    <sys:String x:Key="CompForm_CardPreview">Card Sample</sys:String>
     <sys:String x:Key="CompForm_TaxSection">Tax Settings</sys:String>
+    <sys:String x:Key="Logs_Title">Log File</sys:String>
+    <sys:String x:Key="Logs_StatusOk">Everything is running normally.</sys:String>
+    <sys:String x:Key="Logs_StatusIssues">There are {0} warnings or errors in recent logs.</sys:String>
     <sys:String x:Key="CompForm_TaxEnabled">Enable Tax</sys:String>
     <sys:String x:Key="CompForm_TaxRate">Tax Rate %</sys:String>
     <sys:String x:Key="CompForm_NumberingSection">Document Numbering</sys:String>
@@ -371,9 +501,11 @@ This action cannot be undone.</sys:String>
     <sys:String x:Key="ProdForm_Weight">Weight (kg)</sys:String>
     <sys:String x:Key="ProdForm_DefaultQty">Default Quantity</sys:String>
     <sys:String x:Key="ProdForm_IsActive">Active Product / Service</sys:String>
+    <sys:String x:Key="ProdForm_ImagePath">Image Path</sys:String>
     <sys:String x:Key="CustForm_SectionBasic">Basic Information</sys:String>
     <sys:String x:Key="CustForm_FullName">Full Name *</sys:String>
     <sys:String x:Key="CustForm_CompanyName">Company Name</sys:String>
+    <sys:String x:Key="CustForm_ExternalCompanyColor">External company color</sys:String>
     <sys:String x:Key="CustForm_Phone">Phone</sys:String>
     <sys:String x:Key="CustForm_Email">Email</sys:String>
     <sys:String x:Key="CustForm_Country">Country</sys:String>
@@ -421,9 +553,23 @@ This action cannot be undone.</sys:String>
     <sys:String x:Key="DocForm_PaymentDate">Payment Date</sys:String>
     <sys:String x:Key="DocForm_RemainingAmount">Remaining Amount:</sys:String>
 
-    <!-- Phase 7 - Customer notes history -->
+    <!-- Phase 6 - Customer notes history -->
     <sys:String x:Key="CustDetail_NotesHistory">Follow-up &amp; Notes History</sys:String>
     <sys:String x:Key="CustDetail_AddNoteHint">Type follow-up note...</sys:String>
     <sys:String x:Key="CustDetail_AddNoteBtn">Add Note</sys:String>
+
+    <!-- Upgrade 1.0.3 Keys -->
+    <sys:String x:Key="Msg_ValidationPositiveNumber">Please enter a valid positive number.</sys:String>
+    <sys:String x:Key="Msg_DuplicateProduct">This product already exists (duplicate detected in main name or translations).</sys:String>
+    <sys:String x:Key="Msg_WarningRepeatedWords">Warning: Repeated words were found in the product name.</sys:String>
+    <sys:String x:Key="Msg_WarningNameContainsUnit">Warning: The product name contains weight unit words. Product name should remain separate from weight and unit fields.</sys:String>
+    <sys:String x:Key="Msg_ProductImageCopiedLocal">Product image copied locally.</sys:String>
+    <sys:String x:Key="Msg_InvalidImageFormat">Invalid image format. Please select a PNG, JPG, JPEG or WEBP file.</sys:String>
+    <sys:String x:Key="Msg_TranslationFieldsSaved">Translation fields populated.</sys:String>
+    <sys:String x:Key="Btn_CopyMainToLanguages">Copy Main Name to All Languages</sys:String>
+    <sys:String x:Key="ProdForm_TranslationHelp">Manual translations for product name and description in other languages.</sys:String>
+    <sys:String x:Key="Unit_G">g</sys:String>
+    <sys:String x:Key="Unit_KG">kg</sys:String>
+    <sys:String x:Key="Unit_TON">ton</sys:String>
 
 </ResourceDictionary>

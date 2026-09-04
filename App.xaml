@@ -1,19 +1,25 @@
-<Application x:Class="FornixxCRM.App"
+<Application x:Class="KarzounERP.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:vm="clr-namespace:FornixxCRM.ViewModels"
-             xmlns:views_dashboard="clr-namespace:FornixxCRM.Views.Dashboard"
-             xmlns:views_companies="clr-namespace:FornixxCRM.Views.Companies"
-             xmlns:views_customers="clr-namespace:FornixxCRM.Views.Customers"
-             xmlns:views_products="clr-namespace:FornixxCRM.Views.Products"
-             xmlns:views_documents="clr-namespace:FornixxCRM.Views.Documents"
-             xmlns:views_settings="clr-namespace:FornixxCRM.Views.Settings"
-             xmlns:views_reports="clr-namespace:FornixxCRM.Views.Reports"
-             xmlns:conv="clr-namespace:FornixxCRM.Helpers.Converters">
+             xmlns:vm="clr-namespace:KarzounERP.ViewModels"
+             xmlns:views_dashboard="clr-namespace:KarzounERP.Views.Dashboard"
+             xmlns:views_companies="clr-namespace:KarzounERP.Views.Companies"
+             xmlns:views_customers="clr-namespace:KarzounERP.Views.Customers"
+             xmlns:views_products="clr-namespace:KarzounERP.Views.Products"
+             xmlns:views_documents="clr-namespace:KarzounERP.Views.Documents"
+             xmlns:views_settings="clr-namespace:KarzounERP.Views.Settings"
+             xmlns:views_appearance="clr-namespace:KarzounERP.Views.Appearance"
+             xmlns:views_logs="clr-namespace:KarzounERP.Views.Logs"
+             xmlns:views_reports="clr-namespace:KarzounERP.Views.Reports"
+             xmlns:conv="clr-namespace:KarzounERP.Helpers.Converters">
 
     <Application.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Brand/KarzounBrand.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
             <!-- MaterialDesign theme ResourceDictionaries are loaded programmatically in App.xaml.cs
                  OnStartup to avoid BundledTheme relative-URI resolution failures at XAML parse time -->
 
@@ -22,12 +28,31 @@
             <conv:BoolToVisibilityConverter x:Key="BoolToVisibility" />
             <conv:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibility" />
             <conv:DecimalFormatConverter x:Key="DecimalFormat" />
+            <conv:NullToVisibilityConverter x:Key="NullToVisibility" />
+            <conv:MoneyFormatConverter x:Key="MoneyFormat" />
+            <conv:HexToBrushConverter x:Key="HexToBrush" />
             <conv:StatusToColorConverter x:Key="StatusToColor" />
             <conv:UtcToLocalTimeConverter x:Key="UtcToLocalTime" />
 
             <!-- Global FlowDirection -->
             <Style TargetType="{x:Type FrameworkElement}">
                 <Setter Property="FlowDirection" Value="{DynamicResource AppFlowDirection}" />
+            </Style>
+
+            <Style TargetType="{x:Type UserControl}">
+                <Setter Property="Background" Value="{DynamicResource BrandBackground}" />
+                <Setter Property="TextElement.Foreground" Value="{DynamicResource BrandTextPrimary}" />
+                <Setter Property="TextElement.FontFamily" Value="{DynamicResource AppFontFamily}" />
+            </Style>
+
+            <Style TargetType="{x:Type Window}">
+                <Setter Property="Background" Value="{DynamicResource BrandBackground}" />
+                <Setter Property="Foreground" Value="{DynamicResource BrandTextPrimary}" />
+                <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
             </Style>
 
             <!-- DataTemplates: ViewModel → View -->
@@ -55,8 +80,14 @@
             <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
                 <views_settings:SettingsPage />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:AppearanceViewModel}">
+                <views_appearance:AppearancePage />
+            </DataTemplate>
             <DataTemplate DataType="{x:Type vm:ReportsViewModel}">
                 <views_reports:ReportsPage />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:LogViewModel}">
+                <views_logs:LogPage />
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>

@@ -1,6 +1,6 @@
-using FornixxCRM.Models;
+using KarzounERP.Models;
 
-namespace FornixxCRM.Helpers;
+namespace KarzounERP.Helpers;
 
 public class AppSession
 {

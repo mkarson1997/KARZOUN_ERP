@@ -1,7 +1,7 @@
-using FornixxCRM.ViewModels;
+using KarzounERP.ViewModels;
 using System.Windows.Controls;
 
-namespace FornixxCRM.Views.Settings;
+namespace KarzounERP.Views.Settings;
 
 public partial class SettingsPage : UserControl
 {
@@ -11,7 +11,17 @@ public partial class SettingsPage : UserControl
         Loaded += async (_, _) =>
         {
             if (DataContext is SettingsViewModel vm)
+            {
                 await vm.LoadAsync();
+                vm.RequestFocus += (fieldName) =>
+                {
+                    this.Dispatcher.BeginInvoke(new System.Action(() =>
+                    {
+                        var control = this.FindName(fieldName) as System.Windows.UIElement;
+                        control?.Focus();
+                    }), System.Windows.Threading.DispatcherPriority.Background);
+                };
+            }
         };
     }
 }

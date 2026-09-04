@@ -1,13 +1,13 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using FornixxCRM.Helpers;
-using FornixxCRM.Models;
-using FornixxCRM.Reports;
-using FornixxCRM.Services.Interfaces;
-using FornixxCRM.ViewModels.Base;
+using KarzounERP.Helpers;
+using KarzounERP.Models;
+using KarzounERP.Reports;
+using KarzounERP.Services.Interfaces;
+using KarzounERP.ViewModels.Base;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FornixxCRM.ViewModels;
+namespace KarzounERP.ViewModels;
 
 public partial class DashboardViewModel : BaseViewModel, ILoadableViewModel
 {

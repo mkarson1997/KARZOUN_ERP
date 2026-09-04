@@ -1,0 +1,9 @@
+v1.0.1
+- App branded to KARZOUN ERP
+- Added orange app icon with letter A
+- Improved Excel import for customers
+- Export selected columns to Excel
+- Product images support in products list, form, and quotation PDF
+- Refined PDF layout for company logo and header
+- Automatic database backup every 30 minutes
+- Quotation items linked to products auto-fill details

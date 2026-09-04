@@ -1,9 +1,9 @@
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
-using FornixxCRM.Models;
+using KarzounERP.Models;
 
-namespace FornixxCRM.Helpers.Converters;
+namespace KarzounERP.Helpers.Converters;
 
 public class StatusToColorConverter : IValueConverter
 {

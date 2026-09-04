@@ -1,12 +1,13 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using FornixxCRM.Helpers;
-using FornixxCRM.Models;
-using FornixxCRM.Services.Interfaces;
-using FornixxCRM.ViewModels.Base;
+using KarzounERP.Helpers;
+using KarzounERP.Models;
+using KarzounERP.Services.Interfaces;
+using KarzounERP.ViewModels.Base;
+using System.ComponentModel;
 using System.Windows;
 
-namespace FornixxCRM.ViewModels;
+namespace KarzounERP.ViewModels;
 
 public partial class CompanyViewModel : BaseViewModel, ILoadableViewModel
 {
@@ -16,18 +17,78 @@ public partial class CompanyViewModel : BaseViewModel, ILoadableViewModel
 
     [ObservableProperty] private List<Company> _companies = new();
     [ObservableProperty] private Company? _selectedCompany;
+    [ObservableProperty] private int _selectedCount;
+    [ObservableProperty] private bool? _areAllCompaniesSelected;
+    private bool _updatingSelection;
+
+    private readonly INotificationService _notificationService;
 
     public CompanyViewModel(ICompanyService companyService, AppSession session,
-        NavigationService navigationService)
+        NavigationService navigationService, INotificationService notificationService)
     {
         _companyService = companyService;
         _session = session;
         _navigationService = navigationService;
+        _notificationService = notificationService;
     }
 
     public async Task LoadAsync()
     {
         Companies = await _companyService.GetAllCompaniesAsync();
+        WireCompanySelectionNotifications();
+        UpdateSelectionState();
+    }
+
+    partial void OnCompaniesChanged(List<Company> value) => WireCompanySelectionNotifications();
+
+    partial void OnAreAllCompaniesSelectedChanged(bool? value)
+    {
+        if (_updatingSelection || !value.HasValue) return;
+        foreach (var company in Companies)
+            company.IsSelected = value.Value;
+        UpdateSelectionState();
+    }
+
+    [RelayCommand]
+    private void SelectAll()
+    {
+        foreach (var company in Companies)
+            company.IsSelected = true;
+        UpdateSelectionState();
+    }
+
+    [RelayCommand]
+    private void SelectionChanged() => UpdateSelectionState();
+
+    [RelayCommand]
+    private void ClearSelection()
+    {
+        foreach (var company in Companies)
+            company.IsSelected = false;
+        UpdateSelectionState();
+    }
+
+    private void UpdateSelectionState()
+    {
+        SelectedCount = Companies.Count(c => c.IsSelected);
+        _updatingSelection = true;
+        AreAllCompaniesSelected = SelectedCount == 0 ? false : SelectedCount == Companies.Count ? true : null;
+        _updatingSelection = false;
+    }
+
+    private void WireCompanySelectionNotifications()
+    {
+        foreach (var company in Companies)
+        {
+            company.PropertyChanged -= CompanySelectionChanged;
+            company.PropertyChanged += CompanySelectionChanged;
+        }
+    }
+
+    private void CompanySelectionChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (!_updatingSelection && e.PropertyName == nameof(Company.IsSelected))
+            UpdateSelectionState();
     }
 
     [RelayCommand]
@@ -66,6 +127,7 @@ public partial class CompanyViewModel : BaseViewModel, ILoadableViewModel
         if (result == MessageBoxResult.Yes)
         {
             await _companyService.DeleteCompanyAsync(company.Id);
+            _notificationService.Success(string.Format(LocalizationManager.Get("Msg_CompanyDeleted") ?? "Company '{0}' deleted successfully.", company.Name));
             await LoadAsync();
             _session.NotifyCompaniesChanged(); // refresh sidebar dropdown
         }
@@ -77,9 +139,7 @@ public partial class CompanyViewModel : BaseViewModel, ILoadableViewModel
         if (company == null) return;
         _session.ActiveCompany = company;
         await LoadAsync();
-        MessageBox.Show(
-            string.Format(LocalizationManager.Get("Msg_CompanyActivated"), company.Name),
-            LocalizationManager.Get("Msg_Success"), MessageBoxButton.OK, MessageBoxImage.Information);
+        _notificationService.Success(string.Format(LocalizationManager.Get("Msg_CompanyActivated"), company.Name));
     }
 
     private async void ShowCompanyForm(CompanyFormViewModel vm)

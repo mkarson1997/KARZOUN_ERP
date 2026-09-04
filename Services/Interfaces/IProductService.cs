@@ -1,6 +1,6 @@
-using FornixxCRM.Models;
+using KarzounERP.Models;
 
-namespace FornixxCRM.Services.Interfaces;
+namespace KarzounERP.Services.Interfaces;
 
 public interface IProductService
 {
@@ -9,4 +9,5 @@ public interface IProductService
     Task<Product> AddProductAsync(Product product);
     Task UpdateProductAsync(Product product);
     Task DeleteProductAsync(int id);
+    Task<Product?> CheckDuplicateAsync(int companyId, int excludeProductId, string name, string arName, string trName, string enName, decimal? weight = null, string? weightUnit = null, ProductType type = ProductType.Physical);
 }

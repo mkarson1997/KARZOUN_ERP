@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace FornixxCRM.Pdf;
+namespace KarzounERP.Pdf;
 
 public static class PdfFormatters
 {
@@ -10,7 +10,7 @@ public static class PdfFormatters
             : date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
 
     public static string FormatMoney(decimal amount, string currency) =>
-        amount.ToString("N2", CultureInfo.InvariantCulture) + " " + (string.IsNullOrWhiteSpace(currency) ? "USD" : currency.Trim());
+        Helpers.MoneyFormatter.FormatMoney(amount, currency);
 
     public static string FormatDocumentNumber(string? number) =>
         string.IsNullOrWhiteSpace(number) ? "" : number.Trim();

@@ -4,8 +4,10 @@
 
     <!-- App / Nav -->
     <sys:String x:Key="App_Subtitle">Müşteri ve Satış Yönetim Sistemi</sys:String>
-    <sys:String x:Key="App_Title">Müşteri İlişkileri Yönetimi</sys:String>
-    <sys:String x:Key="App_Version">Sürüm 1.0.0 | Fornixx CRM Pro</sys:String>
+    <sys:String x:Key="App_Title">KARZOUN ERP</sys:String>
+    <sys:String x:Key="App_Version">Sürüm 1.1.0 | KARZOUN ERP</sys:String>
+    <sys:String x:Key="App_VersionLine">Sürüm 1.1.0</sys:String>
+    <sys:String x:Key="App_DeveloperCredit">Karzoun tarafından geliştirilmiştir</sys:String>
     <sys:String x:Key="Nav_ActiveCompany">Aktif Şirket</sys:String>
     <sys:String x:Key="Nav_MainMenu">Ana Menü</sys:String>
     <sys:String x:Key="Nav_AnalysisMgmt">Analiz ve Yönetim</sys:String>
@@ -17,6 +19,77 @@
     <sys:String x:Key="Nav_Reports">Raporlar</sys:String>
     <sys:String x:Key="Nav_Companies">Şirketler</sys:String>
     <sys:String x:Key="Nav_Settings">Ayarlar</sys:String>
+    <sys:String x:Key="Nav_Logs">Günlük Dosyası</sys:String>
+    <sys:String x:Key="Bulk_Selected">Seçili: </sys:String>
+    <sys:String x:Key="Msg_ConfirmDeleteSelected">{0} seçili öğe silinsin mi?</sys:String>
+    <sys:String x:Key="Msg_SelectedDeleted">{0} seçili öğe silindi.</sys:String>
+    <sys:String x:Key="Msg_ProductMayExistContinue">Bu ürün daha önce eklenmiş olabilir. Benzerlik oranı: %{0}. Yine de devam etmek istiyor musunuz?</sys:String>
+    <sys:String x:Key="Btn_ContinueAnyway">Yine de devam et</sys:String>
+    <sys:String x:Key="Btn_EditProduct">Ürünü düzenle</sys:String>
+    <sys:String x:Key="DupLive_ClosestSimilarity">En yakın ürün benzerliği: %{0}</sys:String>
+    <sys:String x:Key="DupLive_ClosestProduct">En yakın ürün: {0}</sys:String>
+    <sys:String x:Key="DupLive_NameSimilarDifferentIdentity">Ad benzer, ancak ağırlık veya tür farklı.</sys:String>
+    <sys:String x:Key="Dup_PotentialDuplicate">Olası kopya</sys:String>
+    <sys:String x:Key="Dup_ColumnMark">Kopya</sys:String>
+    <sys:String x:Key="DuplicateReport_Title">Kopya denetimi sonucu</sys:String>
+    <sys:String x:Key="DuplicateReport_Subtitle">Tam kopya ve yüksek benzerlikteki ürün çiftlerini inceleyin.</sys:String>
+    <sys:String x:Key="Msg_NoSeriousDuplicatesFound">Ciddi tekrar eden veya yüksek benzerlikte ürün bulunamadı.</sys:String>
+    <sys:String x:Key="Dup_ProductA">Ürün A</sys:String>
+    <sys:String x:Key="Dup_ProductB">Ürün B</sys:String>
+    <sys:String x:Key="Dup_NameSimilarity">Ad benzerliği %</sys:String>
+    <sys:String x:Key="Dup_IdentitySimilarity">Kimlik benzerliği %</sys:String>
+    <sys:String x:Key="Dup_Reason">Neden</sys:String>
+    <sys:String x:Key="Dup_SuggestedAction">Önerilen işlem</sys:String>
+    <sys:String x:Key="DupReason_ExactMatch">Neredeyse tam eşleşme</sys:String>
+    <sys:String x:Key="DupReason_SameNameWeightUnit">Aynı ad, ağırlık ve birim</sys:String>
+    <sys:String x:Key="DupReason_NearExact">Çok yüksek kimlik benzerliği</sys:String>
+    <sys:String x:Key="DupReason_NameSimilarDifferentWeight">Ad benzer ancak ağırlık farklı</sys:String>
+    <sys:String x:Key="DupReason_HighNameSimilarity">Ad çok benzer</sys:String>
+    <sys:String x:Key="DupReason_PotentialDuplicate">Olası kopya</sys:String>
+    <sys:String x:Key="DupAction_ReviewEdit">Gerekirse ürünü inceleyip düzenleyin</sys:String>
+    <sys:String x:Key="DupAction_OkToKeepVariants">Genellikle ayrı varyantlar olarak tutulabilir</sys:String>
+    <sys:String x:Key="DupAction_ReviewMerge">Birleştirme veya silmeden önce inceleyin</sys:String>
+
+    <!-- Appearance & Design -->
+    <sys:String x:Key="Sett_AppearanceSection">Özelleştirme ve Görünüm</sys:String>
+    <sys:String x:Key="Sett_ApplyCompanyTheme">Şirket Temasını Geçişte Uygula</sys:String>
+    <sys:String x:Key="Sett_ThemePreset">Karzoun yüzey teması</sys:String>
+    <sys:String x:Key="Sett_KarzounLight">Karzoun Açık</sys:String>
+    <sys:String x:Key="Sett_KarzounDark">Karzoun Koyu</sys:String>
+    <sys:String x:Key="Sett_SelectColorToEdit">Düzenlenecek rengi seçin</sys:String>
+    <sys:String x:Key="Sett_ColorEditor">Renk Düzenleyici</sys:String>
+    <sys:String x:Key="Sett_PresetPalette">Hazır Palet:</sys:String>
+    <sys:String x:Key="Sett_ResetToDefault">Varsayılana Sıfırla</sys:String>
+    <sys:String x:Key="Sett_PdfLayoutSection">PDF Düzeni</sys:String>
+    <sys:String x:Key="Sett_PdfCompanyInfoTopMargin">Şirket Bilgisi Üst Boşluğu</sys:String>
+    <sys:String x:Key="Sett_PdfLogoTopMargin">Logo Üst Boşluğu</sys:String>
+    <sys:String x:Key="Sett_PdfHeaderSpacing">Başlık Aralığı</sys:String>
+    <sys:String x:Key="Sett_PdfTableSpacing">Tablo Aralığı</sys:String>
+    <sys:String x:Key="Sett_PdfFontSize">PDF Yazı Boyutu</sys:String>
+    <sys:String x:Key="Color_PrimaryColor">Ana Renk</sys:String>
+    <sys:String x:Key="Color_SecondaryColor">İkincil Renk</sys:String>
+    <sys:String x:Key="Color_AccentColor">Vurgu Rengi</sys:String>
+    <sys:String x:Key="Color_SidebarBackground">Kenar Çubuğu Arka Planı</sys:String>
+    <sys:String x:Key="Color_SidebarTextColor">Kenar Çubuğu Metin Rengi</sys:String>
+    <sys:String x:Key="Color_ButtonColor">Düğme Rengi</sys:String>
+    <sys:String x:Key="Color_ButtonTextColor">Düğme Metin Rengi</sys:String>
+    <sys:String x:Key="Color_CardBackground">Kart Arka Planı</sys:String>
+    <sys:String x:Key="Color_PageBackground">Sayfa Arka Planı</sys:String>
+    <sys:String x:Key="Color_CompanyThemePrimaryColor">Şirket Teması Ana Renk</sys:String>
+    <sys:String x:Key="Color_CompanyThemeAccentColor">Şirket Teması Vurgu Rengi</sys:String>
+    <sys:String x:Key="Color_PdfPrimaryColor">PDF Ana Renk</sys:String>
+    <sys:String x:Key="Color_PdfHeaderColor">PDF Başlık Rengi</sys:String>
+    <sys:String x:Key="Color_PdfTableHeaderColor">PDF Tablo Başlık Rengi</sys:String>
+    <sys:String x:Key="Color_PdfBorderColor">PDF Kenarlık Rengi</sys:String>
+    <sys:String x:Key="Color_PdfAccentColor">PDF Vurgu Rengi</sys:String>
+    <sys:String x:Key="Color_PdfTotalBoxColor">PDF Toplam Kutusu Rengi</sys:String>
+    <sys:String x:Key="Color_Helper_Default">Uygulama görünümünü özelleştirmek için bir renk seçin.</sys:String>
+    <sys:String x:Key="Preview_PrimaryUsage">Ana kullanım önizlemesi</sys:String>
+    <sys:String x:Key="Preview_SecondaryUsage">İkincil kullanım önizlemesi</sys:String>
+    <sys:String x:Key="Preview_AccentUsage">Vurgu kullanım önizlemesi</sys:String>
+    <sys:String x:Key="Msg_AppearanceNavError">Özelleştirme ve Görünüm sayfası açılırken bir hata oluştu. Hata ayrıntıları günlük dosyasına kaydedildi.</sys:String>
+    <sys:String x:Key="Msg_NavigationError">Sayfa açılırken bir hata oluştu. Hata ayrıntıları günlük dosyasına kaydedildi.</sys:String>
+    <sys:String x:Key="Msg_UnhandledError">Beklenmeyen bir hata oluştu. Hata ayrıntıları günlük dosyasına kaydedildi.</sys:String>
 
     <!-- Common Buttons -->
     <sys:String x:Key="Btn_Save">Kaydet</sys:String>
@@ -64,6 +137,8 @@
     <!-- Customers -->
     <sys:String x:Key="Cust_Title">Müşteriler</sys:String>
     <sys:String x:Key="Cust_New">+ Müşteri Ekle</sys:String>
+    <sys:String x:Key="Cust_ImportExcel">Excel'den İçe Aktar</sys:String>
+    <sys:String x:Key="Cust_ExportSelected">Seçili Sütunları Dışa Aktar</sys:String>
     <sys:String x:Key="Cust_SearchHint">Ara (Ad, Telefon, E-posta, Ülke)</sys:String>
     <sys:String x:Key="Cust_FilterImportance">Önem Düzeyi</sys:String>
     <sys:String x:Key="Cust_FilterStage">Takip Aşaması</sys:String>
@@ -92,6 +167,9 @@
     <sys:String x:Key="Prod_TotalUnit">Ürün / Hizmet</sys:String>
     <sys:String x:Key="Prod_Active">Aktif</sys:String>
     <sys:String x:Key="Prod_Inactive">Pasif</sys:String>
+    <sys:String x:Key="Prod_ImportExcel">Excel'den İçe Aktar</sys:String>
+    <sys:String x:Key="Prod_ExportExcel">Excel'e Dışa Aktar</sys:String>
+    <sys:String x:Key="Prod_CheckDuplicates">Kopyaları Denetle</sys:String>
 
     <!-- Document List -->
     <sys:String x:Key="DocList_TitleQ">Teklifler</sys:String>
@@ -138,7 +216,11 @@
     <sys:String x:Key="DocForm_Subtotal">Ara Toplam:</sys:String>
     <sys:String x:Key="DocForm_Discount">İndirim:</sys:String>
     <sys:String x:Key="DocForm_GrandTotal">Genel Toplam:</sys:String>
+    <sys:String x:Key="DocForm_TotalQuantity">Toplam Adet</sys:String>
+    <sys:String x:Key="DocForm_TotalWeight">Toplam Ağırlık</sys:String>
     <sys:String x:Key="DocForm_Language">Belge Dili</sys:String>
+    <sys:String x:Key="DocForm_ProductSearchHint">Ürün ve hizmetleri aramak için yazın</sys:String>
+    <sys:String x:Key="DocForm_AddCustomProduct">Özel ürün ekle</sys:String>
 
     <!-- Settings -->
     <sys:String x:Key="Sett_Title">Ayarlar</sys:String>
@@ -167,6 +249,13 @@
     <sys:String x:Key="Sett_PaymentInfo">Varsayılan Ödeme Bilgileri</sys:String>
     <sys:String x:Key="Sett_SaveBtn">Ayarları Kaydet</sys:String>
     <sys:String x:Key="Sett_BackupSection">Yedekleme ve Geri Yükleme</sys:String>
+    <sys:String x:Key="Settings_Features">Ek Özellikler</sys:String>
+    <sys:String x:Key="Settings_ShowProductImageQuotation">PDF dosyasında ürün görsellerini göster</sys:String>
+    <sys:String x:Key="Settings_ShowCustomerContactPdf">Müşteri iletişim bilgilerini PDF'de göster</sys:String>
+    <sys:String x:Key="Settings_AutoBackup">Otomatik Yedekleme</sys:String>
+    <sys:String x:Key="Settings_EnableAutoBackup">Otomatik yedeklemeyi etkinleştir</sys:String>
+    <sys:String x:Key="Settings_BackupInterval">Yedekleme aralığı (dakika)</sys:String>
+    <sys:String x:Key="Settings_AutoBackupLocation">Otomatik yedekleme konumu: {0}</sys:String>
     <sys:String x:Key="Sett_BackupFolder">Yedekleme Klasörü</sys:String>
     <sys:String x:Key="Sett_BackupNow">Şimdi Yedekle</sys:String>
     <sys:String x:Key="Sett_Restore">Yedekten Geri Yükle</sys:String>
@@ -217,15 +306,18 @@
     <!-- Enum Labels -->
     <sys:String x:Key="Status_Draft">Taslak</sys:String>
     <sys:String x:Key="Status_Sent">Gönderildi</sys:String>
+    <sys:String x:Key="Status_Pending">Beklemede</sys:String>
     <sys:String x:Key="Status_Accepted">Kabul Edildi</sys:String>
     <sys:String x:Key="Status_Rejected">Reddedildi</sys:String>
     <sys:String x:Key="Status_Paid">Ödendi</sys:String>
+    <sys:String x:Key="Status_Unpaid">Ödenmedi</sys:String>
     <sys:String x:Key="Status_Cancelled">İptal Edildi</sys:String>
-    <sys:String x:Key="Status_PartiallyPaid">Kısmen Ödendi</sys:String>
+    <sys:String x:Key="Status_PartiallyPaid">Kısmi</sys:String>
     <sys:String x:Key="Status_Converted">Faturaya Dönüştürüldü</sys:String>
+    <sys:String x:Key="Status_Quotation">Fiyat Teklifi</sys:String>
     <sys:String x:Key="ProdType_Physical">Fiziksel Ürün</sys:String>
     <sys:String x:Key="ProdType_Service">Hizmet</sys:String>
-    <sys:String x:Key="DocType_Quotation">Teklif</sys:String>
+    <sys:String x:Key="DocType_Quotation">Fiyat Teklifi</sys:String>
     <sys:String x:Key="DocType_Invoice">Fatura</sys:String>
     <sys:String x:Key="Mindset_Simple">Basit</sys:String>
     <sys:String x:Key="Mindset_New">Yeni</sys:String>
@@ -248,6 +340,7 @@
     <sys:String x:Key="Msg_LoadingCustomers">Müşteriler yükleniyor...</sys:String>
     <sys:String x:Key="Msg_LoadingDocuments">Belgeler yükleniyor...</sys:String>
     <sys:String x:Key="Msg_LoadingProducts">Ürünler yükleniyor...</sys:String>
+    <sys:String x:Key="Msg_Importing">İçe aktarılıyor...</sys:String>
     <sys:String x:Key="Msg_GeneratingPdf">PDF dosyası oluşturuluyor...</sys:String>
     <sys:String x:Key="Msg_ValidationCustomer">Lütfen bir müşteri seçin.</sys:String>
     <sys:String x:Key="Msg_ValidationItems">En az bir kalem eklenmelidir.</sys:String>
@@ -259,6 +352,9 @@
     <sys:String x:Key="Msg_Error">Hata</sys:String>
     <sys:String x:Key="Msg_SettingsSaved">✓ Ayarlar başarıyla kaydedildi.</sys:String>
     <sys:String x:Key="Msg_LangSaved">✓ Dil uygulandı.</sys:String>
+    <sys:String x:Key="Msg_UnsavedChangesConfirm">Şirket ayarlarında kaydedilmemiş değişiklikleriniz var. Dili değiştirmeden önce kaydetmek ister misiniz?</sys:String>
+    <sys:String x:Key="Msg_ImportSummary">İçe aktarılan: {0}, Atlanan: {1}, Yinelenen: {2}, Hata: {3}</sys:String>
+    <sys:String x:Key="Msg_ExportSuccess">Dışa aktarma başarıyla tamamlandı.</sys:String>
     <sys:String x:Key="Msg_RestoreWarning">Önemli Uyarı</sys:String>
     <sys:String x:Key="Msg_RestoreConfirm">Uyarı: Yedekten geri yükleme mevcut veritabanını tamamen değiştirecektir.&#x0A;Emin misiniz?</sys:String>
     <sys:String x:Key="Msg_RestoreSuccess">Geri yükleme tamamlandı. Lütfen programı yeniden başlatın.</sys:String>
@@ -282,9 +378,32 @@ Bu işlem geri alınamaz.</sys:String>
     <sys:String x:Key="Msg_PdfError">PDF oluşturma hatası: {0}</sys:String>
     <sys:String x:Key="Msg_Confirmation">Onay</sys:String>
 
+    <sys:String x:Key="Msg_RequiredFields">Lütfen gerekli alanları doldurun.</sys:String>
+    <sys:String x:Key="Msg_ConfirmDisablePassword">Uyarı: Şifre korumasını devre dışı bırakmak, ayarlarınızı herkesin erişimine açık hale getirecektir. Devam etmek istediğinizden emin misiniz?</sys:String>
+    <sys:String x:Key="Msg_ConfirmClearLogo">Şirket logosunu kaldırmak istediğinizden emin misiniz?</sys:String>
+    <sys:String x:Key="Msg_ConfirmClearStamp">Şirket kaşesini / imzasını kaldırmak istediğinizden emin misiniz?</sys:String>
+    <sys:String x:Key="Msg_ConfirmClearProductImage">Ürün görselini kaldırmak istediğinizden emin misiniz?</sys:String>
+    <sys:String x:Key="Msg_ExcelImportInvalidFile">Geçersiz dosya biçimi. Lütfen bir Excel dosyası (.xlsx veya .xls) seçin.</sys:String>
+    <sys:String x:Key="Msg_ExcelImportMissingNameCol">Gerekli 'Ad' veya 'Ad Soyad' sütunu Excel sayfasında bulunamadı.</sys:String>
+    <sys:String x:Key="Msg_BackupSuccess">Veritabanı yedeği başarıyla oluşturuldu.</sys:String>
+    <sys:String x:Key="Msg_BackupFailed">Veritabanı yedeği oluşturulamadı.</sys:String>
+    <sys:String x:Key="Msg_PdfExportSuccess">PDF başarıyla dışa aktarıldı.</sys:String>
+    <sys:String x:Key="Msg_CustomerCreated">Müşteri '{0}' başarıyla oluşturuldu.</sys:String>
+    <sys:String x:Key="Msg_CustomerUpdated">Müşteri '{0}' başarıyla güncellendi.</sys:String>
+    <sys:String x:Key="Msg_CustomerDeleted">Müşteri '{0}' başarıyla silindi.</sys:String>
+    <sys:String x:Key="Msg_ProductCreated">Ürün '{0}' başarıyla oluşturuldu.</sys:String>
+    <sys:String x:Key="Msg_ProductUpdated">Ürün '{0}' başarıyla güncellendi.</sys:String>
+    <sys:String x:Key="Msg_ProductDeleted">Ürün '{0}' başarıyla silindi.</sys:String>
+    <sys:String x:Key="Msg_CompanyCreated">Şirket '{0}' başarıyla oluşturuldu.</sys:String>
+    <sys:String x:Key="Msg_CompanyUpdated">Şirket '{0}' başarıyla güncellendi.</sys:String>
+    <sys:String x:Key="Msg_CompanyDeleted">Şirket '{0}' başarıyla silindi.</sys:String>
+    <sys:String x:Key="Msg_DocumentCreated">Belge '{0}' başarıyla oluşturuldu.</sys:String>
+    <sys:String x:Key="Msg_DocumentUpdated">Belge '{0}' başarıyla güncellendi.</sys:String>
+    <sys:String x:Key="Msg_DocumentDeleted">Belge '{0}' başarıyla silindi.</sys:String>
+
     <!-- PDF Labels -->
     <sys:String x:Key="Pdf_Quotation">Fiyat Teklifi</sys:String>
-    <sys:String x:Key="Pdf_Invoice">Nihai Fatura</sys:String>
+    <sys:String x:Key="Pdf_Invoice">Fatura</sys:String>
     <sys:String x:Key="Pdf_CustomerInfo">Müşteri Bilgileri</sys:String>
     <sys:String x:Key="Pdf_Phone">Telefon</sys:String>
     <sys:String x:Key="Pdf_Email">E-posta</sys:String>
@@ -337,6 +456,7 @@ Bu işlem geri alınamaz.</sys:String>
     <sys:String x:Key="CustForm_SectionBasic">Temel Bilgiler</sys:String>
     <sys:String x:Key="CustForm_FullName">Tam Ad *</sys:String>
     <sys:String x:Key="CustForm_CompanyName">Şirket Adı</sys:String>
+    <sys:String x:Key="CustForm_ExternalCompanyColor">Harici şirket rengi</sys:String>
     <sys:String x:Key="CustForm_Phone">Telefon</sys:String>
     <sys:String x:Key="CustForm_Email">E-posta</sys:String>
     <sys:String x:Key="CustForm_Country">Ülke</sys:String>
@@ -356,6 +476,7 @@ Bu işlem geri alınamaz.</sys:String>
     <sys:String x:Key="ProdForm_Weight">Ağırlık (kg)</sys:String>
     <sys:String x:Key="ProdForm_DefaultQty">Varsayılan Miktar</sys:String>
     <sys:String x:Key="ProdForm_IsActive">Aktif Ürün/Hizmet</sys:String>
+    <sys:String x:Key="ProdForm_ImagePath">Görsel Yolu</sys:String>
 
     <!-- Company form dialog -->
     <sys:String x:Key="CompForm_SectionBasic">Temel Bilgiler</sys:String>
@@ -367,7 +488,18 @@ Bu işlem geri alınamaz.</sys:String>
     <sys:String x:Key="CompForm_Country">Ülke</sys:String>
     <sys:String x:Key="CompForm_Currency">Para Birimi</sys:String>
     <sys:String x:Key="CompForm_LogoPath">Logo Yolu</sys:String>
+    <sys:String x:Key="CompForm_IdentitySection">Şirket Kimliği</sys:String>
+    <sys:String x:Key="CompForm_ApplyCompanyTheme">Şirket değiştirilirken şirket temasını uygula</sys:String>
+    <sys:String x:Key="CompForm_ThemePrimaryColor">Şirket ana rengi</sys:String>
+    <sys:String x:Key="CompForm_ThemeAccentColor">Şirket vurgu rengi</sys:String>
+    <sys:String x:Key="CompForm_PickColor">Renk seç</sys:String>
+    <sys:String x:Key="CompForm_IdentityPreview">Canlı Önizleme</sys:String>
+    <sys:String x:Key="CompForm_ButtonPreview">Düğme Örneği</sys:String>
+    <sys:String x:Key="CompForm_CardPreview">Kart Örneği</sys:String>
     <sys:String x:Key="CompForm_TaxSection">Vergi Ayarları</sys:String>
+    <sys:String x:Key="Logs_Title">Günlük Dosyası</sys:String>
+    <sys:String x:Key="Logs_StatusOk">Her şey normal çalışıyor.</sys:String>
+    <sys:String x:Key="Logs_StatusIssues">Son günlüklerde {0} uyarı veya hata var.</sys:String>
     <sys:String x:Key="CompForm_TaxEnabled">Vergiyi Etkinleştir</sys:String>
     <sys:String x:Key="CompForm_TaxRate">Vergi Oranı %</sys:String>
     <sys:String x:Key="CompForm_NumberingSection">Belge Numaralandırma</sys:String>
@@ -412,5 +544,19 @@ Bu işlem geri alınamaz.</sys:String>
     <sys:String x:Key="CustDetail_NotesHistory">Takip ve Not Geçmişi</sys:String>
     <sys:String x:Key="CustDetail_AddNoteHint">Takip notu yazın...</sys:String>
     <sys:String x:Key="CustDetail_AddNoteBtn">Not Ekle</sys:String>
+
+    <!-- Upgrade 1.0.3 Keys -->
+    <sys:String x:Key="Msg_ValidationPositiveNumber">Lütfen geçerli bir pozitif sayı girin.</sys:String>
+    <sys:String x:Key="Msg_DuplicateProduct">Bu ürün zaten mevcut (ana ad veya çevirilerde kopya tespit edildi).</sys:String>
+    <sys:String x:Key="Msg_WarningRepeatedWords">Uyarı: Ürün adında tekrarlanan kelimeler bulundu.</sys:String>
+    <sys:String x:Key="Msg_WarningNameContainsUnit">Uyarı: Ürün adı ağırlık birimi kelimeleri içeriyor. Ürün adı, ağırlık ve birim alanlarından ayrı tutulmalıdır.</sys:String>
+    <sys:String x:Key="Msg_ProductImageCopiedLocal">Ürün resmi yerel olarak kopyalandı.</sys:String>
+    <sys:String x:Key="Msg_InvalidImageFormat">Geçersiz resim formatı. Lütfen PNG, JPG, JPEG veya WEBP dosyası seçin.</sys:String>
+    <sys:String x:Key="Msg_TranslationFieldsSaved">Çeviri alanları dolduruldu.</sys:String>
+    <sys:String x:Key="Btn_CopyMainToLanguages">Ana Adı Tüm Dillere Kopyala</sys:String>
+    <sys:String x:Key="ProdForm_TranslationHelp">Diğer dillerde ürün adı ve açıklaması için manuel çeviriler.</sys:String>
+    <sys:String x:Key="Unit_G">g</sys:String>
+    <sys:String x:Key="Unit_KG">kg</sys:String>
+    <sys:String x:Key="Unit_TON">ton</sys:String>
 
 </ResourceDictionary>

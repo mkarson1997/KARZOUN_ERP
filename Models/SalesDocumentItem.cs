@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace FornixxCRM.Models;
+namespace KarzounERP.Models;
 
 public class SalesDocumentItem
 {
@@ -14,8 +14,10 @@ public class SalesDocumentItem
     public ProductType ProductType { get; set; } = ProductType.Physical;
     public string? Description { get; set; }
     public decimal? Weight { get; set; }
+    public string WeightUnit { get; set; } = "kg"; // "g", "kg", "ton"
     public decimal UnitPrice { get; set; } = 0;
     public int Quantity { get; set; } = 1;
+    public string? ImagePath { get; set; }
     public decimal LineTotal { get; set; } = 0;
     public int SortOrder { get; set; } = 0;
 

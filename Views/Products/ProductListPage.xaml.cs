@@ -1,7 +1,7 @@
-using FornixxCRM.ViewModels;
+using KarzounERP.ViewModels;
 using System.Windows.Controls;
 
-namespace FornixxCRM.Views.Products;
+namespace KarzounERP.Views.Products;
 
 public partial class ProductListPage : UserControl
 {

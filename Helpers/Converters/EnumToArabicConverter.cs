@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace FornixxCRM.Helpers.Converters;
+namespace KarzounERP.Helpers.Converters;
 
 public class EnumToArabicConverter : IValueConverter
 {

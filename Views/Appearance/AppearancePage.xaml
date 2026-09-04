@@ -1,0 +1,435 @@
+﻿<UserControl x:Class="KarzounERP.Views.Appearance.AppearancePage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             FlowDirection="{DynamicResource AppFlowDirection}"
+             d:DesignHeight="800" d:DesignWidth="1000">
+
+    <UserControl.Resources>
+        <Style x:Key="FormActionPanelStyle" TargetType="StackPanel">
+            <Setter Property="Orientation" Value="Horizontal" />
+            <Setter Property="HorizontalAlignment" Value="{DynamicResource AppHorizontalAlignment}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="PageTitleStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="{DynamicResource BrandTextPrimary}" />
+            <Setter Property="FontFamily" Value="{DynamicResource AppHeadlineFontFamily}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="SectionTitleStyle" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Margin" Value="0,0,0,16" />
+        </Style>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Page Title -->
+            <StackPanel Grid.Row="0" Style="{StaticResource FormActionPanelStyle}" Margin="0,0,0,20">
+                <materialDesign:PackIcon Kind="Palette" Width="28" Height="28" Foreground="{DynamicResource AppAccentBrush}" VerticalAlignment="Center"
+                                         Margin="{DynamicResource AppIconMargin}" />
+                <TextBlock Text="{DynamicResource Sett_AppearanceSection}" Style="{StaticResource PageTitleStyle}" />
+            </StackPanel>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.2*" MinWidth="400" />
+                    <ColumnDefinition Width="24" />
+                    <ColumnDefinition Width="1*" MinWidth="350" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Left Column: Controls -->
+                <StackPanel Grid.Column="0">
+                    
+                    <!-- App Theme Settings -->
+                    <materialDesign:Card Padding="20" Margin="0,0,0,16" UniformCornerRadius="8">
+                        <StackPanel>
+                            <TextBlock Text="{DynamicResource Sett_AppearanceSection}" Style="{StaticResource SectionTitleStyle}"
+                                       Foreground="{DynamicResource AppPrimaryBrush}" FontSize="15" Margin="0,0,0,16" />
+
+                            <!-- Per-Company Theme Enable -->
+                            <CheckBox Content="{DynamicResource Sett_ApplyCompanyTheme}" IsChecked="{Binding ApplyCompanyTheme, Mode=TwoWay}" Margin="0,0,0,16" />
+
+                            <!-- Explicit surface presets; custom colors remain editable afterwards. -->
+                            <TextBlock Text="{DynamicResource Sett_ThemePreset}" FontWeight="SemiBold" Margin="0,0,0,8" />
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                                <Button Content="{DynamicResource Sett_KarzounLight}" Command="{Binding ApplyKarzounLightPresetCommand}"
+                                        Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="{DynamicResource AppPrimaryBrush}"
+                                        Foreground="{DynamicResource AppPrimaryBrush}" Margin="0,0,8,0" />
+                                <Button Content="{DynamicResource Sett_KarzounDark}" Command="{Binding ApplyKarzounDarkPresetCommand}"
+                                        Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="{DynamicResource BrandTextSecondary}"
+                                        Foreground="{DynamicResource BrandTextPrimary}" />
+                            </StackPanel>
+
+                            <TextBlock Text="{DynamicResource Sett_SelectColorToEdit}" FontWeight="SemiBold" Margin="0,0,0,8" />
+                            <ComboBox SelectedValue="{Binding SelectedColorKey, Mode=TwoWay}" SelectedValuePath="Tag"
+                                      Style="{StaticResource MaterialDesignOutlinedComboBox}" Margin="0,0,0,16">
+                                <ComboBoxItem Content="{DynamicResource Color_PrimaryColor}" Tag="PrimaryColor" />
+                                <ComboBoxItem Content="{DynamicResource Color_SecondaryColor}" Tag="SecondaryColor" />
+                                <ComboBoxItem Content="{DynamicResource Color_AccentColor}" Tag="AccentColor" />
+                                <ComboBoxItem Content="{DynamicResource Color_SidebarBackground}" Tag="SidebarBackground" />
+                                <ComboBoxItem Content="{DynamicResource Color_SidebarTextColor}" Tag="SidebarTextColor" />
+                                <ComboBoxItem Content="{DynamicResource Color_ButtonColor}" Tag="ButtonColor" />
+                                <ComboBoxItem Content="{DynamicResource Color_ButtonTextColor}" Tag="ButtonTextColor" />
+                                <ComboBoxItem Content="{DynamicResource Color_CardBackground}" Tag="CardBackground" />
+                                <ComboBoxItem Content="{DynamicResource Color_PageBackground}" Tag="PageBackground" />
+                                <ComboBoxItem Content="{DynamicResource Color_CompanyThemePrimaryColor}" Tag="CompanyThemePrimaryColor" />
+                                <ComboBoxItem Content="{DynamicResource Color_CompanyThemeAccentColor}" Tag="CompanyThemeAccentColor" />
+                                <ComboBoxItem Content="{DynamicResource Color_PdfPrimaryColor}" Tag="PdfPrimaryColor" />
+                                <ComboBoxItem Content="{DynamicResource Color_PdfHeaderColor}" Tag="PdfHeaderColor" />
+                                <ComboBoxItem Content="{DynamicResource Color_PdfTableHeaderColor}" Tag="PdfTableHeaderColor" />
+                                <ComboBoxItem Content="{DynamicResource Color_PdfBorderColor}" Tag="PdfBorderColor" />
+                                <ComboBoxItem Content="{DynamicResource Color_PdfAccentColor}" Tag="PdfAccentColor" />
+                                <ComboBoxItem Content="{DynamicResource Color_PdfTotalBoxColor}" Tag="PdfTotalBoxColor" />
+                            </ComboBox>
+
+                            <TextBlock Text="{Binding SelectedColorHelperText}" FontSize="12" Foreground="{DynamicResource BrandTextSecondary}"
+                                       TextWrapping="Wrap" Margin="0,0,0,12" />
+
+                            <!-- Color Editor Block -->
+                            <Border BorderThickness="1" BorderBrush="{DynamicResource BrandBorder}" CornerRadius="6" Padding="16" Background="{DynamicResource BrandSurfaceSecondary}">
+                                <StackPanel Grid.IsSharedSizeScope="True">
+                                    <TextBlock Text="{DynamicResource Sett_ColorEditor}" FontWeight="Bold" Margin="0,0,0,12" />
+                                    
+                                    <Grid Margin="0,0,0,16">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="60" />
+                                            <ColumnDefinition Width="12" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <!-- Color Preview Box -->
+                                        <Border Grid.Column="0" Width="60" Height="60" CornerRadius="6" BorderThickness="1" BorderBrush="{DynamicResource BrandBorder}"
+                                                Background="{Binding EditorHex, Converter={StaticResource HexToBrush}}" />
+                                        <!-- HEX input -->
+                                        <TextBox Grid.Column="2" Text="{Binding EditorHex, UpdateSourceTrigger=PropertyChanged}"
+                                                 materialDesign:HintAssist.Hint="HEX"
+                                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                 VerticalAlignment="Center" />
+                                    </Grid>
+
+                                    <!-- RGB Sliders -->
+                                    <Grid Margin="0,0,0,8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" SharedSizeGroup="RgbLabel" />
+                                            <ColumnDefinition Width="12" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="12" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="R" VerticalAlignment="Center" FontWeight="Bold" />
+                                        <Slider Grid.Column="2" Minimum="0" Maximum="255" Value="{Binding EditorR, Mode=TwoWay}" VerticalAlignment="Center" />
+                                        <TextBox Grid.Column="4" Text="{Binding EditorR, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" VerticalAlignment="Center" />
+                                    </Grid>
+                                    <Grid Margin="0,0,0,8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" SharedSizeGroup="RgbLabel" />
+                                            <ColumnDefinition Width="12" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="12" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="G" VerticalAlignment="Center" FontWeight="Bold" />
+                                        <Slider Grid.Column="2" Minimum="0" Maximum="255" Value="{Binding EditorG, Mode=TwoWay}" VerticalAlignment="Center" />
+                                        <TextBox Grid.Column="4" Text="{Binding EditorG, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" VerticalAlignment="Center" />
+                                    </Grid>
+                                    <Grid Margin="0,0,0,16">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" SharedSizeGroup="RgbLabel" />
+                                            <ColumnDefinition Width="12" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="12" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="B" VerticalAlignment="Center" FontWeight="Bold" />
+                                        <Slider Grid.Column="2" Minimum="0" Maximum="255" Value="{Binding EditorB, Mode=TwoWay}" VerticalAlignment="Center" />
+                                        <TextBox Grid.Column="4" Text="{Binding EditorB, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center" VerticalAlignment="Center" />
+                                    </Grid>
+
+                                    <!-- Preset Palette -->
+                                    <TextBlock Text="{DynamicResource Sett_PresetPalette}" Margin="0,0,0,8" FontSize="12" Foreground="{DynamicResource BrandTextSecondary}" FontWeight="SemiBold" />
+                                    <WrapPanel Margin="0,0,0,16">
+                                        <Button Style="{StaticResource MaterialDesignFlatButton}" Padding="0" Width="28" Height="28" Margin="3" Background="{StaticResource KarzounBrandTeal}" Command="{Binding SetPresetColorCommand}" CommandParameter="#00B8C5" BorderBrush="Transparent" />
+                                        <Button Style="{StaticResource MaterialDesignFlatButton}" Padding="0" Width="28" Height="28" Margin="3" Background="{StaticResource KarzounBrandEmerald}" Command="{Binding SetPresetColorCommand}" CommandParameter="#00C896" BorderBrush="Transparent" />
+                                        <Button Style="{StaticResource MaterialDesignFlatButton}" Padding="0" Width="28" Height="28" Margin="3" Background="{StaticResource KarzounBrandBlue}" Command="{Binding SetPresetColorCommand}" CommandParameter="#0D6EFD" BorderBrush="Transparent" />
+                                        <Button Style="{StaticResource MaterialDesignFlatButton}" Padding="0" Width="28" Height="28" Margin="3" Background="{StaticResource KarzounBrandNavy}" Command="{Binding SetPresetColorCommand}" CommandParameter="#0B1324" BorderBrush="Transparent" />
+                                        <Button Style="{StaticResource MaterialDesignFlatButton}" Padding="0" Width="28" Height="28" Margin="3" Background="{StaticResource KarzounBrandGraphite}" Command="{Binding SetPresetColorCommand}" CommandParameter="#1F2937" BorderBrush="Transparent" />
+                                        <Button Style="{StaticResource MaterialDesignFlatButton}" Padding="0" Width="28" Height="28" Margin="3" Background="{StaticResource KarzounBrandSilver}" Command="{Binding SetPresetColorCommand}" CommandParameter="#A6ADB7" BorderBrush="Transparent" />
+                                        <Button Style="{StaticResource MaterialDesignFlatButton}" Padding="0" Width="28" Height="28" Margin="3" Background="{StaticResource KarzounBrandLightGray}" Command="{Binding SetPresetColorCommand}" CommandParameter="#EBEBEF" BorderBrush="{DynamicResource BrandBorder}" />
+                                        <Button Style="{StaticResource MaterialDesignFlatButton}" Padding="0" Width="28" Height="28" Margin="3" Background="{StaticResource BrandDanger}" Command="{Binding SetPresetColorCommand}" CommandParameter="#D32F2F" BorderBrush="Transparent" />
+                                        <Button Style="{StaticResource MaterialDesignFlatButton}" Padding="0" Width="28" Height="28" Margin="3" Background="#FFFFFF" Command="{Binding SetPresetColorCommand}" CommandParameter="#FFFFFF" BorderBrush="{DynamicResource BrandBorder}" BorderThickness="1" />
+                                    </WrapPanel>
+
+                                    <!-- Reset to default button -->
+                                    <Button Content="{DynamicResource Sett_ResetToDefault}" Command="{Binding ResetToDefaultCommand}"
+                                            Style="{StaticResource MaterialDesignOutlinedButton}" Height="36" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </materialDesign:Card>
+
+                    <!-- PDF Layout Settings -->
+                    <materialDesign:Card Padding="20" Margin="0,0,0,16" UniformCornerRadius="8">
+                        <StackPanel>
+                            <TextBlock Text="{DynamicResource Sett_PdfLayoutSection}" Style="{StaticResource SectionTitleStyle}"
+                                       Foreground="{DynamicResource AppPrimaryBrush}" FontSize="15" Margin="0,0,0,16" />
+
+                            <TextBlock Text="{DynamicResource Sett_PdfCompanyInfoTopMargin}" Margin="0,0,0,4" />
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="12" />
+                                    <ColumnDefinition Width="50" />
+                                </Grid.ColumnDefinitions>
+                                <Slider Grid.Column="0" Minimum="0" Maximum="100" Value="{Binding PdfCompanyInfoTopMargin}" VerticalAlignment="Center" />
+                                <TextBox Grid.Column="2" Text="{Binding PdfCompanyInfoTopMargin, StringFormat=N0}" HorizontalContentAlignment="Center" VerticalAlignment="Center" />
+                            </Grid>
+
+                            <TextBlock Text="{DynamicResource Sett_PdfLogoTopMargin}" Margin="0,0,0,4" />
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="12" />
+                                    <ColumnDefinition Width="50" />
+                                </Grid.ColumnDefinitions>
+                                <Slider Grid.Column="0" Minimum="0" Maximum="100" Value="{Binding PdfLogoTopMargin}" VerticalAlignment="Center" />
+                                <TextBox Grid.Column="2" Text="{Binding PdfLogoTopMargin, StringFormat=N0}" HorizontalContentAlignment="Center" VerticalAlignment="Center" />
+                            </Grid>
+
+                            <TextBlock Text="{DynamicResource Sett_PdfHeaderSpacing}" Margin="0,0,0,4" />
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="12" />
+                                    <ColumnDefinition Width="50" />
+                                </Grid.ColumnDefinitions>
+                                <Slider Grid.Column="0" Minimum="0" Maximum="100" Value="{Binding PdfHeaderSpacing}" VerticalAlignment="Center" />
+                                <TextBox Grid.Column="2" Text="{Binding PdfHeaderSpacing, StringFormat=N0}" HorizontalContentAlignment="Center" VerticalAlignment="Center" />
+                            </Grid>
+
+                            <TextBlock Text="{DynamicResource Sett_PdfTableSpacing}" Margin="0,0,0,4" />
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="12" />
+                                    <ColumnDefinition Width="50" />
+                                </Grid.ColumnDefinitions>
+                                <Slider Grid.Column="0" Minimum="0" Maximum="100" Value="{Binding PdfTableSpacing}" VerticalAlignment="Center" />
+                                <TextBox Grid.Column="2" Text="{Binding PdfTableSpacing, StringFormat=N0}" HorizontalContentAlignment="Center" VerticalAlignment="Center" />
+                            </Grid>
+
+                            <TextBlock Text="{DynamicResource Sett_PdfFontSize}" Margin="0,0,0,4" />
+                            <Grid Margin="0,0,0,16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="12" />
+                                    <ColumnDefinition Width="50" />
+                                </Grid.ColumnDefinitions>
+                                <Slider Grid.Column="0" Minimum="6" Maximum="16"
+                                        Value="{Binding PdfFontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        VerticalAlignment="Center" />
+                                <TextBox Grid.Column="2"
+                                         Text="{Binding PdfFontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N1}"
+                                         HorizontalContentAlignment="Center" VerticalAlignment="Center" />
+                            </Grid>
+                        </StackPanel>
+                    </materialDesign:Card>
+
+                    <!-- Bottom Buttons -->
+                    <StackPanel Style="{StaticResource FormActionPanelStyle}"
+                                HorizontalAlignment="{DynamicResource AppOppositeHorizontalAlignment}" Margin="0,0,0,24">
+                        <Button Content="{DynamicResource Sett_ResetToDefault}" Command="{Binding ResetAllToDefaultCommand}"
+                                Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="{DynamicResource BrandDanger}" Foreground="{DynamicResource BrandDanger}" Margin="0,0,12,0" Width="150" />
+                        <Button Content="{DynamicResource Sett_SaveBtn}" Command="{Binding SaveSettingsCommand}"
+                                Style="{StaticResource MaterialDesignRaisedButton}" Background="{DynamicResource AppPrimaryBrush}" BorderBrush="{DynamicResource AppPrimaryBrush}" Foreground="{DynamicResource AppButtonTextColorBrush}" Width="150" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Right Column: Live Preview Panel -->
+                <Border Grid.Column="2" Background="{Binding PageBackground, Converter={StaticResource HexToBrush}}" CornerRadius="8" Padding="20" BorderBrush="{DynamicResource BrandBorder}" BorderThickness="1">
+                    <StackPanel>
+                        <TextBlock Text="Live Preview / المعاينة" FontSize="16" FontWeight="Bold" FontFamily="{DynamicResource AppHeadlineFontFamily}" Foreground="{DynamicResource BrandTextPrimary}" Margin="0,0,0,16" HorizontalAlignment="Center" />
+                        
+                        <!-- Sidebar Mockup -->
+                        <TextBlock Text="Sidebar Mockup" FontSize="11" Foreground="{DynamicResource BrandTextSecondary}" Margin="0,0,0,4" />
+                        <Border Background="{Binding SidebarBackground, Converter={StaticResource HexToBrush}}" Height="100" CornerRadius="6" Margin="0,0,0,16" Padding="12">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="KARZOUN ERP" FontWeight="Bold" FontSize="10" Foreground="{Binding SidebarTextColor, Converter={StaticResource HexToBrush}}" Margin="0,0,0,6"/>
+                                    <!-- Active Item Mockup -->
+                                    <Border Background="{Binding PrimaryColor, Converter={StaticResource HexToBrush}}" CornerRadius="3" Padding="6,4" Margin="0,0,0,4">
+                                        <TextBlock Text="Active Page" FontSize="9" FontWeight="Bold" Foreground="{Binding ButtonTextColor, Converter={StaticResource HexToBrush}}" />
+                                    </Border>
+                                    <TextBlock Text="Other Page" FontSize="9" Foreground="{Binding SidebarTextColor, Converter={StaticResource HexToBrush}}" Padding="6,2"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <!-- Primary Color Preview -->
+                        <TextBlock Text="{DynamicResource Preview_PrimaryUsage}" FontSize="11" Foreground="{DynamicResource BrandTextSecondary}" Margin="0,0,0,4" />
+                        <Border Background="{Binding PrimaryColor, Converter={StaticResource HexToBrush}}" CornerRadius="4" Height="40" Padding="10" Margin="0,0,0,16">
+                            <TextBlock Text="Save / حفظ" FontWeight="Bold" FontSize="12" Foreground="{Binding ButtonTextColor, Converter={StaticResource HexToBrush}}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+
+                        <!-- Secondary Color Preview -->
+                        <TextBlock Text="{DynamicResource Preview_SecondaryUsage}" FontSize="11" Foreground="{DynamicResource BrandTextSecondary}" Margin="0,0,0,4" />
+                        <Border Background="{Binding CardBackground, Converter={StaticResource HexToBrush}}" CornerRadius="6" Padding="10" Margin="0,0,0,16"
+                                BorderBrush="{Binding SecondaryColor, Converter={StaticResource HexToBrush}}" BorderThickness="4,0,0,0">
+                            <StackPanel>
+                                <TextBlock Text="Section Subtitle / عنوان فرعي" FontSize="10" FontWeight="SemiBold"
+                                           Foreground="{Binding SecondaryColor, Converter={StaticResource HexToBrush}}" Margin="0,0,0,6"/>
+                                <Border BorderBrush="{Binding SecondaryColor, Converter={StaticResource HexToBrush}}" BorderThickness="1" CornerRadius="3" Padding="8,4" HorizontalAlignment="{DynamicResource AppContentAlignment}">
+                                    <TextBlock Text="Secondary Button / زر ثانوي" FontSize="10" FontWeight="SemiBold"
+                                               Foreground="{Binding SecondaryColor, Converter={StaticResource HexToBrush}}"/>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Accent Color Preview -->
+                        <TextBlock Text="{DynamicResource Preview_AccentUsage}" FontSize="11" Foreground="{DynamicResource BrandTextSecondary}" Margin="0,0,0,4" />
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                            <materialDesign:PackIcon Kind="Star" Width="22" Height="22"
+                                                     Foreground="{Binding AccentColor, Converter={StaticResource HexToBrush}}" VerticalAlignment="Center"/>
+                            <Border Background="{Binding AccentColor, Converter={StaticResource HexToBrush}}" CornerRadius="10" Padding="8,3" Margin="10,0,0,0" VerticalAlignment="Center">
+                                <TextBlock Text="Badge / شارة" FontSize="9" FontWeight="Bold" Foreground="White"/>
+                            </Border>
+                            <Border Background="White" BorderBrush="{Binding AccentColor, Converter={StaticResource HexToBrush}}" BorderThickness="1"
+                                    CornerRadius="8" Padding="8,3" Margin="10,0,0,0" VerticalAlignment="Center">
+                                <TextBlock Text="Info / تنبيه" FontSize="9" FontWeight="SemiBold"
+                                           Foreground="{Binding AccentColor, Converter={StaticResource HexToBrush}}"/>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- Table Header Mockup -->
+                        <TextBlock Text="Table Header Mockup" FontSize="11" Foreground="{DynamicResource BrandTextSecondary}" Margin="0,0,0,4" />
+                        <Border CornerRadius="4" BorderThickness="1" BorderBrush="{DynamicResource BrandBorder}" Margin="0,0,0,16" ClipToBounds="True">
+                            <StackPanel>
+                                <Border Background="{Binding PrimaryColor, Converter={StaticResource HexToBrush}}" Padding="8,6">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="Name / الاسم" FontSize="9" FontWeight="Bold" Foreground="White" />
+                                        <TextBlock Grid.Column="1" Text="Price / السعر" FontSize="9" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Column="2" Text="Total / المجموع" FontSize="9" FontWeight="Bold" Foreground="White" HorizontalAlignment="{DynamicResource AppOppositeHorizontalAlignment}" />
+                                    </Grid>
+                                </Border>
+                                <Border Background="White" Padding="8,6">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="Sample Product" FontSize="9" Foreground="#333" />
+                                        <TextBlock Grid.Column="1" Text="150.00 $" FontSize="9" Foreground="#333" HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Column="2" Text="150.00 $" FontSize="9" Foreground="#333" HorizontalAlignment="{DynamicResource AppOppositeHorizontalAlignment}" FontWeight="Bold"/>
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- PDF Layout Preview Box -->
+                        <TextBlock Text="PDF Export Mockup" FontSize="11" Foreground="{DynamicResource BrandTextSecondary}" Margin="0,0,0,4" />
+                        <Border Background="White" CornerRadius="6" Padding="12" BorderBrush="{Binding PdfBorderColor, Converter={StaticResource HexToBrush}}" BorderThickness="1" Margin="0,0,0,8">
+                            <StackPanel>
+                                <!-- PDF Header Mockup -->
+                                <Border Background="{Binding PdfHeaderColor, Converter={StaticResource HexToBrush}}" CornerRadius="4" Padding="10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0" Margin="0,4,0,0">
+                                            <!-- Top Margin visual check -->
+                                            <Border Height="{Binding PdfCompanyInfoTopMargin}" Background="Transparent" />
+                                            <TextBlock Text="Company Name" FontSize="{Binding PdfPreviewTitleFontSize}" FontWeight="Bold" Foreground="White" />
+                                            <TextBlock Text="Commercial Subtitle / اسم تجاري" FontSize="{Binding PdfPreviewSmallFontSize}"
+                                                       Foreground="{Binding SecondaryColor, Converter={StaticResource HexToBrush}}" />
+                                            <TextBlock Text="info@company.com" FontSize="{Binding PdfPreviewSmallFontSize}" Foreground="#B0BEC5" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <!-- Top Logo Margin visual check -->
+                                            <Border Height="{Binding PdfLogoTopMargin}" Background="Transparent" />
+                                            <Border Width="30" Height="20" Background="{Binding PdfPrimaryColor, Converter={StaticResource HexToBrush}}" CornerRadius="2">
+                                                <TextBlock Text="LOGO" FontSize="{Binding PdfPreviewTinyFontSize}" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+
+                                <!-- Header Spacing Indicator -->
+                                <Border Height="{Binding PdfHeaderSpacing}" Background="{DynamicResource BrandWarningMuted}" Margin="0,4" CornerRadius="2">
+                                    <TextBlock Text="Header Spacing" FontSize="{Binding PdfPreviewTinyFontSize}" Foreground="{DynamicResource BrandWarning}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+
+                                <!-- Table Mockup inside PDF -->
+                                <Border BorderBrush="{Binding PdfBorderColor, Converter={StaticResource HexToBrush}}" BorderThickness="1" CornerRadius="2">
+                                    <StackPanel>
+                                        <Border Background="{Binding PdfTableHeaderColor, Converter={StaticResource HexToBrush}}" Padding="6,4">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" Text="Item / المادة" FontSize="{Binding PdfPreviewSmallFontSize}" FontWeight="Bold" Foreground="{DynamicResource BrandTextPrimary}" />
+                                                <TextBlock Grid.Column="1" Text="Total" FontSize="{Binding PdfPreviewSmallFontSize}" FontWeight="Bold" Foreground="{DynamicResource BrandTextPrimary}" />
+                                            </Grid>
+                                        </Border>
+                                        <Border Padding="6,4">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" Text="Premium Consulting" FontSize="{Binding PdfPreviewSmallFontSize}" Foreground="#333" />
+                                                <TextBlock Grid.Column="1" Text="500 $" FontSize="{Binding PdfPreviewSmallFontSize}" Foreground="#333" />
+                                            </Grid>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Table Spacing Indicator -->
+                                <Border Height="{Binding PdfTableSpacing}" Background="#E0F2F1" Margin="0,4" CornerRadius="2">
+                                    <TextBlock Text="Table Spacing" FontSize="{Binding PdfPreviewTinyFontSize}" Foreground="#004D40" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+
+                                <!-- PDF Totals Mockup -->
+                                <Border Background="{Binding PdfTotalBoxColor, Converter={StaticResource HexToBrush}}" 
+                                        BorderBrush="{Binding PdfBorderColor, Converter={StaticResource HexToBrush}}" 
+                                        BorderThickness="1" CornerRadius="4" Padding="8,6" HorizontalAlignment="{DynamicResource AppOppositeHorizontalAlignment}" Width="140">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="Total:" FontSize="{Binding PdfPreviewNormalFontSize}" FontWeight="Bold" Foreground="{DynamicResource BrandTextPrimary}" />
+                                        <TextBlock Grid.Column="1" Text="500.00 $" FontSize="{Binding PdfPreviewNormalFontSize}" FontWeight="Bold" Foreground="{Binding PdfAccentColor, Converter={StaticResource HexToBrush}}" />
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

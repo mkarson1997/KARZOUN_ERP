@@ -1,8 +1,8 @@
 using ClosedXML.Excel;
-using FornixxCRM.Helpers;
-using FornixxCRM.Pdf;
+using KarzounERP.Helpers;
+using KarzounERP.Pdf;
 
-namespace FornixxCRM.Services;
+namespace KarzounERP.Services;
 
 internal static class ExcelExportHelper
 {
@@ -15,7 +15,7 @@ internal static class ExcelExportHelper
             var cell = ws.Cell(1, i + 1);
             cell.Value = headers[i];
             cell.Style.Font.Bold = true;
-            cell.Style.Fill.BackgroundColor = XLColor.FromHtml("#FF6B00");
+            cell.Style.Fill.BackgroundColor = XLColor.FromHtml(KarzounBrand.Navy);
             cell.Style.Font.FontColor = XLColor.White;
         }
         ws.SheetView.FreezeRows(1);

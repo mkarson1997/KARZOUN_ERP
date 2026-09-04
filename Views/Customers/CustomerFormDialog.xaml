@@ -1,4 +1,4 @@
-<Window x:Class="FornixxCRM.Views.Customers.CustomerFormDialog"
+﻿<Window x:Class="KarzounERP.Views.Customers.CustomerFormDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -6,7 +6,10 @@
         Height="640" Width="580"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
-        FontFamily="Segoe UI">
+        Icon="/Resources/Brand/AppIcon.ico"
+        Background="{DynamicResource BrandBackground}"
+        FontFamily="{DynamicResource AppFontFamily}"
+        FlowDirection="{DynamicResource AppFlowDirection}">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -16,15 +19,51 @@
 
         <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" Padding="24,16">
             <StackPanel>
-                <TextBlock Text="{DynamicResource CustForm_SectionBasic}" FontWeight="Bold" Foreground="#FF6B00" FontSize="13" Margin="0,0,0,12" />
+                <TextBlock Text="{DynamicResource CustForm_SectionBasic}" FontWeight="Bold" Foreground="{DynamicResource AppPrimaryBrush}" FontSize="13" Margin="0,0,0,12" />
 
-                <TextBox Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}"
+                <TextBox x:Name="FullName" Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged}"
                          materialDesign:HintAssist.Hint="{DynamicResource CustForm_FullName}"
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="0,0,0,12" />
+                         Margin="0,0,0,12">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsFullNameInvalid}" Value="True">
+                                    <Setter Property="BorderBrush" Value="{DynamicResource BrandDanger}" />
+                                    <Setter Property="BorderThickness" Value="2" />
+                                    <Setter Property="ToolTip" Value="{DynamicResource Msg_ValidationCustomerName}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
 
-                <TextBox Text="{Binding CompanyName, UpdateSourceTrigger=PropertyChanged}"
-                         materialDesign:HintAssist.Hint="{DynamicResource CustForm_CompanyName}"
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="0,0,0,12" />
+                <ComboBox IsEditable="True"
+                          IsTextSearchEnabled="False"
+                          ItemsSource="{Binding CompanyNameOptions}"
+                          Text="{Binding CompanyName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          materialDesign:HintAssist.Hint="{DynamicResource CustForm_CompanyName}"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                          Margin="0,0,0,8" />
+
+                <Grid Margin="0,0,0,12"
+                      Visibility="{Binding IsExternalCompanyName, Converter={StaticResource BoolToVisibility}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="84" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0"
+                             Text="{Binding ExternalCompanyColor, UpdateSourceTrigger=PropertyChanged}"
+                             materialDesign:HintAssist.Hint="{DynamicResource CustForm_ExternalCompanyColor}"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                    <Button Grid.Column="2"
+                            Height="40"
+                            Command="{Binding PickExternalCompanyColorCommand}"
+                            ToolTip="{DynamicResource CompForm_PickColor}"
+                            Background="{Binding ExternalCompanyColor, Converter={StaticResource HexToBrush}, ConverterParameter=#7B1FA2}"
+                            BorderBrush="{DynamicResource BrandBorder}"
+                            BorderThickness="1" />
+                </Grid>
 
                 <Grid Margin="0,0,0,12">
                     <Grid.ColumnDefinitions>
@@ -45,7 +84,7 @@
                          Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="0,0,0,16" />
 
                 <Separator Margin="0,0,0,16" />
-                <TextBlock Text="{DynamicResource CustForm_SectionFollowUp}" FontWeight="Bold" Foreground="#FF6B00" FontSize="13" Margin="0,0,0,12" />
+                <TextBlock Text="{DynamicResource CustForm_SectionFollowUp}" FontWeight="Bold" Foreground="{DynamicResource AppPrimaryBrush}" FontSize="13" Margin="0,0,0,12" />
 
                 <Grid Margin="0,0,0,12">
                     <Grid.ColumnDefinitions>
@@ -115,16 +154,16 @@
                          AcceptsReturn="True" Height="80" TextWrapping="Wrap"
                          VerticalScrollBarVisibility="Auto" Margin="0,0,0,12" />
 
-                <TextBlock Text="{Binding ValidationError}" Foreground="#F44336"
+                <TextBlock Text="{Binding ValidationError}" Foreground="{DynamicResource BrandDanger}"
                            Margin="0,4,0,0" FontSize="12" />
             </StackPanel>
         </ScrollViewer>
 
-        <Border Grid.Row="1" BorderBrush="#EEEEEE" BorderThickness="0,1,0,0" Padding="16,12">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+        <Border Grid.Row="1" BorderBrush="{DynamicResource BrandBorder}" BorderThickness="0,1,0,0" Padding="16,12">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="{DynamicResource AppHorizontalAlignment}">
                 <Button Content="{DynamicResource Btn_Save}" Command="{Binding SaveCommand}"
                         Style="{StaticResource MaterialDesignRaisedButton}"
-                        Background="#FF6B00" BorderBrush="#FF6B00" Margin="0,0,8,0" Width="100" />
+                        Background="{DynamicResource AppButtonBrush}" BorderBrush="{DynamicResource AppButtonBrush}" Margin="{DynamicResource AppIconMargin}" Width="100" />
                 <Button Content="{DynamicResource Btn_Cancel}" Command="{Binding CancelCommand}"
                         Style="{StaticResource MaterialDesignOutlinedButton}" Width="100" />
             </StackPanel>

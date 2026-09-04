@@ -1,9 +1,17 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 
-namespace FornixxCRM.ViewModels.Base;
+namespace KarzounERP.ViewModels.Base;
 
 public partial class BaseViewModel : ObservableObject
 {
+    public event Action<string>? RequestFocus;
+
+    protected void RaiseRequestFocus(string fieldName)
+    {
+        RequestFocus?.Invoke(fieldName);
+    }
+
     [ObservableProperty]
     private bool _isBusy;
 
