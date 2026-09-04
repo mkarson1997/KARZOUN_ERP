@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="KarzounERP.Views.Logs.LogPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" Margin="0,0,0,18">
+            <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="FileDocumentAlertOutline" Width="28" Height="28" Foreground="{DynamicResource AppPrimaryBrush}" VerticalAlignment="Center" />
+                <TextBlock Text="{DynamicResource Logs_Title}" FontSize="22" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" />
+            </StackPanel>
+            <Button DockPanel.Dock="Right"
+                    Content="{DynamicResource Btn_Refresh}"
+                    Command="{Binding RefreshCommand}"
+                    Style="{StaticResource MaterialDesignOutlinedButton}" />
+        </DockPanel>
+
+        <materialDesign:Card Grid.Row="1" Padding="16" UniformCornerRadius="8" Margin="0,0,0,16">
+            <StackPanel>
+                <TextBlock Text="{Binding StatusText}" Foreground="{Binding StatusColor, Converter={StaticResource HexToBrush}}" FontSize="16" FontWeight="SemiBold" />
+                <TextBlock Text="{Binding LatestLogPath}" Margin="0,8,0,0" Foreground="{DynamicResource BrandTextSecondary}" TextWrapping="Wrap" FlowDirection="LeftToRight" />
+            </StackPanel>
+        </materialDesign:Card>
+
+        <materialDesign:Card Grid.Row="2" Padding="0" UniformCornerRadius="8">
+            <TextBox Text="{Binding LogContent}"
+                     IsReadOnly="True"
+                     AcceptsReturn="True"
+                     TextWrapping="NoWrap"
+                     FontFamily="Consolas"
+                     FontSize="12"
+                     VerticalScrollBarVisibility="Auto"
+                     HorizontalScrollBarVisibility="Auto"
+                     BorderThickness="0"
+                     Padding="14"
+                     FlowDirection="LeftToRight" />
+        </materialDesign:Card>
+    </Grid>
+</UserControl>

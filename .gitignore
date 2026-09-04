@@ -19,9 +19,11 @@ Debug/
 Thumbs.db
 
 # Logs
+# Anchored to the repository root: an unanchored "Logs/" also matches source
+# folders such as Views/Logs/, which silently excluded application code.
 *.log
-logs/
-Logs/
+/logs/
+/Logs/
 
 # Local database / runtime data
 *.db
