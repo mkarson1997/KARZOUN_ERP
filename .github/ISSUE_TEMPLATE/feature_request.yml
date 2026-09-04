@@ -1,0 +1,24 @@
+name: Feature request
+description: Suggest a focused ERP, CRM, reporting, or UX improvement
+title: "feat: "
+labels: []
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Business problem or opportunity
+      description: What workflow or user problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the desired behavior, screen, workflow, import/export, or reporting change.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives and compatibility
+      description: Mention migration, localization, data, installer, or backwards-compatibility concerns if relevant.
